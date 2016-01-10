@@ -18,42 +18,6 @@ ALTER TABLE "Persona"
   OWNER TO postgres;
 
 
--- Table: "Viaje"
-
--- DROP TABLE "Viaje";
-
-CREATE TABLE "Viaje"
-(
-  "idViaje" serial NOT NULL,
-  "lugarInicio" character varying(40) NOT NULL,
-  "lugarDestino" character varying(40) NOT NULL,
-  "horaInico" time with time zone NOT NULL,
-  "horaLlegada" time with time zone NOT NULL,
-  "fechaInico" date NOT NULL,
-  "fechaLlegada" date NOT NULL,
-  "kmViaje" bigint NOT NULL,
-  "idPorte" integer NOT NULL,
-  CONSTRAINT "viajePK" PRIMARY KEY ("idViaje"),
-  CONSTRAINT "incluyeDatos" FOREIGN KEY ("idPorte")
-      REFERENCES "Porte" ("idPorte") MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE "Viaje"
-  OWNER TO postgres;
-
--- Index: "porteFK"
-
--- DROP INDEX "porteFK";
-
-CREATE INDEX "porteFK"
-  ON "Viaje"
-  USING btree
-  ("idPorte");
-
-
 -- Table: "Empleado"
 
 -- DROP TABLE "Empleado";
@@ -78,24 +42,37 @@ ALTER TABLE "Empleado"
   OWNER TO postgres;
 
 
--- Table: "LibroGatos"
 
--- DROP TABLE "LibroGatos";
+-- Table: "Camion"
 
-CREATE TABLE "LibroGatos"
+-- DROP TABLE "Camion";
+
+CREATE TABLE "Camion"
 (
-  "idEntrada" serial NOT NULL,
-  concepto character varying(50) NOT NULL,
-  dinero double precision NOT NULL,
-  "fechaAsiento" date NOT NULL,
-  descripcion character varying(50),
-  CONSTRAINT "libroCuentasPortesPK" PRIMARY KEY ("idEntrada")
+  "nBastidor" character varying(17) NOT NULL,
+  matricula character varying(8) NOT NULL,
+  combustible character varying(20) NOT NULL,
+  "nPasajeros" bigint NOT NULL,
+  "potenciaCV" bigint NOT NULL,
+  "potenciaKWh" bigint NOT NULL,
+  "kmTotales" bigint NOT NULL,
+  peso bigint NOT NULL,
+  largo double precision NOT NULL,
+  ancho double precision NOT NULL,
+  "longCaja" double precision NOT NULL,
+  "anchoCaja" double precision NOT NULL,
+  "pesoMaxCaja" double precision NOT NULL,
+  "volumenCaja" double precision NOT NULL,
+  trampilla boolean NOT NULL,
+  descripcion character varying(60),
+  CONSTRAINT "camionPK" PRIMARY KEY ("nBastidor")
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE "LibroGatos"
+ALTER TABLE "Camion"
   OWNER TO postgres;
+
 
 
 -- Table: "Porte"
@@ -145,6 +122,63 @@ CREATE INDEX "nBastidorFK"
   ON "Porte"
   USING btree
   ("nBastidor" COLLATE pg_catalog."default");
+
+
+-- Table: "Viaje"
+
+-- DROP TABLE "Viaje";
+
+CREATE TABLE "Viaje"
+(
+  "idViaje" serial NOT NULL,
+  "lugarInicio" character varying(40) NOT NULL,
+  "lugarDestino" character varying(40) NOT NULL,
+  "horaInico" time with time zone NOT NULL,
+  "horaLlegada" time with time zone NOT NULL,
+  "fechaInico" date NOT NULL,
+  "fechaLlegada" date NOT NULL,
+  "kmViaje" bigint NOT NULL,
+  "idPorte" integer NOT NULL,
+  CONSTRAINT "viajePK" PRIMARY KEY ("idViaje"),
+  CONSTRAINT "incluyeDatos" FOREIGN KEY ("idPorte")
+      REFERENCES "Porte" ("idPorte") MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE "Viaje"
+  OWNER TO postgres;
+
+-- Index: "porteFK"
+
+-- DROP INDEX "porteFK";
+
+CREATE INDEX "porteFK"
+  ON "Viaje"
+  USING btree
+  ("idPorte");
+
+
+
+-- Table: "LibroGatos"
+
+-- DROP TABLE "LibroGatos";
+
+CREATE TABLE "LibroGatos"
+(
+  "idEntrada" serial NOT NULL,
+  concepto character varying(50) NOT NULL,
+  dinero double precision NOT NULL,
+  "fechaAsiento" date NOT NULL,
+  descripcion character varying(50),
+  CONSTRAINT "libroCuentasPortesPK" PRIMARY KEY ("idEntrada")
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE "LibroGatos"
+  OWNER TO postgres;
 
 
 -- Table: "UsuarioSistema"
