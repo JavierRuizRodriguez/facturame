@@ -269,3 +269,25 @@ CREATE INDEX "porteFK"
   USING btree
   ("idPorte");
 
+
+-- Table: "Subordinado"
+
+-- DROP TABLE "Subordinado";
+
+CREATE TABLE "Subordinado"
+(
+  "dniSubordinado" character varying(17) NOT NULL,
+  "dniJefe" character varying(17) NOT NULL,
+  CONSTRAINT "subordinadoPK" PRIMARY KEY ("dniSubordinado", "dniJefe"),
+  CONSTRAINT "dniJefePFK" FOREIGN KEY ("dniJefe")
+      REFERENCES "Empleado" (dni) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT "dniSubFK" FOREIGN KEY ("dniSubordinado")
+      REFERENCES "Empleado" (dni) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE "Subordinado"
+  OWNER TO postgres;
