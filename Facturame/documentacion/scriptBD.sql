@@ -43,27 +43,6 @@ ALTER TABLE "Empleado"
 
 
 
--- Table: "Empresa"
-
--- DROP TABLE "Empresa";
-
-CREATE TABLE "Empresa"
-(
-  "NIF" character varying(9) NOT NULL,
-  "nEmpresa" character varying(30),
-  "Dirección" character varying(50),
-  email character varying(200),
-  telefono integer,
-  CONSTRAINT "empresaPK" PRIMARY KEY ("NIF")
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE "Empresa"
-  OWNER TO postgres;
-
-
-
 -- Table: "Camion"
 
 -- DROP TABLE "Camion";
@@ -85,7 +64,9 @@ CREATE TABLE "Camion"
   "pesoMaxCaja" double precision NOT NULL,
   "volumenCaja" double precision NOT NULL,
   trampilla boolean NOT NULL,
-  descripcion character varying(60),
+  descripcion character varying(60) NOT NULL,
+  "altoCaja" double precision NOT NULL,
+  galibo double precision NOT NULL,
   CONSTRAINT "camionPK" PRIMARY KEY ("nBastidor")
 )
 WITH (
@@ -105,13 +86,13 @@ CREATE TABLE "Porte"
   "idPorte" serial NOT NULL,
   "nBastidor" character varying(17) NOT NULL,
   dni character(10) NOT NULL,
+  empresa character varying(50) NOT NULL,
   "kgCarga" bigint NOT NULL,
   "volumenCarga" bigint NOT NULL,
   concepto character varying(50) NOT NULL,
   precio bigint NOT NULL,
   "esGrupaje" boolean NOT NULL,
   descripcion character varying(60),
-  "NIF" character(9),
   CONSTRAINT "portePK" PRIMARY KEY ("idPorte"),
   CONSTRAINT conduce FOREIGN KEY (dni)
       REFERENCES "Empleado" (dni) MATCH SIMPLE
@@ -143,42 +124,6 @@ CREATE INDEX "nBastidorFK"
   ON "Porte"
   USING btree
   ("nBastidor" COLLATE pg_catalog."default");
-
-
--- Table: "Viaje"
-
--- DROP TABLE "Viaje";
-
-CREATE TABLE "Viaje"
-(
-  "idViaje" serial NOT NULL,
-  "lugarInicio" character varying(40) NOT NULL,
-  "lugarDestino" character varying(40) NOT NULL,
-  "horaInico" time with time zone NOT NULL,
-  "horaLlegada" time with time zone NOT NULL,
-  "fechaInico" date NOT NULL,
-  "fechaLlegada" date NOT NULL,
-  "kmViaje" bigint NOT NULL,
-  "idPorte" integer NOT NULL,
-  CONSTRAINT "viajePK" PRIMARY KEY ("idViaje"),
-  CONSTRAINT "incluyeDatos" FOREIGN KEY ("idPorte")
-      REFERENCES "Porte" ("idPorte") MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE "Viaje"
-  OWNER TO postgres;
-
--- Index: "porteFK"
-
--- DROP INDEX "porteFK";
-
-CREATE INDEX "porteFK"
-  ON "Viaje"
-  USING btree
-  ("idPorte");
 
 
 
@@ -270,6 +215,27 @@ CREATE INDEX "porteFK"
   ("idPorte");
 
 
+
+
+-- DROP TABLE "Empresa";
+
+CREATE TABLE "Empresa"
+(
+  "NIF" character varying(9) NOT NULL,
+  "nEmpresa" character varying(30),
+  "Dirección" character varying(50),
+  email character varying(200),
+  telefono integer,
+  CONSTRAINT "empresaPK" PRIMARY KEY ("NIF")
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE "Empresa"
+  OWNER TO postgres;
+
+
+
 -- Table: "Subordinado"
 
 -- DROP TABLE "Subordinado";
@@ -279,12 +245,12 @@ CREATE TABLE "Subordinado"
   "dniSubordinado" character varying(17) NOT NULL,
   "dniJefe" character varying(17) NOT NULL,
   CONSTRAINT "subordinadoPK" PRIMARY KEY ("dniSubordinado", "dniJefe"),
-  CONSTRAINT "dniJefePFK" FOREIGN KEY ("dniJefe")
+  CONSTRAINT "dniJefeFK" FOREIGN KEY ("dniJefe")
       REFERENCES "Empleado" (dni) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
+      ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT "dniSubFK" FOREIGN KEY ("dniSubordinado")
       REFERENCES "Empleado" (dni) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE CASCADE ON DELETE CASCADE
 )
 WITH (
   OIDS=FALSE
