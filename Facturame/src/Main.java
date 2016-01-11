@@ -2,7 +2,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 
-import cargaDatos.CRUDempleados;
+import operacionesCRUD.CRUDempleados;
 import pojo.Trabajador;
 
 public class Main {
@@ -27,9 +27,12 @@ public class Main {
 		Date d = new Date(01, 01, 01);
 
 		CRUDempleados c = new CRUDempleados();
-		//System.out.println(c.insertar(new Trabajador("09062732A", "Javier", "manuel", Date.valueOf("2016-01-01"), "hombre", Date.valueOf("2016-01-01"), "director", 1500.00)));
-		System.out.println(c.buscarUnEmpleados("09062732L"));
-		System.out.println(c.actualizarEmpleados(new Trabajador("09062732A", "Emilio", "Emilio", Date.valueOf("2016-01-01"), "Emilio", Date.valueOf("2016-01-01"), "Emilio", 1500000.00)));
+		// System.out.println(c.insertar(new Trabajador("09062732A", "Javier",
+		// "manuel", Date.valueOf("2016-01-01"), "hombre",
+		// Date.valueOf("2016-01-01"), "director", 1500.00)));
+		System.out.println(c.buscarUnEmpleado("09062732L"));
+		System.out.println(c.insertarActualizaEmpleado(new Trabajador("09062732A", "Emilio", "Emilio",
+				Date.valueOf("2016-01-01"), "Emilio", Date.valueOf("2016-01-01"), "Emilio", 1500000.00), true));
 	}
 
 }

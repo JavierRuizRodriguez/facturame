@@ -10,9 +10,9 @@ public class Camion extends Vehiculo {
 	private boolean trampilla;
 
 	public Camion(String nBastidor, String matricula, String combustible, int nPasajeros, int potenciaCV,
-			int potenciaKWh, int kmTotales, int peso, double largo, double ancho, double galibo, String descripcion,
-			double longCaja, double alturaCaja, double anchoCaja, double pesoMaxCaja, double volumenCaja,
-			boolean trampilla) {
+			int potenciaKWh, int kmTotales, int peso, double largo, double ancho, double longCaja, double anchoCaja,
+			double pesoMaxCaja, double volumenCaja, boolean trampilla, String descripcion, double alturaCaja,
+			double galibo) {
 		super(nBastidor, matricula, combustible, nPasajeros, potenciaCV, potenciaKWh, kmTotales, peso, largo, ancho,
 				galibo, descripcion);
 		this.longCaja = longCaja;
