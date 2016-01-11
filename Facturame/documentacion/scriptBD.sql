@@ -17,6 +17,7 @@ WITH (
 ALTER TABLE "Persona"
   OWNER TO postgres;
 
+---------------------------------------------------------------
 
 -- Table: "Empleado"
 
@@ -41,7 +42,7 @@ WITH (
 ALTER TABLE "Empleado"
   OWNER TO postgres;
 
-
+---------------------------------------------------------------
 
 -- Table: "Camion"
 
@@ -75,7 +76,7 @@ WITH (
 ALTER TABLE "Camion"
   OWNER TO postgres;
 
-
+---------------------------------------------------------------
 
 -- Table: "Porte"
 
@@ -86,16 +87,19 @@ CREATE TABLE "Porte"
   "idPorte" serial NOT NULL,
   "nBastidor" character varying(17) NOT NULL,
   dni character(10) NOT NULL,
-  empresa character varying(50) NOT NULL,
   "kgCarga" bigint NOT NULL,
   "volumenCarga" bigint NOT NULL,
   concepto character varying(50) NOT NULL,
   precio bigint NOT NULL,
   "esGrupaje" boolean NOT NULL,
   descripcion character varying(60),
+  "NIF" character(9),
   CONSTRAINT "portePK" PRIMARY KEY ("idPorte"),
   CONSTRAINT conduce FOREIGN KEY (dni)
       REFERENCES "Empleado" (dni) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE NO ACTION,
+  CONSTRAINT portepara FOREIGN KEY ("NIF")
+      REFERENCES "Empresa" ("NIF") MATCH SIMPLE
       ON UPDATE CASCADE ON DELETE NO ACTION,
   CONSTRAINT realizado FOREIGN KEY ("nBastidor")
       REFERENCES "Camion" ("nBastidor") MATCH SIMPLE
@@ -125,15 +129,15 @@ CREATE INDEX "nBastidorFK"
   USING btree
   ("nBastidor" COLLATE pg_catalog."default");
 
+---------------------------------------------------------------
 
+-- Table: "LibroGastos"
 
--- Table: "LibroGatos"
+-- DROP TABLE "LibroGastos";
 
--- DROP TABLE "LibroGatos";
-
-CREATE TABLE "LibroGatos"
+CREATE TABLE "LibroGastos"
 (
-  "idEntrada" serial NOT NULL,
+  "idEntrada" integer NOT NULL DEFAULT nextval('"LibroGatos_idEntrada_seq"'::regclass),
   concepto character varying(50) NOT NULL,
   dinero double precision NOT NULL,
   "fechaAsiento" date NOT NULL,
@@ -143,9 +147,10 @@ CREATE TABLE "LibroGatos"
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE "LibroGatos"
+ALTER TABLE "LibroGastos"
   OWNER TO postgres;
 
+---------------------------------------------------------------
 
 -- Table: "UsuarioSistema"
 
@@ -178,6 +183,7 @@ CREATE INDEX "dniUsSisFK"
   USING btree
   (dni COLLATE pg_catalog."default");
 
+---------------------------------------------------------------
 
 -- Table: "Viaje"
 
@@ -214,8 +220,9 @@ CREATE INDEX "porteFK"
   USING btree
   ("idPorte");
 
+---------------------------------------------------------------
 
-
+-- Table: "Empresa"
 
 -- DROP TABLE "Empresa";
 
@@ -234,7 +241,7 @@ WITH (
 ALTER TABLE "Empresa"
   OWNER TO postgres;
 
-
+---------------------------------------------------------------
 
 -- Table: "Subordinado"
 
@@ -257,3 +264,4 @@ WITH (
 );
 ALTER TABLE "Subordinado"
   OWNER TO postgres;
+
