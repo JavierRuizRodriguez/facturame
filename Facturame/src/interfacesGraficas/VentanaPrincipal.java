@@ -44,28 +44,61 @@ public class VentanaPrincipal extends JFrame {
 		JButton buttonRegistrarCamion = new JButton("Registrar CAMI\u00D3N");
 		buttonRegistrarCamion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BotonVentaActionPerformed(e);
+				buttonRegistrarCamionActionPerformed(e);
 			}
 		});
-		buttonRegistrarCamion.setBounds(120, 21, 150, 25);
+		buttonRegistrarCamion.setBounds(120, 21, 179, 25);
 		contentPane.add(buttonRegistrarCamion);
 		
-		JButton btnRegistrarEmpleado = new JButton("Registrar EMPLEADO");
-		btnRegistrarEmpleado.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		JButton buttonRegistrarEmpleado = new JButton("Registrar EMPLEADO");
+		buttonRegistrarEmpleado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonRegistrarEmpleadoActionPerformed(e);
 			}
 		});
-		btnRegistrarEmpleado.setBounds(120, 70, 150, 25);
-		contentPane.add(btnRegistrarEmpleado);
+		buttonRegistrarEmpleado.setBounds(120, 70, 179, 25);
+		contentPane.add(buttonRegistrarEmpleado);
 		
-		JButton btnRegistrarPorte = new JButton("Registrar PORTE");
-		btnRegistrarPorte.setBounds(120, 121, 150, 25);
-		contentPane.add(btnRegistrarPorte);
+		JButton buttonRegistrarPorte = new JButton("Registrar PORTE");
+		buttonRegistrarPorte.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonRegistrarPorteActionPerformed(e);
+			}
+		});
+		buttonRegistrarPorte.setBounds(120, 121, 179, 25);
+		contentPane.add(buttonRegistrarPorte);
+		
+		JButton btnRegistrarU = new JButton("Registrar USUARIO SISTEMA");
+		btnRegistrarU.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonRegistrarUsuarioSistemaActionPerformed(e);
+			}
+		});
+		btnRegistrarU.setBounds(120, 175, 179, 25);
+		contentPane.add(btnRegistrarU);
 	}
 	
-	private void BotonVentaActionPerformed(java.awt.event.ActionEvent evt) {
-		VentanaCamion venta = new VentanaCamion();
+	private void buttonRegistrarCamionActionPerformed(java.awt.event.ActionEvent evt) {
+		VentanaCamion formCamion = new VentanaCamion(this);
+		formCamion.setVisible(true);
         this.setVisible(false);
     }
-
+	
+	private void buttonRegistrarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {
+		VentanaEmpleado formEmpleado = new VentanaEmpleado(this);
+		formEmpleado.setVisible(true);
+        this.setVisible(false);
+    }
+	
+	private void buttonRegistrarPorteActionPerformed(java.awt.event.ActionEvent evt) {
+		VentanaPorte formPorte = new VentanaPorte(this);
+		formPorte.setVisible(true);
+        this.setVisible(false);
+    }
+	
+	private void buttonRegistrarUsuarioSistemaActionPerformed(java.awt.event.ActionEvent evt) {
+		VentanaUsuarioSistema formUsuarioSistema = new VentanaUsuarioSistema(this);
+		formUsuarioSistema.setVisible(true);
+        this.setVisible(false);
+    }
 }

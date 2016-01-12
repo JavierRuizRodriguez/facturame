@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class VentanaViaje extends JFrame {
 
@@ -25,24 +27,30 @@ public class VentanaViaje extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaViaje frame = new VentanaViaje();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					VentanaViaje frame = new VentanaViaje();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 	}
 
 	/**
 	 * Create the frame.
 	 */
 	public VentanaViaje() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				formWindowClosing(e);
+			}
+		});
 		setTitle("Facturame --- Viaje");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 231);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -120,5 +128,9 @@ public class VentanaViaje extends JFrame {
 		buttonBorrar.setBounds(140, 161, 25, 25);
 		contentPane.add(buttonBorrar);
 	}
+	
+	private void formWindowClosing(java.awt.event.WindowEvent evt) {
+        this.setVisible(false);
+    }
 
 }

@@ -16,6 +16,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.MouseWheelEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class VentanaPorte extends JFrame {
 
@@ -34,25 +38,31 @@ public class VentanaPorte extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaPorte frame = new VentanaPorte();
-					frame.setVisible(true);
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					VentanaPorte frame = new VentanaPorte();
+//					frame.setVisible(true);
+//					
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPorte() {
+	public VentanaPorte(VentanaPrincipal principal) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				formWindowClosing(e, principal);
+			}
+		});
 		setTitle("Facturame --- Porte");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 650, 450);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -64,15 +74,17 @@ public class VentanaPorte extends JFrame {
 		contentPane.add(labelNumeroBastidor);
 		
 		textoNumeroBastidor = new JTextField();
+		textoNumeroBastidor.setEditable(false);
 		textoNumeroBastidor.setBounds(130, 15, 90, 20);
 		contentPane.add(textoNumeroBastidor);
 		textoNumeroBastidor.setColumns(10);
 		
 		JLabel labelDni = new JLabel("DNI/NIF: ");
-		labelDni.setBounds(250, 20, 120, 15);
+		labelDni.setBounds(250, 20, 55, 15);
 		contentPane.add(labelDni);
 		
 		textField = new JTextField();
+		textField.setEditable(false);
 		textField.setColumns(10);
 		textField.setBounds(300, 15, 90, 20);
 		contentPane.add(textField);
@@ -82,6 +94,7 @@ public class VentanaPorte extends JFrame {
 		contentPane.add(labelEmpresa);
 		
 		textEmpresa = new JTextField();
+		textEmpresa.setEditable(false);
 		textEmpresa.setColumns(10);
 		textEmpresa.setBounds(70, 45, 320, 20);
 		contentPane.add(textEmpresa);
@@ -91,6 +104,7 @@ public class VentanaPorte extends JFrame {
 		contentPane.add(labelKgCarga);
 		
 		textKgCarga = new JTextField();
+		textKgCarga.setEditable(false);
 		textKgCarga.setColumns(10);
 		textKgCarga.setBounds(70, 77, 90, 20);
 		contentPane.add(textKgCarga);
@@ -100,6 +114,7 @@ public class VentanaPorte extends JFrame {
 		contentPane.add(labelVolumenCarga);
 		
 		textVolumenCarga = new JTextField();
+		textVolumenCarga.setEditable(false);
 		textVolumenCarga.setColumns(10);
 		textVolumenCarga.setBounds(300, 75, 90, 20);
 		contentPane.add(textVolumenCarga);
@@ -111,15 +126,17 @@ public class VentanaPorte extends JFrame {
 		panelConcepto.setLayout(null);
 		
 		textConcepto = new JTextField();
+		textConcepto.setEditable(false);
 		textConcepto.setBounds(10, 21, 360, 53);
 		panelConcepto.add(textConcepto);
 		textConcepto.setColumns(10);
 		
 		JLabel labelPrecio = new JLabel("Precio:");
-		labelPrecio.setBounds(10, 200, 120, 15);
+		labelPrecio.setBounds(10, 200, 50, 15);
 		contentPane.add(labelPrecio);
 		
 		textPrecio = new JTextField();
+		textPrecio.setEditable(false);
 		textPrecio.setColumns(10);
 		textPrecio.setBounds(70, 195, 90, 20);
 		contentPane.add(textPrecio);
@@ -139,6 +156,7 @@ public class VentanaPorte extends JFrame {
 		panelDescripcion.setLayout(null);
 		
 		textDescripcion = new JTextField();
+		textDescripcion.setEditable(false);
 		textDescripcion.setBounds(10, 22, 360, 106);
 		panelDescripcion.add(textDescripcion);
 		textDescripcion.setColumns(10);
@@ -152,41 +170,34 @@ public class VentanaPorte extends JFrame {
 		contentPane.add(buttonBorrar);
 		
 		JButton buttonAnadirViaje = new JButton("A\u00D1ADIR VIAJE");
+		buttonAnadirViaje.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAnadirViajeActionPerformed(e);
+			}
+		});
 		buttonAnadirViaje.setBounds(140, 375, 120, 25);
 		contentPane.add(buttonAnadirViaje);
 		
 		JPanel panelViajes = new JPanel();
 		panelViajes.setBorder(new TitledBorder(null, "Viajes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelViajes.setBounds(410, 20, 214, 344);
+		panelViajes.setBounds(410, 20, 214, 170);
 		contentPane.add(panelViajes);
 		panelViajes.setLayout(null);
 		
 		ArrayList<JLabel> viajes = pruebaCreacion(panelViajes);
 		
-		JScrollBar scrollBar = new JScrollBar();
-	
-		scrollBar.setMaximum(600);
-		scrollBar.addAdjustmentListener(new AdjustmentListener() {
-			int scrollBarPosAnt = scrollBar.getValue();
-			int scrollBarPosSig = scrollBar.getValue();
-			int diferencia = 0;
-		      public void adjustmentValueChanged(AdjustmentEvent ae) {
-		        scrollBarPosSig = ae.getValue();
-		        diferencia = scrollBarPosSig - scrollBarPosAnt;
-		        for(JLabel viaje : viajes){		        	
-		        	if (viaje.getY()-diferencia < 18) viaje.setVisible(false); else viaje.setVisible(true);
-		        	viaje.setBounds(viaje.getX(), viaje.getY()-diferencia, viaje.getWidth(), viaje.getHeight());		        	
-		        }
-		        scrollBarPosAnt = scrollBarPosSig;
-		      }
-		    });
-
-		scrollBar.setUnitIncrement(18);
-		scrollBar.setBounds(184, 11, 20, 338);
-		panelViajes.add(scrollBar);		
-		
 	}
 
+	private void buttonAnadirViajeActionPerformed(java.awt.event.ActionEvent evt) {
+		VentanaViaje formViaje = new VentanaViaje();
+		formViaje.setVisible(true);
+    }
+	
+	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
+        this.setVisible(false);
+        principal.setVisible(true);
+    }
+	
 	public ArrayList<JLabel> pruebaCreacion(JPanel panel){
 		
 		JLabel labelAux;

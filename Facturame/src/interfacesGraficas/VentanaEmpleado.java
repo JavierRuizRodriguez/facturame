@@ -14,6 +14,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class VentanaEmpleado extends JFrame {
 
@@ -30,24 +32,30 @@ public class VentanaEmpleado extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaEmpleado frame = new VentanaEmpleado();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					VentanaEmpleado frame = new VentanaEmpleado();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaEmpleado() {
+	public VentanaEmpleado(VentanaPrincipal principal) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				formWindowClosing(e, principal);
+			}
+		});
 		setTitle("Facturame --- Empleado");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 555, 270);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -154,5 +162,10 @@ public class VentanaEmpleado extends JFrame {
 		buttonBorrar.setBounds(430, 195, 25, 25);
 		contentPane.add(buttonBorrar);
 	}
+	
+	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
+        this.setVisible(false);
+        principal.setVisible(true);
+    }
 
 }

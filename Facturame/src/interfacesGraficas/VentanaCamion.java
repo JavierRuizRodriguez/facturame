@@ -13,6 +13,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.border.TitledBorder;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class VentanaCamion extends JFrame {
 
@@ -38,10 +40,6 @@ public class VentanaCamion extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		VentanaCamion frame = new VentanaCamion();
-		frame.setVisible(true);
-		
-//		
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
 //				try {
@@ -57,9 +55,15 @@ public class VentanaCamion extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaCamion() {
+	public VentanaCamion(VentanaPrincipal principal) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+                formWindowClosing(e, principal);
+			}
+		});
 		setTitle("Facturame --- Camion");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 555, 440);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -249,5 +253,10 @@ public class VentanaCamion extends JFrame {
 		textDescripcion.setBounds(10, 15, 500, 55);
 		panelTextDescripcion.add(textDescripcion);
 	}
+	
+	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
+        this.setVisible(false);
+        principal.setVisible(true);
+    }
 
 }
