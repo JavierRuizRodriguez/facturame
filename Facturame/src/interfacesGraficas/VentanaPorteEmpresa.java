@@ -1,17 +1,19 @@
 package interfacesGraficas;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaPorteEmpresa extends JFrame {
 
@@ -20,29 +22,16 @@ public class VentanaPorteEmpresa extends JFrame {
 	private JTextField textNombre;
 	private JTextField textTelefono;
 	private JTextField textMail;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaPorteEmpresa frame = new VentanaPorteEmpresa();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+	
+	public VentanaPorteEmpresa(VentanaPrincipal principal) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				formWindowClosing(e, principal);
 			}
 		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public VentanaPorteEmpresa() {
 		setTitle("Facturame --- Porte --- Empresa");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 340, 260);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -99,6 +88,11 @@ public class VentanaPorteEmpresa extends JFrame {
 		textMail.setColumns(10);
 		
 		JButton buttonSiguiente = new JButton("");
+		buttonSiguiente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonSiguienteActionPerformed(e, principal);
+			}
+		});
 		buttonSiguiente.setIcon(new ImageIcon("D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\flecha_16.png"));
 		buttonSiguiente.setBounds(120, 188, 89, 23);
 		contentPane.add(buttonSiguiente);
@@ -106,5 +100,16 @@ public class VentanaPorteEmpresa extends JFrame {
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 71, 304, 14);
 		contentPane.add(separator);
+	}
+	
+	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
+		this.setVisible(false);
+		principal.setVisible(true);
+	}
+	
+	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt, VentanaPrincipal principal) {
+		VentanaPorteTransportista formPorteTransportista = new VentanaPorteTransportista(principal);
+		formPorteTransportista.setVisible(true);
+	    this.setVisible(false);
 	}
 }

@@ -1,17 +1,19 @@
 package interfacesGraficas;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.ImageIcon;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaPorteTransportista extends JFrame {
 
@@ -20,28 +22,15 @@ public class VentanaPorteTransportista extends JFrame {
 	private JTextField textNombre;
 	private JTextField textTelefono;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaPorteTransportista frame = new VentanaPorteTransportista();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+	public VentanaPorteTransportista(VentanaPrincipal principal) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				formWindowClosing(e, principal);
 			}
 		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public VentanaPorteTransportista() {
 		setTitle("Facturame --- Porte --- Transportista");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 340, 230);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -93,6 +82,11 @@ public class VentanaPorteTransportista extends JFrame {
 		panel.add(textTelefono);
 		
 		JButton buttonSiguiente = new JButton("");
+		buttonSiguiente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonSiguienteActionPerformed(e, principal);
+			}
+		});
 		buttonSiguiente.setIcon(new ImageIcon("D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\flecha_16.png"));
 		buttonSiguiente.setBounds(120, 157, 89, 23);
 		panel.add(buttonSiguiente);
@@ -101,5 +95,16 @@ public class VentanaPorteTransportista extends JFrame {
 		separator.setBounds(10, 71, 304, 14);
 		panel.add(separator);
 	}
+	
+	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
+		this.setVisible(false);
+		principal.setVisible(true);
+	}
 
+	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt, VentanaPrincipal principal) {
+		VentanaPorteCamion formPorteCamion = new VentanaPorteCamion(principal);
+		formPorteCamion.setVisible(true);
+	    this.setVisible(false);
+	}
+	
 }

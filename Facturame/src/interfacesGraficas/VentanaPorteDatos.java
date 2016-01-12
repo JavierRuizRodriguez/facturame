@@ -10,6 +10,12 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.JCheckBox;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.ActionEvent;
 
 public class VentanaPorteDatos extends JFrame {
 
@@ -20,29 +26,16 @@ public class VentanaPorteDatos extends JFrame {
 	private JTextField textPrecio;
 	private JTextField textDescripcion;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					VentanaPorteDatos frame = new VentanaPorteDatos();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public VentanaPorteDatos() {
+	public VentanaPorteDatos(VentanaPrincipal principal) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				formWindowClosing(e, principal);
+			}
+		});
 		setTitle("Facturame --- Porte --- Datos");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 417, 351);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 417, 383);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -87,11 +80,11 @@ public class VentanaPorteDatos extends JFrame {
 		contentPane.add(textPrecio);
 		
 		JLabel labelGrupaje = new JLabel("Grupaje");
-		labelGrupaje.setBounds(190, 136, 55, 15);
+		labelGrupaje.setBounds(200, 136, 55, 15);
 		contentPane.add(labelGrupaje);
 		
 		JCheckBox checkBoxGrupaje = new JCheckBox("");
-		checkBoxGrupaje.setBounds(240, 131, 25, 25);
+		checkBoxGrupaje.setBounds(250, 131, 25, 25);
 		contentPane.add(checkBoxGrupaje);
 		
 		JPanel panelDescripcion = new JPanel();
@@ -104,6 +97,26 @@ public class VentanaPorteDatos extends JFrame {
 		textDescripcion.setColumns(10);
 		textDescripcion.setBounds(10, 22, 360, 106);
 		panelDescripcion.add(textDescripcion);
+		
+		JButton button = new JButton("");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonSiguienteActionPerformed(e, principal);
+			}
+		});
+		button.setIcon(new ImageIcon("D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\flecha_16.png"));
+		button.setBounds(146, 312, 89, 23);
+		contentPane.add(button);
 	}
-
+	
+	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
+		this.setVisible(false);
+		principal.setVisible(true);
+	}
+	
+	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt, VentanaPrincipal principal) {
+		VentanaPorteEmpresa formPorteEmpresa = new VentanaPorteEmpresa(principal);
+		formPorteEmpresa.setVisible(true);
+	    this.setVisible(false);
+	}
 }

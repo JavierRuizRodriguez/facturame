@@ -20,25 +20,6 @@ public class VentanaEmpresa extends JFrame {
 	private JTextField textTelefono;
 	private JTextField textMail;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					VentanaEmpresa frame = new VentanaEmpresa();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public VentanaEmpresa(VentanaPrincipal principal) {
 		addWindowListener(new WindowAdapter() {
 			@Override

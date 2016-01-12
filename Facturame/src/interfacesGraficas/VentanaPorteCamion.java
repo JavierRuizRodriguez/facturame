@@ -2,6 +2,8 @@ package interfacesGraficas;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,6 +15,8 @@ import javax.swing.JSeparator;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaPorteCamion extends JFrame {
 
@@ -39,29 +43,16 @@ public class VentanaPorteCamion extends JFrame {
 	private JTextField textField_7;
 	private JLabel label_9;
 	private JCheckBox checkBox;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaPorteCamion frame = new VentanaPorteCamion();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+	
+	public VentanaPorteCamion(VentanaPrincipal principal) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				formWindowClosing(e, principal);
 			}
 		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public VentanaPorteCamion() {
 		setTitle("Facturame --- Porte --- Cami\u00F3n");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 340, 313);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -86,6 +77,11 @@ public class VentanaPorteCamion extends JFrame {
 		contentPane.add(separator);
 		
 		button = new JButton("");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonSiguienteActionPerformed(e, principal);
+			}
+		});
 		button.setIcon(new ImageIcon("D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\flecha_16.png"));
 		button.setBounds(119, 238, 89, 23);
 		contentPane.add(button);
@@ -184,6 +180,17 @@ public class VentanaPorteCamion extends JFrame {
 		checkBox.setEnabled(false);
 		checkBox.setBounds(95, 206, 21, 23);
 		contentPane.add(checkBox);
+	}
+	
+	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
+        this.setVisible(false);
+        principal.setVisible(true);
+    }
+	
+	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt, VentanaPrincipal principal) {
+		VentanaPorteViaje formPorteViaje = new VentanaPorteViaje(principal);
+		formPorteViaje.setVisible(true);
+	    this.setVisible(false);
 	}
 
 }
