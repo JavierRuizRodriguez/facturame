@@ -1,5 +1,6 @@
 package conexionBD;
 
+//mirar meter patron singleton + instantanea
 public class Conexion {
 
 	public static String URL = "jdbc:postgresql://localhost:5432/facturame";

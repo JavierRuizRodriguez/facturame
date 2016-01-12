@@ -22,7 +22,7 @@ public class CRUDcamiones {
 	public CRUDcamiones() {
 	}
 
-	public ArrayList<Camion> buscarTodosEmpleados() throws SQLException {
+	public ArrayList<Camion> buscarTodosCamiones() throws SQLException {
 		ArrayList<Camion> respuesta = new ArrayList<Camion>();
 
 		Connection con;
@@ -70,7 +70,7 @@ public class CRUDcamiones {
 
 	}
 
-	public Camion buscarUnEmpleados(String nBastidorBuscado) throws SQLException {
+	public Camion buscarUnCamion(String nBastidorBuscado) throws SQLException {
 		Camion respuesta = null;
 
 		Connection con;
@@ -121,7 +121,7 @@ public class CRUDcamiones {
 
 	// mode 0 --> insert
 	// mode 1 --> update
-	public Integer insertarActualizaCamion(Camion camion, boolean esInsert) throws SQLException {
+	public int insertarActualizarCamion(Camion camion, boolean esInsert) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -163,7 +163,7 @@ public class CRUDcamiones {
 
 	}
 
-	public int borrarTrabajador(String nBastidor) throws SQLException {
+	public int borrarCamion(String nBastidor) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

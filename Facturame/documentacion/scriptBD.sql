@@ -44,6 +44,27 @@ ALTER TABLE "Empleado"
 
 ---------------------------------------------------------------
 
+-- Table: "Empresa"
+
+-- DROP TABLE "Empresa";
+
+CREATE TABLE "Empresa"
+(
+  "NIF" character varying(9) NOT NULL,
+  "nEmpresa" character varying(30),
+  "Dirección" character varying(50),
+  email character varying(200),
+  telefono integer,
+  CONSTRAINT "empresaPK" PRIMARY KEY ("NIF")
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE "Empresa"
+  OWNER TO postgres;
+
+---------------------------------------------------------------
+
 -- Table: "Camion"
 
 -- DROP TABLE "Camion";
@@ -137,7 +158,7 @@ CREATE INDEX "nBastidorFK"
 
 CREATE TABLE "LibroGastos"
 (
-  "idEntrada" integer NOT NULL DEFAULT nextval('"LibroGatos_idEntrada_seq"'::regclass),
+  "idEntrada" integer NOT NULL,
   concepto character varying(50) NOT NULL,
   dinero double precision NOT NULL,
   "fechaAsiento" date NOT NULL,
@@ -219,27 +240,6 @@ CREATE INDEX "porteFK"
   ON "Viaje"
   USING btree
   ("idPorte");
-
----------------------------------------------------------------
-
--- Table: "Empresa"
-
--- DROP TABLE "Empresa";
-
-CREATE TABLE "Empresa"
-(
-  "NIF" character varying(9) NOT NULL,
-  "nEmpresa" character varying(30),
-  "Dirección" character varying(50),
-  email character varying(200),
-  telefono integer,
-  CONSTRAINT "empresaPK" PRIMARY KEY ("NIF")
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE "Empresa"
-  OWNER TO postgres;
 
 ---------------------------------------------------------------
 

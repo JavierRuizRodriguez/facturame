@@ -25,7 +25,7 @@ public class CRUDviajes {
 	public CRUDviajes() {
 	}
 
-	public ArrayList<Viaje> buscarTodosPorte() throws SQLException {
+	public ArrayList<Viaje> buscarTodosViajes() throws SQLException {
 		ArrayList<Viaje> respuesta = new ArrayList<Viaje>();
 
 		Connection con;
@@ -104,7 +104,7 @@ public class CRUDviajes {
 
 	}
 
-	public int insertarActualizaPorte(Viaje viaje, boolean esInsert) throws SQLException {
+	public int insertarActualizaViaje(Viaje viaje, boolean esInsert) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -137,14 +137,14 @@ public class CRUDviajes {
 
 	}
 
-	public int borrarPorte(String idViaje) throws SQLException {
+	public int borrarViaje(int idViaje) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
 
 		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
 		pst = con.prepareStatement(CRUDviajes.borrarViaje);
-		pst.setString(1, idViaje);
+		pst.setInt(1, idViaje);
 		respuesta = pst.executeUpdate();
 
 		con.close();

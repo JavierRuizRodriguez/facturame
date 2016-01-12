@@ -1,6 +1,6 @@
 package pojo;
 
-public class Porte {
+public class Porte implements Comparable {
 
 	private int idPorte;
 	private String nBastidor;
@@ -13,6 +13,8 @@ public class Porte {
 	private String descripcion;
 	private String nif;
 
+	// la idea es que si es un grupaje, solo tenga asociado un viaje para poder
+	// tener un precio por viaje.
 	public Porte(int idPorte, String nBastidor, String dni, int kgCarga, int volCarga, String concepto, double precio,
 			boolean esGrupaje, String descripcion, String nif) {
 		this.idPorte = idPorte;
@@ -105,6 +107,20 @@ public class Porte {
 
 	public void setNif(String nif) {
 		this.nif = nif;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		int porteAux = ((Porte) o).getIdPorte();
+
+		return this.idPorte - porteAux;
+	}
+
+	@Override
+	public String toString() {
+		return "Porte [idPorte=" + idPorte + ", nBastidor=" + nBastidor + ", dni=" + dni + ", kgCarga=" + kgCarga
+				+ ", volCarga=" + volCarga + ", concepto=" + concepto + ", precio=" + precio + ", esGrupaje="
+				+ esGrupaje + ", descripcion=" + descripcion + ", nif=" + nif + "]";
 	}
 
 }

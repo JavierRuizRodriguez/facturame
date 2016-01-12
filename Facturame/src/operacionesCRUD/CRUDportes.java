@@ -22,7 +22,7 @@ public class CRUDportes {
 	public CRUDportes() {
 	}
 
-	public ArrayList<Porte> buscarTodosPorte() throws SQLException {
+	public ArrayList<Porte> buscarTodosPortes() throws SQLException {
 		ArrayList<Porte> respuesta = new ArrayList<Porte>();
 
 		Connection con;
@@ -103,7 +103,7 @@ public class CRUDportes {
 
 	}
 
-	public int insertarActualizaPorte(Porte porte, boolean esInsert) throws SQLException {
+	public int insertarActualizarPorte(Porte porte, boolean esInsert) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -137,14 +137,14 @@ public class CRUDportes {
 
 	}
 
-	public int borrarPorte(String idPorte) throws SQLException {
+	public int borrarPorte(int idPorte) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
 
 		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
 		pst = con.prepareStatement(CRUDportes.borrarPorte);
-		pst.setString(1, idPorte);
+		pst.setInt(1, idPorte);
 		respuesta = pst.executeUpdate();
 
 		con.close();

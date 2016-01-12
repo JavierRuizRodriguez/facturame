@@ -1,9 +1,11 @@
-import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
 
-import operacionesCRUD.CRUDempleados;
-import pojo.Trabajador;
+import ordenacionObjetos.ContextoFacturas;
+import ordenacionObjetos.EstrategiaEnterosDesc;
+import pojo.Porte;
 
 public class Main {
 
@@ -23,16 +25,36 @@ public class Main {
 
 		// System.out.println(t1.getSueldos());
 
-		@SuppressWarnings("deprecation")
-		Date d = new Date(01, 01, 01);
+		// @SuppressWarnings("deprecation")
+		// Date d = new Date(01, 01, 01);
 
-		CRUDempleados c = new CRUDempleados();
+		// CRUDempleados c = new CRUDempleados();
 		// System.out.println(c.insertar(new Trabajador("09062732A", "Javier",
 		// "manuel", Date.valueOf("2016-01-01"), "hombre",
 		// Date.valueOf("2016-01-01"), "director", 1500.00)));
-		System.out.println(c.buscarUnEmpleado("09062732L"));
-		System.out.println(c.insertarActualizaEmpleado(new Trabajador("09062732A", "Emilio", "Emilio",
-				Date.valueOf("2016-01-01"), "Emilio", Date.valueOf("2016-01-01"), "Emilio", 1500000.00), true));
+		/*
+		 * System.out.println(c.buscarUnEmpleado("09062732L"));
+		 * System.out.println(c.insertarActualizarEmpleado(new
+		 * Trabajador("09062732A", "Emilio", "Emilio",
+		 * Date.valueOf("2016-01-01"), "Emilio", Date.valueOf("2016-01-01"),
+		 * "Emilio", 1500000.00), true));
+		 */
+
+		ArrayList<Porte> portes = new ArrayList<Porte>();
+
+		portes.add(new Porte(2, "bb", "bb", 1, 1, "bb", 2, false, "bb", "bb"));
+		portes.add(new Porte(4, "dd", "aa", 1, 1, "aa", 4, false, "aa", "aa"));
+		portes.add(new Porte(5, "ee", "aa", 1, 1, "aa", 5, false, "aa", "aa"));
+		portes.add(new Porte(3, "cc", "aa", 1, 1, "aa", 3, false, "aa", "aa"));
+		portes.add(new Porte(1, "aa", "aa", 1, 1, "aa", 1, false, "aa", "aa"));
+
+		EstrategiaEnterosDesc est = new EstrategiaEnterosDesc();
+		ContextoFacturas con = new ContextoFacturas(portes, est);
+		
+		ArrayList<Porte> portesOrdenados = new ArrayList<Porte>(con.ejecutarEstrategia());
+		
+		for (Porte p:portesOrdenados)
+			System.out.println(p.toString());
 	}
 
 }
