@@ -17,12 +17,12 @@ public class CRUDcamiones {
 	private static String updateCamion = "UPDATE \"Camion\" SET \"nBastidor\"=?, matricula=?, combustible=?, \"nPasajeros\"=?, \"potenciaCV\"=?, \"potenciaKWh\"=?, \"kmTotales\"=?, peso=?, largo=?, ancho=?, \"longCaja\"=?, \"anchoCaja\"=?, \"pesoMaxCaja\"=?, \"volumenCaja\"=?, trampilla=?, descripcion=?, \"altoCaja\"=?, galibo=? where \"nBastidor\" = ?";
 	private static String borrarCamion = "delete from \"Camion\" where \"nBastidor\" = ?";
 	private static String insertCamion = "INSERT INTO \"Camion\"(\"nBastidor\", matricula, combustible, \"nPasajeros\", \"potenciaCV\",\"potenciaKWh\", \"kmTotales\", peso, largo, ancho, \"longCaja\", \"anchoCaja\", \"pesoMaxCaja\", \"volumenCaja\", trampilla, descripcion, \"altoCaja\", galibo)VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private static String selectCamion = "select * from \"Camion\" where \"nBastidor\" = ?";
+	private static String selectCamion = "select * from \"Camion\" where matricula = ?";
 
 	public CRUDcamiones() {
 	}
 
-	public ArrayList<Camion> buscarTodosEmpleados() throws SQLException {
+	public ArrayList<Camion> buscarTodosCamiones() throws SQLException {
 		ArrayList<Camion> respuesta = new ArrayList<Camion>();
 
 		Connection con;
@@ -70,7 +70,7 @@ public class CRUDcamiones {
 
 	}
 
-	public Camion buscarUnEmpleados(String nBastidorBuscado) throws SQLException {
+	public Camion buscarUnCamion(String matriculaBuscada) throws SQLException {
 		Camion respuesta = null;
 
 		Connection con;
@@ -79,7 +79,7 @@ public class CRUDcamiones {
 
 		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
 		pst = con.prepareStatement(CRUDcamiones.selectCamion);
-		pst.setString(1, nBastidorBuscado);
+		pst.setString(1, matriculaBuscada);
 		rs = pst.executeQuery();
 
 		String nBastidor, matricula, combustible, descripcion;
@@ -121,7 +121,7 @@ public class CRUDcamiones {
 
 	// mode 0 --> insert
 	// mode 1 --> update
-	public Integer insertarActualizaCamion(Camion camion, boolean esInsert) throws SQLException {
+	public int insertarActualizarCamion(Camion camion, boolean esInsert) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -163,7 +163,7 @@ public class CRUDcamiones {
 
 	}
 
-	public int borrarTrabajador(String nBastidor) throws SQLException {
+	public int borrarCamion(String nBastidor) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

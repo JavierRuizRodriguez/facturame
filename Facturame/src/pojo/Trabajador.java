@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 
 public class Trabajador {
 
-	private static SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyyMMdd");
 	private String dni;
 	private String nombre;
 	private String apellidos;
@@ -27,6 +26,9 @@ public class Trabajador {
 		this.fechaAltaEmpleado = fechaAltaEmpleado;
 		this.rango = rango;
 		this.sueldo = sueldo;
+	}
+
+	public Trabajador() {
 	}
 
 	public String getDni() {

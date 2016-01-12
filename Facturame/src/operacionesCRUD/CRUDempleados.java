@@ -95,7 +95,7 @@ public class CRUDempleados {
 
 	}
 
-	public int insertarActualizaEmpleado(Trabajador empleado, boolean esInsert) throws SQLException {
+	public int insertarActualizarEmpleado(Trabajador empleado, boolean esInsert) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
