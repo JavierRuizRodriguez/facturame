@@ -29,6 +29,9 @@ public class Porte implements Comparable {
 		this.nif = nif;
 	}
 
+	public Porte() {
+	}
+
 	public int getIdPorte() {
 		return idPorte;
 	}

@@ -23,6 +23,9 @@ public class Camion extends Vehiculo {
 		this.trampilla = trampilla;
 	}
 
+	public Camion() {
+	}
+
 	public double getLongCaja() {
 		return longCaja;
 	}

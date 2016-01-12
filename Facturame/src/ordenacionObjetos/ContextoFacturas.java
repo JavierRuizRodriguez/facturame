@@ -21,8 +21,8 @@ public class ContextoFacturas {
 		this.estrategia = estrategia;
 	}
 
-	public ArrayList<Porte> ejecutarEstrategia() {
-		estrategia.ordena(portes);
+	public ArrayList<Porte> ejecutarEstrategia(int nCampo) {
+		estrategia.ordena(portes, nCampo);
 		return portes;
 	}
 

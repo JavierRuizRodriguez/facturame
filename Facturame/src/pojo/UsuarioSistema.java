@@ -19,6 +19,10 @@ public class UsuarioSistema {
 		this.fechaAltaUsuario = fechaAltaUsuario;
 	}
 
+	public UsuarioSistema(boolean admin) {
+		this.admin = admin;
+	}
+
 	public String getDni() {
 		return dni;
 	}

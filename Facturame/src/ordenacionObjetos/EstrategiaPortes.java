@@ -11,7 +11,7 @@ public class EstrategiaPortes implements Estrategia {
 	@Override
 	public void ordena(ArrayList<?> lista, int nCampo) {
 
-		Comparator comparadorEnteros = (Comparator) (Object o1, Object o2) -> {
+		Comparator comparadorPortes = (Comparator) (Object o1, Object o2) -> {
 			Porte p1 = (Porte) o1;
 			Porte p2 = (Porte) o2;
 
@@ -41,7 +41,7 @@ public class EstrategiaPortes implements Estrategia {
 			}
 		};
 
-		Collections.sort(lista, comparadorEnteros);
+		Collections.sort(lista, comparadorPortes);
 	}
 
 }

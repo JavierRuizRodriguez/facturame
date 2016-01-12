@@ -3,17 +3,20 @@ package pojo;
 public class Empresa {
 
 	private String nif;
-	private String empresa;
+	private String nEmpresa;
 	private String direccion;
 	private int nTelefono;
 	private String email;
 
-	public Empresa(String nif, String empresa, String direccion, int nTelefono, String email) {
+	public Empresa(String nif, String nEmpresa, String direccion, int nTelefono, String email) {
 		this.nif = nif;
-		this.empresa = empresa;
+		this.nEmpresa = nEmpresa;
 		this.direccion = direccion;
 		this.nTelefono = nTelefono;
 		this.email = email;
+	}
+
+	public Empresa() {
 	}
 
 	public String getNif() {
@@ -25,11 +28,11 @@ public class Empresa {
 	}
 
 	public String getEmpresa() {
-		return empresa;
+		return nEmpresa;
 	}
 
-	public void setEmpresa(String empresa) {
-		this.empresa = empresa;
+	public void setEmpresa(String nEmpresa) {
+		this.nEmpresa = nEmpresa;
 	}
 
 	public String getDireccion() {

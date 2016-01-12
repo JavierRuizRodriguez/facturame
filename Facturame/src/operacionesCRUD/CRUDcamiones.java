@@ -17,7 +17,7 @@ public class CRUDcamiones {
 	private static String updateCamion = "UPDATE \"Camion\" SET \"nBastidor\"=?, matricula=?, combustible=?, \"nPasajeros\"=?, \"potenciaCV\"=?, \"potenciaKWh\"=?, \"kmTotales\"=?, peso=?, largo=?, ancho=?, \"longCaja\"=?, \"anchoCaja\"=?, \"pesoMaxCaja\"=?, \"volumenCaja\"=?, trampilla=?, descripcion=?, \"altoCaja\"=?, galibo=? where \"nBastidor\" = ?";
 	private static String borrarCamion = "delete from \"Camion\" where \"nBastidor\" = ?";
 	private static String insertCamion = "INSERT INTO \"Camion\"(\"nBastidor\", matricula, combustible, \"nPasajeros\", \"potenciaCV\",\"potenciaKWh\", \"kmTotales\", peso, largo, ancho, \"longCaja\", \"anchoCaja\", \"pesoMaxCaja\", \"volumenCaja\", trampilla, descripcion, \"altoCaja\", galibo)VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private static String selectCamion = "select * from \"Camion\" where \"nBastidor\" = ?";
+	private static String selectCamion = "select * from \"Camion\" where matricula = ?";
 
 	public CRUDcamiones() {
 	}
@@ -70,7 +70,7 @@ public class CRUDcamiones {
 
 	}
 
-	public Camion buscarUnCamion(String nBastidorBuscado) throws SQLException {
+	public Camion buscarUnCamion(String matriculaBuscada) throws SQLException {
 		Camion respuesta = null;
 
 		Connection con;
@@ -79,7 +79,7 @@ public class CRUDcamiones {
 
 		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
 		pst = con.prepareStatement(CRUDcamiones.selectCamion);
-		pst.setString(1, nBastidorBuscado);
+		pst.setString(1, matriculaBuscada);
 		rs = pst.executeQuery();
 
 		String nBastidor, matricula, combustible, descripcion;

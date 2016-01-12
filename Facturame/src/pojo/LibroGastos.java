@@ -19,6 +19,9 @@ public class LibroGastos {
 		this.descripcion = descripcion;
 	}
 
+	public LibroGastos() {
+	}
+
 	public int getIdEntrada() {
 		return idEntrada;
 	}

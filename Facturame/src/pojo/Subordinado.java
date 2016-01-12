@@ -10,6 +10,9 @@ public class Subordinado {
 		this.dniSubordinado = dniSubordinado;
 	}
 
+	public Subordinado() {
+	}
+
 	public String getDniJefe() {
 		return dniJefe;
 	}

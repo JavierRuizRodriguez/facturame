@@ -1,10 +1,9 @@
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import ordenacionObjetos.ContextoFacturas;
-import ordenacionObjetos.EstrategiaEnterosDesc;
+import ordenacionObjetos.EstrategiaPortes;
 import pojo.Porte;
 
 public class Main {
@@ -48,10 +47,10 @@ public class Main {
 		portes.add(new Porte(3, "cc", "aa", 1, 1, "aa", 3, false, "aa", "aa"));
 		portes.add(new Porte(1, "aa", "aa", 1, 1, "aa", 1, false, "aa", "aa"));
 
-		EstrategiaEnterosDesc est = new EstrategiaEnterosDesc();
+		EstrategiaPortes est = new EstrategiaPortes();
 		ContextoFacturas con = new ContextoFacturas(portes, est);
 		
-		ArrayList<Porte> portesOrdenados = new ArrayList<Porte>(con.ejecutarEstrategia());
+		ArrayList<Porte> portesOrdenados = new ArrayList<Porte>(con.ejecutarEstrategia(4));
 		
 		for (Porte p:portesOrdenados)
 			System.out.println(p.toString());

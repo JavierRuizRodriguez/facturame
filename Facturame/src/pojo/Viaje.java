@@ -28,6 +28,9 @@ public class Viaje {
 		this.idPorte = idPorte;
 	}
 
+	public Viaje() {
+	}
+
 	public int getIdViaje() {
 		return idViaje;
 	}

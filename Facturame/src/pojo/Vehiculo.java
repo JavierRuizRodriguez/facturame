@@ -33,6 +33,9 @@ public abstract class Vehiculo {
 
 	}
 
+	public Vehiculo() {
+	}
+
 	public String getnBastidor() {
 		return nBastidor;
 	}
