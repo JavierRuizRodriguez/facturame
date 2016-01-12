@@ -21,7 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class VentanaPorte extends JFrame {
+public class VentanaPorteViaje extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textoNumeroBastidor;
@@ -34,27 +34,7 @@ public class VentanaPorte extends JFrame {
 	private JLabel labelGrupaje;
 	private JTextField textDescripcion;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					VentanaPorte frame = new VentanaPorte();
-//					frame.setVisible(true);
-//					
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public VentanaPorte(VentanaPrincipal principal) {
+	public VentanaPorteViaje(VentanaPrincipal principal) {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -209,8 +189,7 @@ public class VentanaPorte extends JFrame {
 			labelAux.setBounds(10, x, 180, 20);
 			panel.add(labelAux);
 			viajes.add(labelAux);
-		}
-		
+		}		
 		return viajes;
 	}
 }

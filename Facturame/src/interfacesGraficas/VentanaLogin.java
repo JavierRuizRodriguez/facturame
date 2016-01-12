@@ -18,34 +18,9 @@ public class VentanaLogin extends JFrame {
 	private JPanel contentPane;
 	private JTextField textNombre;
 	private JTextField textDni;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					VentanaLogin frame = new VentanaLogin();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public VentanaLogin(VentanaPrincipal principal) {
-		setTitle("Facturame --- Login");
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				formWindowClosing(e, principal);
-			}
-		});
+	
+	public VentanaLogin() {
+		setTitle("Facturame --- Login");		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 320, 152);
 		contentPane = new JPanel();
@@ -79,11 +54,6 @@ public class VentanaLogin extends JFrame {
 		buttonBorrar.setIcon(new ImageIcon("D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\papelera_16.png"));
 		buttonBorrar.setBounds(235, 77, 25, 25);
 		contentPane.add(buttonBorrar);
-	}
-	
-	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
-        this.setVisible(false);
-        principal.setVisible(true);
-    }
+	}	
 
 }

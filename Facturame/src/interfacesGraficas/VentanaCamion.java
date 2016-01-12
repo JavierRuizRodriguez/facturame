@@ -35,26 +35,7 @@ public class VentanaCamion extends JFrame {
 	private JTextField textAltoCaja;
 	private JTextField textGalibo;
 	private JTextField textDescripcion;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					VentanaCamion frame = new VentanaCamion();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public VentanaCamion(VentanaPrincipal principal) {
 		addWindowListener(new WindowAdapter() {
 			@Override

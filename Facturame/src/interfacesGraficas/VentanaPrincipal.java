@@ -12,26 +12,7 @@ import javax.swing.border.EmptyBorder;
 public class VentanaPrincipal extends JFrame {
 
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaPrincipal frame = new VentanaPrincipal();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public VentanaPrincipal() {
 		setTitle("Facturame");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -91,7 +72,7 @@ public class VentanaPrincipal extends JFrame {
     }
 	
 	private void buttonRegistrarPorteActionPerformed(java.awt.event.ActionEvent evt) {
-		VentanaPorte formPorte = new VentanaPorte(this);
+		VentanaPorteViaje formPorte = new VentanaPorteViaje(this);
 		formPorte.setVisible(true);
         this.setVisible(false);
     }

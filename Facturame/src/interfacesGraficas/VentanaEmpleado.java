@@ -28,25 +28,6 @@ public class VentanaEmpleado extends JFrame {
 	private JTextField textSueldo;
 	private JTextField textField;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					VentanaEmpleado frame = new VentanaEmpleado();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public VentanaEmpleado(VentanaPrincipal principal) {
 		addWindowListener(new WindowAdapter() {
 			@Override
