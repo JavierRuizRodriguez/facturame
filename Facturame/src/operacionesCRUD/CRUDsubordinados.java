@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import conexionBD.Conexion;
 import pojo.Subordinado;
 
-public class CRUDsubordinados {
+public class CRUDsubordinados extends CRUDesquema{
 
 	private static String selectAllSubordinado = "select * from \"Subordinado\"";
 	private static String updateSubordinado = "UPDATE \"Subordinado\" SET \"dniSubordinado\"=?, \"dniJefe\"=? WHERE \"dniJefe\" =?";
@@ -19,8 +19,9 @@ public class CRUDsubordinados {
 	private static String insertSubordinado = "INSERT INTO \"Subordinado\"(\"dniJefe\",\"dniSubordinado\") VALUES (?, ?)";
 	private static String selectSubordinado = "select * from \"Subordinado\" where \"dniJefe\" = ?";
 
-	private ArrayList<Subordinado> buscarTodosSubordinados() throws SQLException {
-		ArrayList<Subordinado> respuesta = new ArrayList<Subordinado>();
+	@Override
+	public ArrayList<Object> buscarTodo() throws SQLException {
+		ArrayList<Object> respuesta = new ArrayList<Object>();
 		Connection con;
 		Statement st;
 		ResultSet rs;
@@ -34,7 +35,7 @@ public class CRUDsubordinados {
 		while (rs.next()) {
 			dniJefe = rs.getString(1);
 			dniSubordinado = rs.getString(2);
-			respuesta.add(new Subordinado(dniJefe, dniSubordinado));
+			respuesta.add((Object) new Subordinado(dniJefe, dniSubordinado));
 		}
 
 		con.close();
@@ -45,8 +46,10 @@ public class CRUDsubordinados {
 
 	}
 
-	public Subordinado buscarUnSubodinado(String dniJefeBuscado) throws SQLException {
-		Subordinado respuesta = null;
+	@Override
+	public Object buscarUno(Object entrada) throws SQLException {
+		String dniJefeBuscado = String.valueOf(entrada);
+		Object respuesta = null;
 
 		Connection con;
 		PreparedStatement pst;
@@ -69,11 +72,13 @@ public class CRUDsubordinados {
 		pst.close();
 		rs.close();
 
-		return respuesta;
+		return (Object) respuesta;
 
 	}
 
-	public int insertarActualizaSubordinado(Subordinado subordinado, boolean esInsert) throws SQLException {
+	@Override
+	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		Subordinado subordinado = (Subordinado) entrada;
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -99,7 +104,9 @@ public class CRUDsubordinados {
 
 	}
 
-	public int borrarSubordinado(String dniJefe) throws SQLException {
+	@Override
+	public int borrar(Object entrada) throws SQLException {
+		String dniJefe = String.valueOf(entrada);
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

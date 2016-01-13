@@ -1,7 +1,7 @@
 package interfacesGraficas;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,17 +12,22 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import builders.PorteGrafico;
+import pojo.Porte;
 
 public class VentanaPorteTransportista extends JFrame {
 
+	private Porte p;
+	private PorteGrafico pb;
 	private JPanel contentPane;
 	private JTextField textDni;
 	private JTextField textNombre;
 	private JTextField textTelefono;
 
-	public VentanaPorteTransportista() {
+	public VentanaPorteTransportista(PorteGrafico pb, Porte p) {
+		this.p = p;
+		this.pb = pb;
 		setTitle("Facturame --- Porte --- Transportista");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 340, 230);
@@ -77,7 +82,11 @@ public class VentanaPorteTransportista extends JFrame {
 		panel.add(textTelefono);
 
 		JButton buttonSiguiente = new JButton("");
-
+		buttonSiguiente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonSiguienteActionPerformed(e);
+			}
+		});
 		buttonSiguiente.setIcon(new ImageIcon(
 				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\flecha_16.png"));
 		buttonSiguiente.setBounds(120, 157, 89, 23);
@@ -93,6 +102,11 @@ public class VentanaPorteTransportista extends JFrame {
 	}
 
 	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt) {
+		pb.setEspera(false);
 		this.setVisible(false);
+	}
+
+	public Porte getPorte() {
+		return p;
 	}
 }

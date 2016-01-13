@@ -13,7 +13,7 @@ import conexionBD.Conexion;
 import pojo.Empresa;
 import pojo.LibroGastos;
 
-public class CRUDlibroGastos {
+public class CRUDlibroGastos extends CRUDesquema {
 
 	private static String selectAllGasto = "select * from \"LibroGastos\"";
 	private static String updateGasto = "UPDATE \"LibroGastos\" SET \"idEntrada\"=?, concepto=?, dinero=?, \"fechaAsiento\"=?, descripcion=? WHERE \"idEntrada\" = ? ";
@@ -24,8 +24,9 @@ public class CRUDlibroGastos {
 	public CRUDlibroGastos() {
 	}
 
-	public ArrayList<LibroGastos> buscarTodosGastos() throws SQLException {
-		ArrayList<LibroGastos> respuesta = new ArrayList<LibroGastos>();
+	@Override
+	public ArrayList<Object> buscarTodo() throws SQLException {
+		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		Connection con;
 		Statement st;
@@ -47,7 +48,7 @@ public class CRUDlibroGastos {
 			fechaAsiento = rs.getDate(4);
 			descripcion = rs.getString(5);
 
-			respuesta.add(new LibroGastos(idEntrada, concepto, dinero, fechaAsiento, descripcion));
+			respuesta.add((Object) new LibroGastos(idEntrada, concepto, dinero, fechaAsiento, descripcion));
 		}
 
 		con.close();
@@ -58,7 +59,9 @@ public class CRUDlibroGastos {
 
 	}
 
-	public LibroGastos buscarUnGasto(int idEntradaBuscado) throws SQLException {
+	@Override
+	public Object buscarUno(Object entrada) throws SQLException {
+		int idEntradaBuscado = (int) entrada;
 		LibroGastos respuesta = null;
 
 		Connection con;
@@ -89,13 +92,15 @@ public class CRUDlibroGastos {
 		pst.close();
 		rs.close();
 
-		return respuesta;
+		return (Object) respuesta;
 
 	}
 
 	// mode 0 --> insert
 	// mode 1 --> update
-	public int insertarActualizarGasto(LibroGastos gasto, boolean esInsert) throws SQLException {
+	@Override
+	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		LibroGastos gasto = (LibroGastos) entrada;
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -124,7 +129,9 @@ public class CRUDlibroGastos {
 
 	}
 
-	public int borrarGasto(int idEntrada) throws SQLException {
+	@Override
+	public int borrar(Object entrada) throws SQLException {
+		int idEntrada = (int) entrada;
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

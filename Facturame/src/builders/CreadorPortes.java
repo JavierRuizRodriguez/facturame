@@ -1,5 +1,7 @@
 package builders;
 
+import java.sql.SQLException;
+
 import pojo.Porte;
 
 public class CreadorPortes {
@@ -10,7 +12,7 @@ public class CreadorPortes {
 		this.pb = pb;
 	}
 	
-	public void hacerPorte(){
+	public void hacerPorte() throws InterruptedException, SQLException{
 		pb.getDatosPrincipales();
 		pb.getDatosEmpresa();
 		pb.getDatosTransportista();

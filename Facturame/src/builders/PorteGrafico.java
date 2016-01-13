@@ -1,61 +1,94 @@
 package builders;
 
+import java.sql.SQLException;
+
+import factorias.FactoriaPorte;
 import interfacesGraficas.VentanaPorteCamion;
 import interfacesGraficas.VentanaPorteDatos;
 import interfacesGraficas.VentanaPorteEmpresa;
 import interfacesGraficas.VentanaPorteTransportista;
 import interfacesGraficas.VentanaPorteViaje;
+import pojo.Porte;
 
 public class PorteGrafico extends PorteBuilder {
 
+	private Porte p;
+	private FactoriaPorte fp;
+	private boolean espera;
 	private VentanaPorteDatos v1;
 	private VentanaPorteEmpresa v2;
 	private VentanaPorteTransportista v3;
 	private VentanaPorteCamion v4;
 	private VentanaPorteViaje v5;
 
+	public PorteGrafico() {
+		this.espera = true;
+		this.fp = new FactoriaPorte();
+		this.p = fp.crearPorte();
+	}
+
 	@Override
-	void getDatosPrincipales() {
-		v1 = new VentanaPorteDatos();
+	void getDatosPrincipales() throws InterruptedException {
+		v1 = new VentanaPorteDatos(this, p);
 		v1.setVisible(true);
-		while (v1.isVisible()) {
+		while (espera) {
+			Thread.sleep(500);
 		}
+		espera = true;
+		p = v1.getPorte();
+		v1 = null;
 	}
 
 	@Override
-	void getDatosEmpresa() {
-		v2 = new VentanaPorteEmpresa();
+	void getDatosEmpresa() throws InterruptedException, SQLException {
+		v2 = new VentanaPorteEmpresa(this, p);
 		v2.setVisible(true);
-		while (v2.isVisible()) {
+		while (espera) {
+			Thread.sleep(500);
 		}
-
+		espera = true;
+		p = v2.getPorte();
+		v2 = null;
 	}
 
 	@Override
-	void getDatosTransportista() {
-		v3 = new VentanaPorteTransportista();
+	void getDatosTransportista() throws InterruptedException {
+		v3 = new VentanaPorteTransportista(this, p);
 		v3.setVisible(true);
-		while (v3.isVisible()) {
+		while (espera) {
+			Thread.sleep(500);
 		}
-
+		espera = true;
+		p = v3.getPorte();
+		v3 = null;
 	}
 
 	@Override
-	void getDatosCamion() {
-		v4 = new VentanaPorteCamion();
+	void getDatosCamion() throws InterruptedException, SQLException {
+		v4 = new VentanaPorteCamion(this, p);
 		v4.setVisible(true);
-		while (v4.isVisible()) {
+		while (espera) {
+			Thread.sleep(500);
 		}
-
+		espera = true;
+		p = v4.getPorte();
+		v4 = null;
 	}
 
 	@Override
-	void getDatosViajes() {
-		v5 = new VentanaPorteViaje();
+	void getDatosViajes() throws InterruptedException {
+		v5 = new VentanaPorteViaje(this, p);
 		v5.setVisible(true);
-		while (v5.isVisible()) {
+		while (espera) {
+			Thread.sleep(500);
 		}
+		espera = true;
+		p = v5.getPorte();
+		v5 = null;
+	}
 
+	public void setEspera(boolean espera) {
+		this.espera = espera;
 	}
 
 }

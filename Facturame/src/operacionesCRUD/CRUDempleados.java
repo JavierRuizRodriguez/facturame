@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import conexionBD.Conexion;
 import pojo.Trabajador;
 
-public class CRUDempleados {
+public class CRUDempleados extends CRUDesquema {
 
 	private static String selectAllEmpleado = "select * from \"Empleado\"";
 	private static String updateEmpleado = "UPDATE \"Empleado\" SET dni=?, nombre=?, apellidos=?, \"fechaNacimiento\"=?, sexo=?, \"fechaAltaEmpleado\"=?, sueldo=?, rango=?	 WHERE dni=?";
@@ -23,8 +23,9 @@ public class CRUDempleados {
 	public CRUDempleados() {
 	}
 
-	public ArrayList<Trabajador> buscarTodosEmpleados() throws SQLException {
-		ArrayList<Trabajador> respuesta = new ArrayList<Trabajador>();
+	@Override
+	public ArrayList<Object> buscarTodo() throws SQLException {
+		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		Connection con;
 		Statement st;
@@ -47,8 +48,8 @@ public class CRUDempleados {
 			fechaAltaEmpleado = rs.getDate(6);
 			sueldo = rs.getDouble(7);
 			rango = rs.getString(8);
-			respuesta.add(
-					new Trabajador(dni, nombre, apellidos, fechaNacimiento, sexo, fechaAltaEmpleado, rango, sueldo));
+			respuesta.add((Object) new Trabajador(dni, nombre, apellidos, fechaNacimiento, sexo, fechaAltaEmpleado,
+					rango, sueldo));
 		}
 
 		con.close();
@@ -59,7 +60,9 @@ public class CRUDempleados {
 
 	}
 
-	public Trabajador buscarUnEmpleado(String dniBuscado) throws SQLException {
+	@Override
+	public Object buscarUno(Object entrada) throws SQLException {
+		String dniBuscado = String.valueOf(entrada);
 		Trabajador respuesta = null;
 
 		Connection con;
@@ -91,11 +94,13 @@ public class CRUDempleados {
 		pst.close();
 		rs.close();
 
-		return respuesta;
+		return (Object) respuesta;
 
 	}
 
-	public int insertarActualizarEmpleado(Trabajador empleado, boolean esInsert) throws SQLException {
+	@Override
+	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		Trabajador empleado = (Trabajador) entrada;
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -127,7 +132,9 @@ public class CRUDempleados {
 
 	}
 
-	public int borrarEmpleado(String dniEmpleado) throws SQLException {
+	@Override
+	public int borrar(Object entrada) throws SQLException {
+		String dniEmpleado = String.valueOf(entrada);
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
