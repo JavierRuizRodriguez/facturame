@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import conexionBD.Conexion;
 import pojo.Camion;
 
-public class CRUDcamiones extends CRUDesquema {
+public class CRUDcamiones {
 
 	private static String selectAllCamion = "select * from \"Camion\"";
 	private static String updateCamion = "UPDATE \"Camion\" SET \"nBastidor\"=?, matricula=?, combustible=?, \"nPasajeros\"=?, \"potenciaCV\"=?, \"potenciaKWh\"=?, \"kmTotales\"=?, peso=?, largo=?, ancho=?, \"longCaja\"=?, \"anchoCaja\"=?, \"pesoMaxCaja\"=?, \"volumenCaja\"=?, trampilla=?, descripcion=?, \"altoCaja\"=?, galibo=? where \"nBastidor\" = ?";
@@ -22,9 +22,8 @@ public class CRUDcamiones extends CRUDesquema {
 	public CRUDcamiones() {
 	}
 
-	@Override
-	public ArrayList<Object> buscarTodo() throws SQLException {
-		ArrayList<Object> respuesta = new ArrayList<Object>();
+	public ArrayList<Camion> buscarTodosCamiones() throws SQLException {
+		ArrayList<Camion> respuesta = new ArrayList<Camion>();
 
 		Connection con;
 		Statement st;
@@ -58,9 +57,9 @@ public class CRUDcamiones extends CRUDesquema {
 			descripcion = rs.getString(16);
 			altoCaja = rs.getDouble(17);
 			galibo = rs.getDouble(18);
-			respuesta.add((Object) new Camion(nBastidor, matricula, combustible, nPasajeros, potenciaCV, PotenciaKWh,
-					kmTotales, peso, largo, ancho, longCaja, anchoCaja, pesoMaxCaja, volumenCaja, trampilla,
-					descripcion, altoCaja, galibo));
+			respuesta.add(new Camion(nBastidor, matricula, combustible, nPasajeros, potenciaCV, PotenciaKWh, kmTotales,
+					peso, largo, ancho, longCaja, anchoCaja, pesoMaxCaja, volumenCaja, trampilla, descripcion, altoCaja,
+					galibo));
 		}
 
 		con.close();
@@ -71,9 +70,7 @@ public class CRUDcamiones extends CRUDesquema {
 
 	}
 
-	@Override
-	public Object buscarUno(Object entrada) throws SQLException {
-		String matriculaBuscada = String.valueOf(entrada);
+	public Camion buscarUnCamion(String matriculaBuscada) throws SQLException {
 		Camion respuesta = null;
 
 		Connection con;
@@ -118,15 +115,13 @@ public class CRUDcamiones extends CRUDesquema {
 		pst.close();
 		rs.close();
 
-		return (Object) respuesta;
+		return respuesta;
 
 	}
 
 	// mode 0 --> insert
 	// mode 1 --> update
-	@Override
-	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
-		Camion camion = (Camion) entrada;
+	public int insertarActualizarCamion(Camion camion, boolean esInsert) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -168,9 +163,7 @@ public class CRUDcamiones extends CRUDesquema {
 
 	}
 
-	@Override
-	public int borrar(Object entrada) throws SQLException {
-		String nBastidor = String.valueOf(entrada);
+	public int borrarCamion(String nBastidor) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

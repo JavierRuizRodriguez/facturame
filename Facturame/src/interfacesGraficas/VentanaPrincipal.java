@@ -72,7 +72,9 @@ public class VentanaPrincipal extends JFrame {
     }
 	
 	private void buttonRegistrarPorteActionPerformed(java.awt.event.ActionEvent evt) {
-		//hacer llamada al patron BUILDER de los portes
+		VentanaPorteViaje formPorte = new VentanaPorteViaje(this);
+		formPorte.setVisible(true);
+        this.setVisible(false);
     }
 	
 	private void buttonRegistrarUsuarioSistemaActionPerformed(java.awt.event.ActionEvent evt) {

@@ -10,9 +10,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import conexionBD.Conexion;
+import pojo.Trabajador;
 import pojo.UsuarioSistema;
 
-public class CRUDusuariosSistema extends CRUDesquema{
+public class CRUDusuariosSistema {
 
 	private static String selectAllUsuariosSistema = "select * from \"UsuarioSistema\"";
 	private static String updateUsuariosSistema = "UPDATE \"UsuarioSistema\" SET dni=?, nickname=?, \"hashContrasena\"=?, admin=?, \"fechaAltaUsuario\"=? WHERE dni=?";
@@ -23,9 +24,8 @@ public class CRUDusuariosSistema extends CRUDesquema{
 	public CRUDusuariosSistema() {
 	}
 
-	@Override
-	public ArrayList<Object> buscarTodo() throws SQLException {
-		ArrayList<Object> respuesta = new ArrayList<Object>();
+	public ArrayList<UsuarioSistema> buscarTodosUsuarioSistema() throws SQLException {
+		ArrayList<UsuarioSistema> respuesta = new ArrayList<UsuarioSistema>();
 
 		Connection con;
 		Statement st;
@@ -46,7 +46,7 @@ public class CRUDusuariosSistema extends CRUDesquema{
 			admin = rs.getBoolean(4);
 			fechaAltaUsuario = rs.getDate(5);
 
-			respuesta.add((Object) new UsuarioSistema(dni, nickname, hashContrasena, admin, fechaAltaUsuario));
+			respuesta.add(new UsuarioSistema(dni, nickname, hashContrasena, admin, fechaAltaUsuario));
 		}
 
 		con.close();
@@ -57,9 +57,7 @@ public class CRUDusuariosSistema extends CRUDesquema{
 
 	}
 
-	@Override
-	public Object buscarUno(Object entrada) throws SQLException {
-		String dniUsuario = String.valueOf(entrada);
+	public UsuarioSistema buscarUnUsuarioSistema(String dniUsuario) throws SQLException {
 		UsuarioSistema respuesta = null;
 
 		Connection con;
@@ -89,13 +87,11 @@ public class CRUDusuariosSistema extends CRUDesquema{
 		pst.close();
 		rs.close();
 
-		return (Object) respuesta;
+		return respuesta;
 
 	}
 
-	@Override
-	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
-		UsuarioSistema usuario = (UsuarioSistema) entrada;
+	public int insertarActualizaUsuarioSistema(UsuarioSistema usuario, boolean esInsert) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -123,9 +119,7 @@ public class CRUDusuariosSistema extends CRUDesquema{
 
 	}
 
-	@Override
-	public int borrar(Object entrada) throws SQLException {
-		String dniUsuario = String.valueOf(entrada);
+	public int borrarUsuarioSistema(String dniUsuario) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

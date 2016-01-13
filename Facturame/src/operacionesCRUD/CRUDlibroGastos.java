@@ -13,7 +13,7 @@ import conexionBD.Conexion;
 import pojo.Empresa;
 import pojo.LibroGastos;
 
-public class CRUDlibroGastos extends CRUDesquema {
+public class CRUDlibroGastos {
 
 	private static String selectAllGasto = "select * from \"LibroGastos\"";
 	private static String updateGasto = "UPDATE \"LibroGastos\" SET \"idEntrada\"=?, concepto=?, dinero=?, \"fechaAsiento\"=?, descripcion=? WHERE \"idEntrada\" = ? ";
@@ -24,9 +24,8 @@ public class CRUDlibroGastos extends CRUDesquema {
 	public CRUDlibroGastos() {
 	}
 
-	@Override
-	public ArrayList<Object> buscarTodo() throws SQLException {
-		ArrayList<Object> respuesta = new ArrayList<Object>();
+	public ArrayList<LibroGastos> buscarTodosGastos() throws SQLException {
+		ArrayList<LibroGastos> respuesta = new ArrayList<LibroGastos>();
 
 		Connection con;
 		Statement st;
@@ -48,7 +47,7 @@ public class CRUDlibroGastos extends CRUDesquema {
 			fechaAsiento = rs.getDate(4);
 			descripcion = rs.getString(5);
 
-			respuesta.add((Object) new LibroGastos(idEntrada, concepto, dinero, fechaAsiento, descripcion));
+			respuesta.add(new LibroGastos(idEntrada, concepto, dinero, fechaAsiento, descripcion));
 		}
 
 		con.close();
@@ -59,9 +58,7 @@ public class CRUDlibroGastos extends CRUDesquema {
 
 	}
 
-	@Override
-	public Object buscarUno(Object entrada) throws SQLException {
-		int idEntradaBuscado = (int) entrada;
+	public LibroGastos buscarUnGasto(int idEntradaBuscado) throws SQLException {
 		LibroGastos respuesta = null;
 
 		Connection con;
@@ -92,15 +89,13 @@ public class CRUDlibroGastos extends CRUDesquema {
 		pst.close();
 		rs.close();
 
-		return (Object) respuesta;
+		return respuesta;
 
 	}
 
 	// mode 0 --> insert
 	// mode 1 --> update
-	@Override
-	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
-		LibroGastos gasto = (LibroGastos) entrada;
+	public int insertarActualizarGasto(LibroGastos gasto, boolean esInsert) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -129,9 +124,7 @@ public class CRUDlibroGastos extends CRUDesquema {
 
 	}
 
-	@Override
-	public int borrar(Object entrada) throws SQLException {
-		int idEntrada = (int) entrada;
+	public int borrarGasto(int idEntrada) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

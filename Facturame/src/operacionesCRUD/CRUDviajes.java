@@ -14,7 +14,7 @@ import conexionBD.Conexion;
 import pojo.Porte;
 import pojo.Viaje;
 
-public class CRUDviajes extends CRUDesquema {
+public class CRUDviajes {
 
 	private static String selectAllViaje = "select * from \"Viaje\"";
 	private static String updateViaje = "UPDATE \"Viaje\" SET \"idViaje\"=?, \"lugarInicio\"=?, \"lugarDestino\"=?, \"horaInico\"=?, \"horaLlegada\"=?, \"fechaInico\"=?, \"fechaLlegada\"=?, \"kmViaje\"=?, \"idPorte\"=? WHERE \"idViaje\" = ?";
@@ -25,9 +25,8 @@ public class CRUDviajes extends CRUDesquema {
 	public CRUDviajes() {
 	}
 
-	@Override
-	public ArrayList<Object> buscarTodo() throws SQLException {
-		ArrayList<Object> respuesta = new ArrayList<Object>();
+	public ArrayList<Viaje> buscarTodosViajes() throws SQLException {
+		ArrayList<Viaje> respuesta = new ArrayList<Viaje>();
 
 		Connection con;
 		Statement st;
@@ -53,7 +52,7 @@ public class CRUDviajes extends CRUDesquema {
 			kmViaje = rs.getInt(8);
 			idPorte = rs.getInt(9);
 
-			respuesta.add((Object) new Viaje(idViaje, lugarInicio, lugarDestino, horaInicio, horaLlegada, fechaInicio,
+			respuesta.add(new Viaje(idViaje, lugarInicio, lugarDestino, horaInicio, horaLlegada, fechaInicio,
 					fechaLlegada, kmViaje, idPorte));
 		}
 
@@ -65,8 +64,7 @@ public class CRUDviajes extends CRUDesquema {
 
 	}
 
-	public Object buscarUno(Object entrada) throws SQLException {
-		String idViajeBuscado = String.valueOf(entrada);
+	public Viaje buscarUnViaje(String idViajeBuscado) throws SQLException {
 		Viaje respuesta = null;
 
 		Connection con;
@@ -102,12 +100,11 @@ public class CRUDviajes extends CRUDesquema {
 		pst.close();
 		rs.close();
 
-		return (Object) respuesta;
+		return respuesta;
 
 	}
 
-	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
-		Viaje viaje = (Viaje) entrada;
+	public int insertarActualizaViaje(Viaje viaje, boolean esInsert) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -140,9 +137,7 @@ public class CRUDviajes extends CRUDesquema {
 
 	}
 
-	@Override
-	public int borrar(Object entrada) throws SQLException {
-		int idViaje = (int) entrada;
+	public int borrarViaje(int idViaje) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

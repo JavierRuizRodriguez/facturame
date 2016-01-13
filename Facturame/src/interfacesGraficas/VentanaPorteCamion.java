@@ -1,64 +1,56 @@
 package interfacesGraficas;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-
-import builders.PorteGrafico;
-import factorias.FactoriaCRUD;
-import factorias.FactoriaVehiculo;
-import operacionesCRUD.CRUDcamiones;
-import pojo.Camion;
-import pojo.Porte;
-import utils.ConversorArrays;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JSeparator;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaPorteCamion extends JFrame {
 
-	private Porte p;
-	private FactoriaCRUD fc;
-	private PorteGrafico pb;
-	private CRUDcamiones cc;
 	private JPanel contentPane;
 	private JTextField textMatricula;
 	private JSeparator separator;
 	private JButton button;
 	private JButton button_1;
 	private JLabel label_1;
-	private JTextField tLargo;
+	private JTextField textField;
 	private JLabel label_2;
-	private JTextField tAncho;
+	private JTextField textField_1;
 	private JLabel label_3;
-	private JTextField tLargoCaja;
+	private JTextField textField_2;
 	private JLabel label_4;
-	private JTextField tAnchoCaja;
+	private JTextField textField_3;
 	private JLabel lblPesomaxCaja;
-	private JTextField tPesoCaja;
+	private JTextField textField_4;
 	private JLabel label_6;
-	private JTextField tVolCaja;
+	private JTextField textField_5;
 	private JLabel label_7;
-	private JTextField tAltoCaja;
+	private JTextField textField_6;
 	private JLabel label_8;
-	private JTextField tGalibo;
+	private JTextField textField_7;
 	private JLabel label_9;
-	private JCheckBox tTrampilla;
-
-	public VentanaPorteCamion(PorteGrafico pb, Porte p) throws SQLException {
-		this.p = p;
-		this.pb = pb;
-		this.fc = new FactoriaCRUD();
-		this.cc = (CRUDcamiones) fc.crearCRUD(FactoriaCRUD.TIPO_CAMION);
+	private JCheckBox checkBox;
+	
+	public VentanaPorteCamion(VentanaPrincipal principal) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				formWindowClosing(e, principal);
+			}
+		});
 		setTitle("Facturame --- Porte --- Cami\u00F3n");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 340, 313);
@@ -66,207 +58,139 @@ public class VentanaPorteCamion extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
+		
 		JLabel label = new JLabel("Elige cami\u00F3n:");
 		label.setBounds(10, 11, 110, 20);
 		contentPane.add(label);
-
+		
 		textMatricula = new JTextField();
 		textMatricula.setColumns(10);
 		textMatricula.setBounds(120, 11, 140, 20);
 		contentPane.add(textMatricula);
-
+		
 		JComboBox comboBoxMatricula = new JComboBox();
 		comboBoxMatricula.setBounds(120, 41, 140, 20);
-		ArrayList<Object> camionesO = new ArrayList<Object>(cc.buscarTodo());
-		ArrayList<Camion> camiones = ConversorArrays.convertirCamiones(camionesO);
-
-		for (Camion c : camiones)
-			comboBoxMatricula.addItem(c.getMatricula());
-
-		comboBoxMatricula.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					comboActionPerformed(e);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-
 		contentPane.add(comboBoxMatricula);
-
+		
 		separator = new JSeparator();
 		separator.setBounds(10, 74, 304, 14);
 		contentPane.add(separator);
-
+		
 		button = new JButton("");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				buttonActionPerformed(e);
+				buttonSiguienteActionPerformed(e, principal);
 			}
 		});
-
-		button.setIcon(new ImageIcon(
-				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\flecha_16.png"));
+		button.setIcon(new ImageIcon("D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\flecha_16.png"));
 		button.setBounds(119, 238, 89, 23);
 		contentPane.add(button);
-
+		
 		button_1 = new JButton("");
-		button_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					button1ActionPerformed(e);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		button_1.setIcon(new ImageIcon(
-				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\lupa_16.png"));
+		button_1.setIcon(new ImageIcon("D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\lupa_16.png"));
 		button_1.setBounds(271, 6, 25, 25);
 		contentPane.add(button_1);
-
+		
 		label_1 = new JLabel("Largo: ");
 		label_1.setBounds(10, 92, 60, 15);
 		contentPane.add(label_1);
-
-		tLargo = new JTextField();
-		tLargo.setEditable(false);
-		tLargo.setColumns(10);
-		tLargo.setBounds(95, 87, 60, 20);
-		contentPane.add(tLargo);
-
+		
+		textField = new JTextField();
+		textField.setEditable(false);
+		textField.setColumns(10);
+		textField.setBounds(95, 87, 60, 20);
+		contentPane.add(textField);
+		
 		label_2 = new JLabel("Ancho: ");
 		label_2.setBounds(10, 122, 75, 15);
 		contentPane.add(label_2);
-
-		tAncho = new JTextField();
-		tAncho.setEditable(false);
-		tAncho.setColumns(10);
-		tAncho.setBounds(95, 117, 60, 20);
-		contentPane.add(tAncho);
-
+		
+		textField_1 = new JTextField();
+		textField_1.setEditable(false);
+		textField_1.setColumns(10);
+		textField_1.setBounds(95, 117, 60, 20);
+		contentPane.add(textField_1);
+		
 		label_3 = new JLabel("Largo caja: ");
 		label_3.setBounds(165, 91, 68, 15);
 		contentPane.add(label_3);
-
-		tLargoCaja = new JTextField();
-		tLargoCaja.setEditable(false);
-		tLargoCaja.setColumns(10);
-		tLargoCaja.setBounds(243, 90, 60, 20);
-		contentPane.add(tLargoCaja);
-
+		
+		textField_2 = new JTextField();
+		textField_2.setEditable(false);
+		textField_2.setColumns(10);
+		textField_2.setBounds(243, 90, 60, 20);
+		contentPane.add(textField_2);
+		
 		label_4 = new JLabel("Ancho caja: ");
 		label_4.setBounds(165, 123, 75, 15);
 		contentPane.add(label_4);
-
-		tAnchoCaja = new JTextField();
-		tAnchoCaja.setEditable(false);
-		tAnchoCaja.setColumns(10);
-		tAnchoCaja.setBounds(243, 120, 60, 20);
-		contentPane.add(tAnchoCaja);
-
+		
+		textField_3 = new JTextField();
+		textField_3.setEditable(false);
+		textField_3.setColumns(10);
+		textField_3.setBounds(243, 120, 60, 20);
+		contentPane.add(textField_3);
+		
 		lblPesomaxCaja = new JLabel("Peso(max) caja: ");
 		lblPesomaxCaja.setBounds(10, 184, 89, 15);
 		contentPane.add(lblPesomaxCaja);
-
-		tPesoCaja = new JTextField();
-		tPesoCaja.setEditable(false);
-		tPesoCaja.setColumns(10);
-		tPesoCaja.setBounds(95, 179, 60, 20);
-		contentPane.add(tPesoCaja);
-
+		
+		textField_4 = new JTextField();
+		textField_4.setEditable(false);
+		textField_4.setColumns(10);
+		textField_4.setBounds(95, 179, 60, 20);
+		contentPane.add(textField_4);
+		
 		label_6 = new JLabel("Volumen caja: ");
 		label_6.setBounds(165, 182, 89, 15);
 		contentPane.add(label_6);
-
-		tVolCaja = new JTextField();
-		tVolCaja.setEditable(false);
-		tVolCaja.setColumns(10);
-		tVolCaja.setBounds(243, 179, 60, 20);
-		contentPane.add(tVolCaja);
-
+		
+		textField_5 = new JTextField();
+		textField_5.setEditable(false);
+		textField_5.setColumns(10);
+		textField_5.setBounds(243, 179, 60, 20);
+		contentPane.add(textField_5);
+		
 		label_7 = new JLabel("Alto caja: ");
 		label_7.setBounds(165, 156, 60, 15);
 		contentPane.add(label_7);
-
-		tAltoCaja = new JTextField();
-		tAltoCaja.setEditable(false);
-		tAltoCaja.setColumns(10);
-		tAltoCaja.setBounds(243, 153, 60, 20);
-		contentPane.add(tAltoCaja);
-
+		
+		textField_6 = new JTextField();
+		textField_6.setEditable(false);
+		textField_6.setColumns(10);
+		textField_6.setBounds(243, 153, 60, 20);
+		contentPane.add(textField_6);
+		
 		label_8 = new JLabel("G\u00E1libo: ");
 		label_8.setBounds(10, 155, 60, 15);
 		contentPane.add(label_8);
-
-		tGalibo = new JTextField();
-		tGalibo.setEditable(false);
-		tGalibo.setColumns(10);
-		tGalibo.setBounds(95, 148, 60, 20);
-		contentPane.add(tGalibo);
-
+		
+		textField_7 = new JTextField();
+		textField_7.setEditable(false);
+		textField_7.setColumns(10);
+		textField_7.setBounds(95, 148, 60, 20);
+		contentPane.add(textField_7);
+		
 		label_9 = new JLabel("Trampilla:");
 		label_9.setBounds(10, 210, 68, 15);
 		contentPane.add(label_9);
-
-		tTrampilla = new JCheckBox("");
-		tTrampilla.setSelected(true);
-		tTrampilla.setEnabled(false);
-		tTrampilla.setBounds(95, 206, 21, 23);
-		contentPane.add(tTrampilla);
+		
+		checkBox = new JCheckBox("");
+		checkBox.setSelected(true);
+		checkBox.setEnabled(false);
+		checkBox.setBounds(95, 206, 21, 23);
+		contentPane.add(checkBox);
 	}
-
-	private void formWindowClosing(java.awt.event.WindowEvent evt) {
-		this.setVisible(false);
-	}
-
-	private void buttonActionPerformed(java.awt.event.ActionEvent evt) {
-		pb.setEspera(false);
-		this.setVisible(false);
-	}
-
-	public Porte getPorte() {
-		return p;
-	}
-
-	private void comboActionPerformed(ActionEvent evt) throws SQLException {
-		JComboBox comboBox = (JComboBox) evt.getSource();
-		Object selected = comboBox.getSelectedItem();
-		Camion camion = (Camion) cc.buscarUno(selected);
-
-		tAncho.setText((String.valueOf(camion.getAncho())));
-		tAnchoCaja.setText((String.valueOf(camion.getAncho())));
-		tAltoCaja.setText((String.valueOf(camion.getAlturaCaja())));
-		tGalibo.setText((String.valueOf(camion.getGalibo())));
-		tLargo.setText((String.valueOf(camion.getLargo())));
-		tLargoCaja.setText((String.valueOf(camion.getLongCaja())));
-		tPesoCaja.setText((String.valueOf(camion.getPesoMaxCaja())));
-		tVolCaja.setText((String.valueOf(camion.getVolumenCaja())));
-		tTrampilla.setSelected((camion.isTrampilla()));
-		p.setnBastidor(camion.getnBastidor());
-
-	}
-
-	private void button1ActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
-		Object selected = textMatricula.getText();
-		Camion camion = (Camion) cc.buscarUno(selected);
-
-		if (camion != null) {
-			tAncho.setText((String.valueOf(camion.getAncho())));
-			tAnchoCaja.setText((String.valueOf(camion.getAncho())));
-			tAltoCaja.setText((String.valueOf(camion.getAlturaCaja())));
-			tGalibo.setText((String.valueOf(camion.getGalibo())));
-			tLargo.setText((String.valueOf(camion.getLargo())));
-			tLargoCaja.setText((String.valueOf(camion.getLongCaja())));
-			tPesoCaja.setText((String.valueOf(camion.getPesoMaxCaja())));
-			tVolCaja.setText((String.valueOf(camion.getVolumenCaja())));
-			tTrampilla.setSelected((camion.isTrampilla()));
-			p.setnBastidor(camion.getnBastidor());
-		}
+	
+	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
+        this.setVisible(false);
+        principal.setVisible(true);
+    }
+	
+	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt, VentanaPrincipal principal) {
+		VentanaPorteViaje formPorteViaje = new VentanaPorteViaje(principal);
+		formPorteViaje.setVisible(true);
+	    this.setVisible(false);
 	}
 
 }
