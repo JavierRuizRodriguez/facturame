@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import conexionBD.Conexion;
 import pojo.Trabajador;
 
-public class CRUDempleados extends CRUDesquema {
+public class CRUDempleados {
 
 	private static String selectAllEmpleado = "select * from \"Empleado\"";
 	private static String updateEmpleado = "UPDATE \"Empleado\" SET dni=?, nombre=?, apellidos=?, \"fechaNacimiento\"=?, sexo=?, \"fechaAltaEmpleado\"=?, sueldo=?, rango=?	 WHERE dni=?";
@@ -23,9 +23,8 @@ public class CRUDempleados extends CRUDesquema {
 	public CRUDempleados() {
 	}
 
-	@Override
-	public ArrayList<Object> buscarTodo() throws SQLException {
-		ArrayList<Object> respuesta = new ArrayList<Object>();
+	public ArrayList<Trabajador> buscarTodosEmpleados() throws SQLException {
+		ArrayList<Trabajador> respuesta = new ArrayList<Trabajador>();
 
 		Connection con;
 		Statement st;
@@ -48,8 +47,8 @@ public class CRUDempleados extends CRUDesquema {
 			fechaAltaEmpleado = rs.getDate(6);
 			sueldo = rs.getDouble(7);
 			rango = rs.getString(8);
-			respuesta.add((Object) new Trabajador(dni, nombre, apellidos, fechaNacimiento, sexo, fechaAltaEmpleado,
-					rango, sueldo));
+			respuesta.add(
+					new Trabajador(dni, nombre, apellidos, fechaNacimiento, sexo, fechaAltaEmpleado, rango, sueldo));
 		}
 
 		con.close();
@@ -60,9 +59,7 @@ public class CRUDempleados extends CRUDesquema {
 
 	}
 
-	@Override
-	public Object buscarUno(Object entrada) throws SQLException {
-		String dniBuscado = String.valueOf(entrada);
+	public Trabajador buscarUnEmpleado(String dniBuscado) throws SQLException {
 		Trabajador respuesta = null;
 
 		Connection con;
@@ -94,13 +91,11 @@ public class CRUDempleados extends CRUDesquema {
 		pst.close();
 		rs.close();
 
-		return (Object) respuesta;
+		return respuesta;
 
 	}
 
-	@Override
-	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
-		Trabajador empleado = (Trabajador) entrada;
+	public int insertarActualizarEmpleado(Trabajador empleado, boolean esInsert) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -132,9 +127,7 @@ public class CRUDempleados extends CRUDesquema {
 
 	}
 
-	@Override
-	public int borrar(Object entrada) throws SQLException {
-		String dniEmpleado = String.valueOf(entrada);
+	public int borrarEmpleado(String dniEmpleado) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

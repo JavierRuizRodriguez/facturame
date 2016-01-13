@@ -13,7 +13,7 @@ public class FactoriaVehiculo {
 	 * @param tipo
 	 * @return
 	 */
-	public Vehiculo crearCamion(int tipo) {
+	public static Vehiculo crearCamion(int tipo) {
 		switch (tipo) {
 		case 1:
 			return new Camion();

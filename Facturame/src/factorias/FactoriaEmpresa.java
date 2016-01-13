@@ -4,7 +4,7 @@ import pojo.Empresa;
 
 public class FactoriaEmpresa {
 
-	public Empresa crearEmpresa(int tipo) {
+	public static Empresa crearEmpresa() {
 		return new Empresa();
 	}
 

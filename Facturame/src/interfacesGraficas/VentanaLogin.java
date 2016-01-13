@@ -1,22 +1,25 @@
 package interfacesGraficas;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.ImageIcon;
 
 public class VentanaLogin extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private static VentanaLogin ventana;
 	private JPanel contentPane;
 	private JTextField textNombre;
 	private JTextField textDni;
 	
-	private VentanaLogin() {
+	public VentanaLogin() {
 		setTitle("Facturame --- Login");		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 320, 152);
@@ -52,11 +55,5 @@ public class VentanaLogin extends JFrame {
 		buttonBorrar.setBounds(235, 77, 25, 25);
 		contentPane.add(buttonBorrar);
 	}	
-	
-	public static VentanaLogin getLogin(){
-		if(ventana == null)
-			ventana = new VentanaLogin();
-		return ventana;
-	}
 
 }

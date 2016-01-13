@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import conexionBD.Conexion;
 import pojo.Porte;
 
-public class CRUDportes extends CRUDesquema{
+public class CRUDportes {
 
 	private static String selectAllPorte = "select * from \"Porte\"";
 	private static String updatePorte = "UPDATE \"Porte\" SET \"idPorte\"=?, \"nBastidor\"=?, dni=?, \"kgCarga\"=?, \"volumenCarga\"=?, concepto=?, precio=?, \"esGrupaje\"=?, descripcion=?, \"NIF\"=? WHERE \"idPorte\"=?";
@@ -22,9 +22,8 @@ public class CRUDportes extends CRUDesquema{
 	public CRUDportes() {
 	}
 
-	@Override
-	public ArrayList<Object> buscarTodo() throws SQLException {
-		ArrayList<Object> respuesta = new ArrayList<Object>();
+	public ArrayList<Porte> buscarTodosPortes() throws SQLException {
+		ArrayList<Porte> respuesta = new ArrayList<Porte>();
 
 		Connection con;
 		Statement st;
@@ -51,7 +50,7 @@ public class CRUDportes extends CRUDesquema{
 			descripcion = rs.getString(9);
 			nif = rs.getString(10);
 
-			respuesta.add((Object) new Porte(idPorte, nBastidor, dni, kgCarga, volCarga, concepto, precio, esGrupaje,
+			respuesta.add(new Porte(idPorte, nBastidor, dni, kgCarga, volCarga, concepto, precio, esGrupaje,
 					descripcion, nif));
 		}
 
@@ -63,9 +62,8 @@ public class CRUDportes extends CRUDesquema{
 
 	}
 
-	public Object buscarUno(Object entrada) throws SQLException {
-		String idPorteBuscado = String.valueOf(entrada);
-		Object respuesta = null;
+	public Porte buscarUnPorte(String idPorteBuscado) throws SQLException {
+		Porte respuesta = null;
 
 		Connection con;
 		PreparedStatement pst;
@@ -101,12 +99,11 @@ public class CRUDportes extends CRUDesquema{
 		pst.close();
 		rs.close();
 
-		return (Object) respuesta;
+		return respuesta;
 
 	}
 
-	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
-		Porte porte = (Porte) entrada;
+	public int insertarActualizarPorte(Porte porte, boolean esInsert) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -140,9 +137,7 @@ public class CRUDportes extends CRUDesquema{
 
 	}
 
-	@Override
-	public int borrar(Object entrada) throws SQLException {
-		int idPorte = (int) entrada;
+	public int borrarPorte(int idPorte) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
