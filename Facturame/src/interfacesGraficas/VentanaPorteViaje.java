@@ -14,9 +14,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import builders.PorteGrafico;
+import pojo.Porte;
 
 public class VentanaPorteViaje extends JFrame {
 
+	private Porte p;
 	private PorteGrafico pb;
 	private JPanel contentPane;
 	private JTextField textoNumeroBastidor;
@@ -29,7 +31,8 @@ public class VentanaPorteViaje extends JFrame {
 	private JLabel labelGrupaje;
 	private JTextField textDescripcion;
 
-	public VentanaPorteViaje(PorteGrafico pb) {
+	public VentanaPorteViaje(PorteGrafico pb, Porte p) {
+		this.p = p;
 		this.pb = pb;
 		setTitle("Facturame --- Porte");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -180,5 +183,9 @@ public class VentanaPorteViaje extends JFrame {
 			viajes.add(labelAux);
 		}
 		return viajes;
+	}
+	
+	public Porte getPorte() {
+		return p;
 	}
 }

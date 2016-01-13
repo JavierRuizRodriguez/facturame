@@ -1,29 +1,26 @@
 package interfacesGraficas;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-import builders.PorteBuilder;
 import builders.PorteGrafico;
-
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.ActionEvent;
+import pojo.Porte;
 
 public class VentanaPorteDatos extends JFrame {
 
+	private Porte p;
 	private PorteGrafico pb;
+	private JCheckBox checkBoxGrupaje;
 	private JPanel contentPane;
 	private JTextField textKgCarga;
 	private JTextField textVolumenCarga;
@@ -31,7 +28,8 @@ public class VentanaPorteDatos extends JFrame {
 	private JTextField textPrecio;
 	private JTextField textDescripcion;
 
-	public VentanaPorteDatos(PorteGrafico pb) {
+	public VentanaPorteDatos(PorteGrafico pb, Porte p) {
+		this.p = p;
 		this.pb = pb;
 		setTitle("Facturame --- Porte --- Datos");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -83,7 +81,7 @@ public class VentanaPorteDatos extends JFrame {
 		labelGrupaje.setBounds(200, 136, 55, 15);
 		contentPane.add(labelGrupaje);
 
-		JCheckBox checkBoxGrupaje = new JCheckBox("");
+		checkBoxGrupaje = new JCheckBox("");
 		checkBoxGrupaje.setBounds(250, 131, 25, 25);
 		contentPane.add(checkBoxGrupaje);
 
@@ -105,8 +103,7 @@ public class VentanaPorteDatos extends JFrame {
 				buttonSiguienteActionPerformed(e);
 			}
 		});
-		button.setIcon(new ImageIcon(
-				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\flecha_16.png"));
+		button.setIcon(new ImageIcon("\\images\\flecha_16.png"));
 		button.setBounds(146, 312, 89, 23);
 		contentPane.add(button);
 	}
@@ -116,7 +113,21 @@ public class VentanaPorteDatos extends JFrame {
 	}
 
 	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt) {
+		if (!textKgCarga.getText().equals(""))
+			p.setKgCarga(Integer.parseInt(textKgCarga.getText()));
+		if (!textVolumenCarga.getText().equals(""))
+			p.setVolCarga(Integer.parseInt(textVolumenCarga.getText()));
+		if (!textConcepto.getText().equals(""))
+			p.setConcepto(textConcepto.getText());
+		p.setEsGrupaje(checkBoxGrupaje.isSelected());
+		if (!textDescripcion.getText().equals(""))
+			p.setDescripcion(textDescripcion.getText());
+
 		pb.setEspera(false);
 		this.setVisible(false);
+	}
+
+	public Porte getPorte() {
+		return p;
 	}
 }

@@ -14,16 +14,19 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import builders.PorteGrafico;
+import pojo.Porte;
 
 public class VentanaPorteTransportista extends JFrame {
 
+	private Porte p;
 	private PorteGrafico pb;
 	private JPanel contentPane;
 	private JTextField textDni;
 	private JTextField textNombre;
 	private JTextField textTelefono;
 
-	public VentanaPorteTransportista(PorteGrafico pb) {
+	public VentanaPorteTransportista(PorteGrafico pb, Porte p) {
+		this.p = p;
 		this.pb = pb;
 		setTitle("Facturame --- Porte --- Transportista");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -101,5 +104,9 @@ public class VentanaPorteTransportista extends JFrame {
 	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt) {
 		pb.setEspera(false);
 		this.setVisible(false);
+	}
+
+	public Porte getPorte() {
+		return p;
 	}
 }

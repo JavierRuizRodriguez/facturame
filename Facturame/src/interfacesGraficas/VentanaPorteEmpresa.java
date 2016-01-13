@@ -2,6 +2,7 @@ package interfacesGraficas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,18 +15,30 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import builders.PorteGrafico;
+import factorias.FactoriaCRUD;
+import factorias.FactoriaEmpresa;
+import operacionesCRUD.CRUDcamiones;
+import operacionesCRUD.CRUDempresa;
+import pojo.Empresa;
+import pojo.Porte;
 
 public class VentanaPorteEmpresa extends JFrame {
 
+	private Porte p;
+	private FactoriaCRUD fc;
 	private PorteGrafico pb;
+	private CRUDempresa ce;
 	private JPanel contentPane;
 	private JTextField textNif;
 	private JTextField textNombre;
 	private JTextField textTelefono;
 	private JTextField textMail;
 
-	public VentanaPorteEmpresa(PorteGrafico pb) {
+	public VentanaPorteEmpresa(PorteGrafico pb, Porte p) {
+		this.p = p;
 		this.pb = pb;
+		this.fc = new FactoriaCRUD();
+		this.ce = (CRUDempresa) fc.crearCRUD(FactoriaCRUD.TIPO_EMPRESA);
 		setTitle("Facturame --- Porte --- Empresa");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 340, 260);
@@ -44,6 +57,16 @@ public class VentanaPorteEmpresa extends JFrame {
 		textNif.setColumns(10);
 
 		JButton buttonBuscar = new JButton("");
+		buttonBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					buttonBuscarActionPerformed(e);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		buttonBuscar.setIcon(new ImageIcon(
 				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\lupa_16.png"));
 		buttonBuscar.setSelectedIcon(new ImageIcon(
@@ -108,5 +131,21 @@ public class VentanaPorteEmpresa extends JFrame {
 	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt) {
 		pb.setEspera(false);
 		this.setVisible(false);
+	}
+
+	public Porte getPorte() {
+		return p;
+	}
+
+	private void buttonBuscarActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
+		Object selected = textNif.getText();
+		Empresa empresa = (Empresa) ce.buscarUno(selected);
+
+		if (empresa != null) {
+			textNombre.setText((String.valueOf(empresa.getEmpresa())));
+			textTelefono.setText((String.valueOf(empresa.getnTelefono())));
+			textMail.setText(empresa.getEmail());
+			p.setnBastidor(empresa.getNif());
+		}
 	}
 }

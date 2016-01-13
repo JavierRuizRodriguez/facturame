@@ -76,8 +76,8 @@ public class CRUDempresa extends CRUDesquema{
 			nif = rs.getString(1);
 			empresa = rs.getString(2);
 			direccion = rs.getString(3);
-			nTelefono = rs.getInt(4);
-			mail = rs.getString(5);
+			mail = rs.getString(4);
+			nTelefono = rs.getInt(5);
 
 			respuesta = new Empresa(nif, empresa, direccion, nTelefono, mail);
 		}
@@ -108,8 +108,8 @@ public class CRUDempresa extends CRUDesquema{
 		pst.setString(1, empresa.getNif());
 		pst.setString(2, empresa.getEmpresa());
 		pst.setString(3, empresa.getDireccion());
-		pst.setInt(4, empresa.getnTelefono());
-		pst.setString(5, empresa.getEmail());
+		pst.setString(4, empresa.getEmail());
+		pst.setInt(5, empresa.getnTelefono());
 
 		if (!esInsert)
 			pst.setString(6, empresa.getNif());

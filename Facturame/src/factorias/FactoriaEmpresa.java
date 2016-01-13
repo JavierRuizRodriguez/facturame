@@ -2,7 +2,7 @@ package factorias;
 
 import pojo.Empresa;
 
-public class FactoriaCliente {
+public class FactoriaEmpresa {
 
 	public Empresa crearEmpresa(int tipo) {
 		return new Empresa();

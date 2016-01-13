@@ -1,5 +1,7 @@
 package builders;
 
+import java.sql.SQLException;
+
 import pojo.Porte;
 
 public abstract class PorteBuilder {
@@ -12,7 +14,7 @@ public abstract class PorteBuilder {
 
 	abstract void getDatosTransportista() throws InterruptedException;
 
-	abstract void getDatosCamion() throws InterruptedException;
+	abstract void getDatosCamion() throws InterruptedException, SQLException;
 
 	abstract void getDatosViajes() throws InterruptedException;
 

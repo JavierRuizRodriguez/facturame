@@ -7,16 +7,16 @@ import operacionesCRUD.CRUDesquema;
 import operacionesCRUD.CRUDusuariosSistema;
 import operacionesCRUD.CRUDviajes;
 
-public class FactiriaCRUD {
+public class FactoriaCRUD {
 	
-	private static int TIPO_CAMION= 1;
-	private static int TIPO_EMPLEADO= 2;
-	private static int TIPO_EMPRESA= 3;
-	private static int TIPO_GASTO= 4;
-	private static int TIPO_PORTE= 5;
-	private static int TIPO_SUBORDINADO= 6;
-	private static int TIPO_US_SISTEMA= 7;
-	private static int TIPO_VIAJE= 8;
+	public static int TIPO_CAMION= 1;
+	public static int TIPO_EMPLEADO= 2;
+	public static int TIPO_EMPRESA= 3;
+	public static int TIPO_GASTO= 4;
+	public static int TIPO_PORTE= 5;
+	public static int TIPO_SUBORDINADO= 6;
+	public static int TIPO_US_SISTEMA= 7;
+	public static int TIPO_VIAJE= 8;
 	
 	//hay que controlar el null devuelto
 	public CRUDesquema crearCRUD(int tipo){
