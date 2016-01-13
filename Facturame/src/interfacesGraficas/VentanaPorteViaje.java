@@ -34,13 +34,7 @@ public class VentanaPorteViaje extends JFrame {
 	private JLabel labelGrupaje;
 	private JTextField textDescripcion;
 
-	public VentanaPorteViaje(VentanaPrincipal principal) {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				formWindowClosing(e, principal);
-			}
-		});
+	public VentanaPorteViaje() {
 		setTitle("Facturame --- Porte");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 650, 450);
@@ -144,17 +138,18 @@ public class VentanaPorteViaje extends JFrame {
 		JButton buttonAceptar = new JButton("ACEPTAR");
 		buttonAceptar.setBounds(10, 375, 120, 25);
 		contentPane.add(buttonAceptar);
+		buttonAceptar.addActionListener (new ActionListener () {
+			 public void actionPerformed (ActionEvent e) {
+				 //meter aqui lo que hacer
+			 }
+		 });
 		
 		JButton buttonBorrar = new JButton("");
 		buttonBorrar.setBounds(270, 375, 25, 25);
 		contentPane.add(buttonBorrar);
 		
 		JButton buttonAnadirViaje = new JButton("A\u00D1ADIR VIAJE");
-		buttonAnadirViaje.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buttonAnadirViajeActionPerformed(e);
-			}
-		});
+		
 		buttonAnadirViaje.setBounds(140, 375, 120, 25);
 		contentPane.add(buttonAnadirViaje);
 		
@@ -163,9 +158,7 @@ public class VentanaPorteViaje extends JFrame {
 		panelViajes.setBounds(410, 20, 214, 170);
 		contentPane.add(panelViajes);
 		panelViajes.setLayout(null);
-		
-		ArrayList<JLabel> viajes = pruebaCreacion(panelViajes);
-		
+				
 	}
 
 	private void buttonAnadirViajeActionPerformed(java.awt.event.ActionEvent evt) {
@@ -173,9 +166,8 @@ public class VentanaPorteViaje extends JFrame {
 		formViaje.setVisible(true);
     }
 	
-	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
+	private void formWindowClosing(java.awt.event.WindowEvent evt) {
         this.setVisible(false);
-        principal.setVisible(true);
     }
 	
 	public ArrayList<JLabel> pruebaCreacion(JPanel panel){
