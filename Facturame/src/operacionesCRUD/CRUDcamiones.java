@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import conexionBD.Conexion;
 import pojo.Camion;
 
-public class CRUDcamiones {
+public class CRUDcamiones extends CRUDesquema {
 
 	private static String selectAllCamion = "select * from \"Camion\"";
 	private static String updateCamion = "UPDATE \"Camion\" SET \"nBastidor\"=?, matricula=?, combustible=?, \"nPasajeros\"=?, \"potenciaCV\"=?, \"potenciaKWh\"=?, \"kmTotales\"=?, peso=?, largo=?, ancho=?, \"longCaja\"=?, \"anchoCaja\"=?, \"pesoMaxCaja\"=?, \"volumenCaja\"=?, trampilla=?, descripcion=?, \"altoCaja\"=?, galibo=? where \"nBastidor\" = ?";
@@ -22,8 +22,9 @@ public class CRUDcamiones {
 	public CRUDcamiones() {
 	}
 
-	public ArrayList<Camion> buscarTodosCamiones() throws SQLException {
-		ArrayList<Camion> respuesta = new ArrayList<Camion>();
+	@Override
+	public ArrayList<Object> buscarTodo() throws SQLException {
+		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		Connection con;
 		Statement st;
@@ -57,7 +58,7 @@ public class CRUDcamiones {
 			descripcion = rs.getString(16);
 			altoCaja = rs.getDouble(17);
 			galibo = rs.getDouble(18);
-			respuesta.add(new Camion(nBastidor, matricula, combustible, nPasajeros, potenciaCV, PotenciaKWh, kmTotales,
+			respuesta.add((Object) new Camion(nBastidor, matricula, combustible, nPasajeros, potenciaCV, PotenciaKWh, kmTotales,
 					peso, largo, ancho, longCaja, anchoCaja, pesoMaxCaja, volumenCaja, trampilla, descripcion, altoCaja,
 					galibo));
 		}
@@ -70,7 +71,9 @@ public class CRUDcamiones {
 
 	}
 
-	public Camion buscarUnCamion(String matriculaBuscada) throws SQLException {
+	@Override
+	public Object buscarUno(Object entrada) throws SQLException {
+		String matriculaBuscada = String.valueOf(entrada);
 		Camion respuesta = null;
 
 		Connection con;
@@ -115,13 +118,15 @@ public class CRUDcamiones {
 		pst.close();
 		rs.close();
 
-		return respuesta;
+		return (Object) respuesta;
 
 	}
 
 	// mode 0 --> insert
 	// mode 1 --> update
-	public int insertarActualizarCamion(Camion camion, boolean esInsert) throws SQLException {
+	@Override
+	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		Camion camion = (Camion) entrada;
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -163,7 +168,9 @@ public class CRUDcamiones {
 
 	}
 
-	public int borrarCamion(String nBastidor) throws SQLException {
+	@Override
+	public int borrar(Object entrada) throws SQLException {
+		String nBastidor = String.valueOf(entrada);
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

@@ -57,7 +57,12 @@ public class Main {
 		CreadorPortes cp = new CreadorPortes();
 		
 		cp.setPb(pg);
-		cp.hacerPorte();
+		try {
+			cp.hacerPorte();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

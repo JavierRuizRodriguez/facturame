@@ -8,54 +8,74 @@ import interfacesGraficas.VentanaPorteViaje;
 
 public class PorteGrafico extends PorteBuilder {
 
+	private boolean espera;
 	private VentanaPorteDatos v1;
 	private VentanaPorteEmpresa v2;
 	private VentanaPorteTransportista v3;
 	private VentanaPorteCamion v4;
 	private VentanaPorteViaje v5;
 
+	public PorteGrafico() {
+		this.espera = true;
+	}
+
 	@Override
-	void getDatosPrincipales() {
-		v1 = new VentanaPorteDatos();
+	void getDatosPrincipales() throws InterruptedException {
+		v1 = new VentanaPorteDatos(this);
 		v1.setVisible(true);
-		while (v1.isVisible()) {
+		while (espera) {
+			Thread.sleep(500);
 		}
+		this.espera = true;
+		v1 = null;
 	}
 
 	@Override
-	void getDatosEmpresa() {
-		v2 = new VentanaPorteEmpresa();
+	void getDatosEmpresa() throws InterruptedException {
+		v2 = new VentanaPorteEmpresa(this);
 		v2.setVisible(true);
-		while (v2.isVisible()) {
+		while (espera) {
+			Thread.sleep(500);
 		}
-
+		this.espera = true;
+		v2 = null;
 	}
 
 	@Override
-	void getDatosTransportista() {
-		v3 = new VentanaPorteTransportista();
+	void getDatosTransportista() throws InterruptedException {
+		v3 = new VentanaPorteTransportista(this);
 		v3.setVisible(true);
-		while (v3.isVisible()) {
+		while (espera) {
+			Thread.sleep(500);
 		}
-
+		this.espera = true;
+		v3 = null;
 	}
 
 	@Override
-	void getDatosCamion() {
-		v4 = new VentanaPorteCamion();
+	void getDatosCamion() throws InterruptedException {
+		v4 = new VentanaPorteCamion(this);
 		v4.setVisible(true);
-		while (v4.isVisible()) {
+		while (espera) {
+			Thread.sleep(500);
 		}
-
+		this.espera = true;
+		v4 = null;
 	}
 
 	@Override
-	void getDatosViajes() {
-		v5 = new VentanaPorteViaje();
+	void getDatosViajes() throws InterruptedException {
+		v5 = new VentanaPorteViaje(this);
 		v5.setVisible(true);
-		while (v5.isVisible()) {
+		while (espera) {
+			Thread.sleep(500);
 		}
+		this.espera = true;
+		v5 = null;
+	}
 
+	public void setEspera(boolean espera) {
+		this.espera = espera;
 	}
 
 }

@@ -1,25 +1,25 @@
 package interfacesGraficas;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JSeparator;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import builders.PorteBuilder;
+import builders.PorteGrafico;
 
 public class VentanaPorteCamion extends JFrame {
 
+	private PorteGrafico pb;
 	private JPanel contentPane;
 	private JTextField textMatricula;
 	private JSeparator separator;
@@ -44,7 +44,8 @@ public class VentanaPorteCamion extends JFrame {
 	private JLabel label_9;
 	private JCheckBox checkBox;
 
-	public VentanaPorteCamion() {
+	public VentanaPorteCamion(PorteGrafico pb) {
+		this.pb = pb;
 		setTitle("Facturame --- Porte --- Cami\u00F3n");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 340, 313);
@@ -71,6 +72,11 @@ public class VentanaPorteCamion extends JFrame {
 		contentPane.add(separator);
 
 		button = new JButton("");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonActionPerformed(e);
+			}
+		});
 
 		button.setIcon(new ImageIcon(
 				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\flecha_16.png"));
@@ -179,6 +185,7 @@ public class VentanaPorteCamion extends JFrame {
 	}
 
 	private void buttonActionPerformed(java.awt.event.ActionEvent evt) {
+		pb.setEspera(false);
 		this.setVisible(false);
 	}
 

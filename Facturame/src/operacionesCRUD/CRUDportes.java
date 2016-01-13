@@ -22,7 +22,7 @@ public class CRUDportes {
 	public CRUDportes() {
 	}
 
-	public ArrayList<Porte> buscarTodosPortes() throws SQLException {
+	public ArrayList<Porte> buscarTodo() throws SQLException {
 		ArrayList<Porte> respuesta = new ArrayList<Porte>();
 
 		Connection con;
@@ -62,7 +62,7 @@ public class CRUDportes {
 
 	}
 
-	public Porte buscarUnPorte(String idPorteBuscado) throws SQLException {
+	public Porte buscarUno(String idPorteBuscado) throws SQLException {
 		Porte respuesta = null;
 
 		Connection con;
@@ -103,7 +103,7 @@ public class CRUDportes {
 
 	}
 
-	public int insertarActualizarPorte(Porte porte, boolean esInsert) throws SQLException {
+	public int insertarActualizar(Porte porte, boolean esInsert) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -137,7 +137,7 @@ public class CRUDportes {
 
 	}
 
-	public int borrarPorte(int idPorte) throws SQLException {
+	public int borrar(int idPorte) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

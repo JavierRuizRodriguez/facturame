@@ -25,7 +25,7 @@ public class CRUDviajes {
 	public CRUDviajes() {
 	}
 
-	public ArrayList<Viaje> buscarTodosViajes() throws SQLException {
+	public ArrayList<Viaje> buscarTodo() throws SQLException {
 		ArrayList<Viaje> respuesta = new ArrayList<Viaje>();
 
 		Connection con;
@@ -64,7 +64,7 @@ public class CRUDviajes {
 
 	}
 
-	public Viaje buscarUnViaje(String idViajeBuscado) throws SQLException {
+	public Viaje buscarUno(String idViajeBuscado) throws SQLException {
 		Viaje respuesta = null;
 
 		Connection con;
@@ -104,7 +104,7 @@ public class CRUDviajes {
 
 	}
 
-	public int insertarActualizaViaje(Viaje viaje, boolean esInsert) throws SQLException {
+	public int insertarActualizar(Viaje viaje, boolean esInsert) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -137,7 +137,7 @@ public class CRUDviajes {
 
 	}
 
-	public int borrarViaje(int idViaje) throws SQLException {
+	public int borrar(int idViaje) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

@@ -19,7 +19,7 @@ public class CRUDsubordinados {
 	private static String insertSubordinado = "INSERT INTO \"Subordinado\"(\"dniJefe\",\"dniSubordinado\") VALUES (?, ?)";
 	private static String selectSubordinado = "select * from \"Subordinado\" where \"dniJefe\" = ?";
 
-	private ArrayList<Subordinado> buscarTodosSubordinados() throws SQLException {
+	private ArrayList<Subordinado> buscarTodo() throws SQLException {
 		ArrayList<Subordinado> respuesta = new ArrayList<Subordinado>();
 		Connection con;
 		Statement st;
@@ -45,7 +45,7 @@ public class CRUDsubordinados {
 
 	}
 
-	public Subordinado buscarUnSubodinado(String dniJefeBuscado) throws SQLException {
+	public Subordinado buscarUno(String dniJefeBuscado) throws SQLException {
 		Subordinado respuesta = null;
 
 		Connection con;
@@ -73,7 +73,7 @@ public class CRUDsubordinados {
 
 	}
 
-	public int insertarActualizaSubordinado(Subordinado subordinado, boolean esInsert) throws SQLException {
+	public int insertarActualizar(Subordinado subordinado, boolean esInsert) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -99,7 +99,7 @@ public class CRUDsubordinados {
 
 	}
 
-	public int borrarSubordinado(String dniJefe) throws SQLException {
+	public int borrar(String dniJefe) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

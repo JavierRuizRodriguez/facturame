@@ -24,7 +24,7 @@ public class CRUDusuariosSistema {
 	public CRUDusuariosSistema() {
 	}
 
-	public ArrayList<UsuarioSistema> buscarTodosUsuarioSistema() throws SQLException {
+	public ArrayList<UsuarioSistema> buscarTodo() throws SQLException {
 		ArrayList<UsuarioSistema> respuesta = new ArrayList<UsuarioSistema>();
 
 		Connection con;
@@ -57,7 +57,7 @@ public class CRUDusuariosSistema {
 
 	}
 
-	public UsuarioSistema buscarUnUsuarioSistema(String dniUsuario) throws SQLException {
+	public UsuarioSistema buscarUno(String dniUsuario) throws SQLException {
 		UsuarioSistema respuesta = null;
 
 		Connection con;
@@ -91,7 +91,7 @@ public class CRUDusuariosSistema {
 
 	}
 
-	public int insertarActualizaUsuarioSistema(UsuarioSistema usuario, boolean esInsert) throws SQLException {
+	public int insertarActualizar(UsuarioSistema usuario, boolean esInsert) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -119,7 +119,7 @@ public class CRUDusuariosSistema {
 
 	}
 
-	public int borrarUsuarioSistema(String dniUsuario) throws SQLException {
+	public int borrar(String dniUsuario) throws SQLException {
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

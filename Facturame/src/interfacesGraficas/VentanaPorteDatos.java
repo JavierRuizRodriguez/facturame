@@ -9,6 +9,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+
+import builders.PorteBuilder;
+import builders.PorteGrafico;
+
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
@@ -19,6 +23,7 @@ import java.awt.event.ActionEvent;
 
 public class VentanaPorteDatos extends JFrame {
 
+	private PorteGrafico pb;
 	private JPanel contentPane;
 	private JTextField textKgCarga;
 	private JTextField textVolumenCarga;
@@ -26,7 +31,8 @@ public class VentanaPorteDatos extends JFrame {
 	private JTextField textPrecio;
 	private JTextField textDescripcion;
 
-	public VentanaPorteDatos() {
+	public VentanaPorteDatos(PorteGrafico pb) {
+		this.pb = pb;
 		setTitle("Facturame --- Porte --- Datos");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 417, 383);
@@ -110,6 +116,7 @@ public class VentanaPorteDatos extends JFrame {
 	}
 
 	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt) {
+		pb.setEspera(false);
 		this.setVisible(false);
 	}
 }

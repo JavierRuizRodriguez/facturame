@@ -1,7 +1,7 @@
 package interfacesGraficas;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,18 +12,20 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import builders.PorteGrafico;
 
 public class VentanaPorteEmpresa extends JFrame {
 
+	private PorteGrafico pb;
 	private JPanel contentPane;
 	private JTextField textNif;
 	private JTextField textNombre;
 	private JTextField textTelefono;
 	private JTextField textMail;
 
-	public VentanaPorteEmpresa() {
+	public VentanaPorteEmpresa(PorteGrafico pb) {
+		this.pb = pb;
 		setTitle("Facturame --- Porte --- Empresa");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 340, 260);
@@ -84,6 +86,11 @@ public class VentanaPorteEmpresa extends JFrame {
 		textMail.setColumns(10);
 
 		JButton buttonSiguiente = new JButton("");
+		buttonSiguiente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonSiguienteActionPerformed(e);
+			}
+		});
 		buttonSiguiente.setIcon(new ImageIcon(
 				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\flecha_16.png"));
 		buttonSiguiente.setBounds(120, 188, 89, 23);
@@ -99,6 +106,7 @@ public class VentanaPorteEmpresa extends JFrame {
 	}
 
 	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt) {
+		pb.setEspera(false);
 		this.setVisible(false);
 	}
 }
