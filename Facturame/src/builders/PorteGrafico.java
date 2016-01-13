@@ -52,7 +52,7 @@ public class PorteGrafico extends PorteBuilder {
 	}
 
 	@Override
-	void getDatosTransportista() throws InterruptedException {
+	void getDatosTransportista() throws InterruptedException, SQLException {
 		v3 = new VentanaPorteTransportista(this, p);
 		v3.setVisible(true);
 		while (espera) {

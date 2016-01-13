@@ -22,7 +22,7 @@ public class VentanaPorteViaje extends JFrame {
 	private PorteGrafico pb;
 	private JPanel contentPane;
 	private JTextField textoNumeroBastidor;
-	private JTextField textField;
+	private JTextField textDni;
 	private JTextField textEmpresa;
 	private JTextField textKgCarga;
 	private JTextField textVolumenCarga;
@@ -34,6 +34,7 @@ public class VentanaPorteViaje extends JFrame {
 	public VentanaPorteViaje(PorteGrafico pb, Porte p) {
 		this.p = p;
 		this.pb = pb;
+				
 		setTitle("Facturame --- Porte");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 650, 450);
@@ -52,15 +53,15 @@ public class VentanaPorteViaje extends JFrame {
 		contentPane.add(textoNumeroBastidor);
 		textoNumeroBastidor.setColumns(10);
 
-		JLabel labelDni = new JLabel("DNI/NIF: ");
-		labelDni.setBounds(250, 20, 55, 15);
+		JLabel labelDni = new JLabel("NIF:");
+		labelDni.setBounds(255, 20, 40, 15);
 		contentPane.add(labelDni);
 
-		textField = new JTextField();
-		textField.setEditable(false);
-		textField.setColumns(10);
-		textField.setBounds(300, 15, 90, 20);
-		contentPane.add(textField);
+		textDni = new JTextField();
+		textDni.setEditable(false);
+		textDni.setColumns(10);
+		textDni.setBounds(300, 15, 90, 20);
+		contentPane.add(textDni);
 
 		JLabel labelEmpresa = new JLabel("Empresa:");
 		labelEmpresa.setBounds(10, 50, 120, 15);
@@ -159,6 +160,14 @@ public class VentanaPorteViaje extends JFrame {
 		contentPane.add(panelViajes);
 		panelViajes.setLayout(null);
 
+		textConcepto.setText(p.getConcepto());
+		textDescripcion.setText(p.getDescripcion());
+		textEmpresa.setText(p.getNif());
+		textKgCarga.setText(String.valueOf(p.getKgCarga()));
+		textoNumeroBastidor.setText(p.getnBastidor());
+		textPrecio.setText(String.valueOf(p.getPrecio()));
+		textVolumenCarga.setText(String.valueOf(p.getVolCarga()));
+		textDni.setText(p.getDni());
 	}
 
 	private void buttonAnadirViajeActionPerformed(java.awt.event.ActionEvent evt) {

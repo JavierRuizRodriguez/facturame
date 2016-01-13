@@ -2,6 +2,8 @@ package interfacesGraficas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,23 +16,31 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import builders.PorteGrafico;
+import factorias.FactoriaCRUD;
+import operacionesCRUD.CRUDempleados;
+import pojo.Camion;
 import pojo.Porte;
+import pojo.Trabajador;
+import utils.ConversorArrays;
 
 public class VentanaPorteTransportista extends JFrame {
 
 	private Porte p;
+	private FactoriaCRUD fc;
 	private PorteGrafico pb;
+	private CRUDempleados ce;
 	private JPanel contentPane;
 	private JTextField textDni;
 	private JTextField textNombre;
-	private JTextField textTelefono;
 
-	public VentanaPorteTransportista(PorteGrafico pb, Porte p) {
+	public VentanaPorteTransportista(PorteGrafico pb, Porte p) throws SQLException {
 		this.p = p;
 		this.pb = pb;
+		this.fc = new FactoriaCRUD();
+		this.ce = (CRUDempleados) fc.crearCRUD(FactoriaCRUD.TIPO_EMPLEADO);
 		setTitle("Facturame --- Porte --- Transportista");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 340, 230);
+		setBounds(100, 100, 340, 195);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -52,6 +62,16 @@ public class VentanaPorteTransportista extends JFrame {
 		panel.add(textDni);
 
 		JButton buttonBuscar = new JButton("");
+		buttonBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					buttonBuscarActionPerformed(arg0);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		buttonBuscar.setIcon(new ImageIcon(
 				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\lupa_16.png"));
 		buttonBuscar.setBounds(270, 8, 25, 25);
@@ -59,6 +79,23 @@ public class VentanaPorteTransportista extends JFrame {
 
 		JComboBox comboBoxDni = new JComboBox();
 		comboBoxDni.setBounds(120, 40, 140, 20);
+		
+		ArrayList<Object> trabajadoresO = new ArrayList<Object>(ce.buscarTodo());
+		ArrayList<Trabajador> trabajadores = ConversorArrays.convertirTrabajadores(trabajadoresO);
+
+		for (Trabajador t : trabajadores)
+			comboBoxDni.addItem(t.getDni());
+
+		comboBoxDni.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					comboActionPerformed(e);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		panel.add(comboBoxDni);
 
 		JLabel labelNombre = new JLabel("Nombre:");
@@ -71,16 +108,6 @@ public class VentanaPorteTransportista extends JFrame {
 		textNombre.setBounds(86, 95, 209, 20);
 		panel.add(textNombre);
 
-		JLabel labelTelefono = new JLabel("Tel\u00E9fono:");
-		labelTelefono.setBounds(10, 129, 71, 14);
-		panel.add(labelTelefono);
-
-		textTelefono = new JTextField();
-		textTelefono.setEditable(false);
-		textTelefono.setColumns(10);
-		textTelefono.setBounds(86, 126, 209, 20);
-		panel.add(textTelefono);
-
 		JButton buttonSiguiente = new JButton("");
 		buttonSiguiente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -89,7 +116,7 @@ public class VentanaPorteTransportista extends JFrame {
 		});
 		buttonSiguiente.setIcon(new ImageIcon(
 				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\flecha_16.png"));
-		buttonSiguiente.setBounds(120, 157, 89, 23);
+		buttonSiguiente.setBounds(120, 126, 89, 23);
 		panel.add(buttonSiguiente);
 
 		JSeparator separator = new JSeparator();
@@ -108,5 +135,27 @@ public class VentanaPorteTransportista extends JFrame {
 
 	public Porte getPorte() {
 		return p;
+	}
+	
+	private void comboActionPerformed(ActionEvent evt) throws SQLException {
+		JComboBox comboBox = (JComboBox) evt.getSource();
+		Object selected = comboBox.getSelectedItem();
+		Trabajador empleado = (Trabajador) ce.buscarUno(selected);
+
+		textNombre.setText((String.valueOf(empleado.getNombre() + " " + empleado.getApellidos())));
+		
+		p.setDni(empleado.getDni());
+
+	}
+
+	private void buttonBuscarActionPerformed(ActionEvent arg0) throws SQLException {
+		Object selected = textDni.getText();
+		Trabajador empleado = (Trabajador) ce.buscarUno(selected);
+
+		if (empleado != null) {
+			textNombre.setText((String.valueOf(empleado.getNombre() + " " + empleado.getApellidos())));
+
+			p.setDni(empleado.getDni());
+		}
 	}
 }

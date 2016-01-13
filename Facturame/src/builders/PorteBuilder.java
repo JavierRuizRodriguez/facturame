@@ -12,7 +12,7 @@ public abstract class PorteBuilder {
 
 	abstract void getDatosEmpresa() throws InterruptedException, SQLException;
 
-	abstract void getDatosTransportista() throws InterruptedException;
+	abstract void getDatosTransportista() throws InterruptedException, SQLException;
 
 	abstract void getDatosCamion() throws InterruptedException, SQLException;
 
