@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import conexionBD.Conexion;
 import pojo.Porte;
 
-public class CRUDportes {
+public class CRUDportes extends CRUDesquema{
 
 	private static String selectAllPorte = "select * from \"Porte\"";
 	private static String updatePorte = "UPDATE \"Porte\" SET \"idPorte\"=?, \"nBastidor\"=?, dni=?, \"kgCarga\"=?, \"volumenCarga\"=?, concepto=?, precio=?, \"esGrupaje\"=?, descripcion=?, \"NIF\"=? WHERE \"idPorte\"=?";
@@ -22,8 +22,9 @@ public class CRUDportes {
 	public CRUDportes() {
 	}
 
-	public ArrayList<Porte> buscarTodo() throws SQLException {
-		ArrayList<Porte> respuesta = new ArrayList<Porte>();
+	@Override
+	public ArrayList<Object> buscarTodo() throws SQLException {
+		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		Connection con;
 		Statement st;
@@ -50,7 +51,7 @@ public class CRUDportes {
 			descripcion = rs.getString(9);
 			nif = rs.getString(10);
 
-			respuesta.add(new Porte(idPorte, nBastidor, dni, kgCarga, volCarga, concepto, precio, esGrupaje,
+			respuesta.add((Object) new Porte(idPorte, nBastidor, dni, kgCarga, volCarga, concepto, precio, esGrupaje,
 					descripcion, nif));
 		}
 
@@ -62,8 +63,9 @@ public class CRUDportes {
 
 	}
 
-	public Porte buscarUno(String idPorteBuscado) throws SQLException {
-		Porte respuesta = null;
+	public Object buscarUno(Object entrada) throws SQLException {
+		String idPorteBuscado = String.valueOf(entrada);
+		Object respuesta = null;
 
 		Connection con;
 		PreparedStatement pst;
@@ -99,11 +101,12 @@ public class CRUDportes {
 		pst.close();
 		rs.close();
 
-		return respuesta;
+		return (Object) respuesta;
 
 	}
 
-	public int insertarActualizar(Porte porte, boolean esInsert) throws SQLException {
+	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		Porte porte = (Porte) entrada;
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -137,7 +140,9 @@ public class CRUDportes {
 
 	}
 
-	public int borrar(int idPorte) throws SQLException {
+	@Override
+	public int borrar(Object entrada) throws SQLException {
+		int idPorte = (int) entrada;
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

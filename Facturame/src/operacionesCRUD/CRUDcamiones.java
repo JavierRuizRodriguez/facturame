@@ -58,9 +58,9 @@ public class CRUDcamiones extends CRUDesquema {
 			descripcion = rs.getString(16);
 			altoCaja = rs.getDouble(17);
 			galibo = rs.getDouble(18);
-			respuesta.add((Object) new Camion(nBastidor, matricula, combustible, nPasajeros, potenciaCV, PotenciaKWh, kmTotales,
-					peso, largo, ancho, longCaja, anchoCaja, pesoMaxCaja, volumenCaja, trampilla, descripcion, altoCaja,
-					galibo));
+			respuesta.add((Object) new Camion(nBastidor, matricula, combustible, nPasajeros, potenciaCV, PotenciaKWh,
+					kmTotales, peso, largo, ancho, longCaja, anchoCaja, pesoMaxCaja, volumenCaja, trampilla,
+					descripcion, altoCaja, galibo));
 		}
 
 		con.close();

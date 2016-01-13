@@ -10,10 +10,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import conexionBD.Conexion;
-import pojo.Trabajador;
 import pojo.UsuarioSistema;
 
-public class CRUDusuariosSistema {
+public class CRUDusuariosSistema extends CRUDesquema{
 
 	private static String selectAllUsuariosSistema = "select * from \"UsuarioSistema\"";
 	private static String updateUsuariosSistema = "UPDATE \"UsuarioSistema\" SET dni=?, nickname=?, \"hashContrasena\"=?, admin=?, \"fechaAltaUsuario\"=? WHERE dni=?";
@@ -24,8 +23,9 @@ public class CRUDusuariosSistema {
 	public CRUDusuariosSistema() {
 	}
 
-	public ArrayList<UsuarioSistema> buscarTodo() throws SQLException {
-		ArrayList<UsuarioSistema> respuesta = new ArrayList<UsuarioSistema>();
+	@Override
+	public ArrayList<Object> buscarTodo() throws SQLException {
+		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		Connection con;
 		Statement st;
@@ -46,7 +46,7 @@ public class CRUDusuariosSistema {
 			admin = rs.getBoolean(4);
 			fechaAltaUsuario = rs.getDate(5);
 
-			respuesta.add(new UsuarioSistema(dni, nickname, hashContrasena, admin, fechaAltaUsuario));
+			respuesta.add((Object) new UsuarioSistema(dni, nickname, hashContrasena, admin, fechaAltaUsuario));
 		}
 
 		con.close();
@@ -57,7 +57,9 @@ public class CRUDusuariosSistema {
 
 	}
 
-	public UsuarioSistema buscarUno(String dniUsuario) throws SQLException {
+	@Override
+	public Object buscarUno(Object entrada) throws SQLException {
+		String dniUsuario = String.valueOf(entrada);
 		UsuarioSistema respuesta = null;
 
 		Connection con;
@@ -87,11 +89,13 @@ public class CRUDusuariosSistema {
 		pst.close();
 		rs.close();
 
-		return respuesta;
+		return (Object) respuesta;
 
 	}
 
-	public int insertarActualizar(UsuarioSistema usuario, boolean esInsert) throws SQLException {
+	@Override
+	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		UsuarioSistema usuario = (UsuarioSistema) entrada;
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -119,7 +123,9 @@ public class CRUDusuariosSistema {
 
 	}
 
-	public int borrar(String dniUsuario) throws SQLException {
+	@Override
+	public int borrar(Object entrada) throws SQLException {
+		String dniUsuario = String.valueOf(entrada);
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

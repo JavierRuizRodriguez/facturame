@@ -14,7 +14,7 @@ import conexionBD.Conexion;
 import pojo.Porte;
 import pojo.Viaje;
 
-public class CRUDviajes {
+public class CRUDviajes extends CRUDesquema {
 
 	private static String selectAllViaje = "select * from \"Viaje\"";
 	private static String updateViaje = "UPDATE \"Viaje\" SET \"idViaje\"=?, \"lugarInicio\"=?, \"lugarDestino\"=?, \"horaInico\"=?, \"horaLlegada\"=?, \"fechaInico\"=?, \"fechaLlegada\"=?, \"kmViaje\"=?, \"idPorte\"=? WHERE \"idViaje\" = ?";
@@ -25,8 +25,9 @@ public class CRUDviajes {
 	public CRUDviajes() {
 	}
 
-	public ArrayList<Viaje> buscarTodo() throws SQLException {
-		ArrayList<Viaje> respuesta = new ArrayList<Viaje>();
+	@Override
+	public ArrayList<Object> buscarTodo() throws SQLException {
+		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		Connection con;
 		Statement st;
@@ -52,7 +53,7 @@ public class CRUDviajes {
 			kmViaje = rs.getInt(8);
 			idPorte = rs.getInt(9);
 
-			respuesta.add(new Viaje(idViaje, lugarInicio, lugarDestino, horaInicio, horaLlegada, fechaInicio,
+			respuesta.add((Object) new Viaje(idViaje, lugarInicio, lugarDestino, horaInicio, horaLlegada, fechaInicio,
 					fechaLlegada, kmViaje, idPorte));
 		}
 
@@ -64,7 +65,8 @@ public class CRUDviajes {
 
 	}
 
-	public Viaje buscarUno(String idViajeBuscado) throws SQLException {
+	public Object buscarUno(Object entrada) throws SQLException {
+		String idViajeBuscado = String.valueOf(entrada);
 		Viaje respuesta = null;
 
 		Connection con;
@@ -100,11 +102,12 @@ public class CRUDviajes {
 		pst.close();
 		rs.close();
 
-		return respuesta;
+		return (Object) respuesta;
 
 	}
 
-	public int insertarActualizar(Viaje viaje, boolean esInsert) throws SQLException {
+	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		Viaje viaje = (Viaje) entrada;
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -137,7 +140,9 @@ public class CRUDviajes {
 
 	}
 
-	public int borrar(int idViaje) throws SQLException {
+	@Override
+	public int borrar(Object entrada) throws SQLException {
+		int idViaje = (int) entrada;
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

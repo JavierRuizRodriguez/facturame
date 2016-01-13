@@ -4,6 +4,9 @@ import operacionesCRUD.CRUDcamiones;
 import operacionesCRUD.CRUDempleados;
 import operacionesCRUD.CRUDempresa;
 import operacionesCRUD.CRUDesquema;
+import operacionesCRUD.CRUDlibroGastos;
+import operacionesCRUD.CRUDportes;
+import operacionesCRUD.CRUDsubordinados;
 import operacionesCRUD.CRUDusuariosSistema;
 import operacionesCRUD.CRUDviajes;
 
@@ -24,11 +27,11 @@ public class FactoriaCRUD {
 		case 1: return new CRUDcamiones();
 		case 2: return new CRUDempleados();
 		case 3: return new CRUDempresa();
-		//case 4: return new CRUDgasto();
-		//case 5: return new CRUDporte();
-		//case 6: return new CRUDsubordinado();
-		//case 7: return new CRUDusuariosSistema();
-		//case 8: return new CRUDviajes();
+		case 4: return new CRUDlibroGastos();
+		case 5: return new CRUDportes();
+		case 6: return new CRUDsubordinados();
+		case 7: return new CRUDusuariosSistema();
+		case 8: return new CRUDviajes();
 		default: return null;		
 															
 		}
