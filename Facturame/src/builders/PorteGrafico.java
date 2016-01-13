@@ -40,7 +40,7 @@ public class PorteGrafico extends PorteBuilder {
 	}
 
 	@Override
-	void getDatosEmpresa() throws InterruptedException {
+	void getDatosEmpresa() throws InterruptedException, SQLException {
 		v2 = new VentanaPorteEmpresa(this, p);
 		v2.setVisible(true);
 		while (espera) {

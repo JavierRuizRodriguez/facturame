@@ -235,7 +235,6 @@ public class VentanaPorteCamion extends JFrame {
 
 	private void comboActionPerformed(ActionEvent evt) throws SQLException {
 		JComboBox comboBox = (JComboBox) evt.getSource();
-
 		Object selected = comboBox.getSelectedItem();
 		Camion camion = (Camion) cc.buscarUno(selected);
 

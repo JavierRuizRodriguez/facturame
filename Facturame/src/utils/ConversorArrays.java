@@ -3,6 +3,7 @@ package utils;
 import java.util.ArrayList;
 
 import pojo.Camion;
+import pojo.Empresa;
 
 public class ConversorArrays {
 
@@ -13,5 +14,14 @@ public class ConversorArrays {
 			camiones.add((Camion) o);
 
 		return camiones;
+	}
+
+	public static ArrayList<Empresa> convertirEmpresas(ArrayList<Object> empresasO) {
+		ArrayList<Empresa> empresas = new ArrayList<Empresa>();
+
+		for (Object o : empresasO)
+			empresas.add((Empresa) o);
+
+		return empresas;
 	}
 }
