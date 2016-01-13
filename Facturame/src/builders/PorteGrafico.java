@@ -12,7 +12,7 @@ import pojo.Porte;
 
 public class PorteGrafico extends PorteBuilder {
 
-	private Porte p;
+	private Porte p;	
 	private FactoriaPorte fp;
 	private boolean espera;
 	private VentanaPorteDatos v1;
@@ -22,6 +22,7 @@ public class PorteGrafico extends PorteBuilder {
 	private VentanaPorteViaje v5;
 
 	public PorteGrafico() {
+		super();
 		this.espera = true;
 		this.fp = new FactoriaPorte();
 		this.p = fp.crearPorte();
@@ -84,6 +85,7 @@ public class PorteGrafico extends PorteBuilder {
 		}
 		espera = true;
 		p = v5.getPorte();
+		p.setIdPorte(1);
 		v5 = null;
 	}
 

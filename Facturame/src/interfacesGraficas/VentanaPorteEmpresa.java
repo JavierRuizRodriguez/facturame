@@ -178,7 +178,7 @@ public class VentanaPorteEmpresa extends JFrame {
 			textNombre.setText((String.valueOf(empresa.getEmpresa())));
 			textTelefono.setText((String.valueOf(empresa.getnTelefono())));
 			textMail.setText(empresa.getEmail());
-			p.setnBastidor(empresa.getNif());
+			p.setNif(empresa.getNif());
 		}
 	}
 }

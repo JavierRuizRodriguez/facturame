@@ -1,54 +1,34 @@
 package interfacesGraficas;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.sql.Timestamp;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JButton;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import builders.PorteBuilder;
+import pojo.Viaje;
 
 public class VentanaViaje extends JFrame {
 
+	private VentanaPorteViaje ventanaAnterior;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
+	private JTextField tOrigen;
+	private JTextField tDestino;
+	private JTextField tHoraSalida;
+	private JTextField tHoraLlegada;
+	private JTextField tFechaSalida;
+	private JTextField tFechaLegada;
+	private JTextField tKmViaje;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					VentanaViaje frame = new VentanaViaje();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public VentanaViaje() {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				formWindowClosing(e);
-			}
-		});
+	public VentanaViaje(VentanaPorteViaje ventanaAnterior) {
+		this.ventanaAnterior = ventanaAnterior;
 		setTitle("Facturame --- Viaje");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 231);
@@ -56,81 +36,110 @@ public class VentanaViaje extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel labelOrigen = new JLabel("Origen: ");
 		labelOrigen.setBounds(10, 10, 120, 20);
 		contentPane.add(labelOrigen);
-		
+
 		JLabel labelDestino = new JLabel("Destino: ");
 		labelDestino.setBounds(10, 40, 120, 20);
 		contentPane.add(labelDestino);
-		
+
 		JLabel labelHoraSalida = new JLabel("Hora de salida:");
 		labelHoraSalida.setBounds(10, 71, 120, 20);
 		contentPane.add(labelHoraSalida);
-		
+
 		JLabel labelHoraLlegada = new JLabel("Hora de llegada: ");
 		labelHoraLlegada.setBounds(200, 70, 120, 20);
 		contentPane.add(labelHoraLlegada);
-		
+
 		JLabel labelFechaSalida = new JLabel("Fecha de salida:");
 		labelFechaSalida.setBounds(10, 100, 120, 20);
 		contentPane.add(labelFechaSalida);
-		
-		JLabel labelFechaLlegada = new JLabel("Fecha de salida:");
+
+		JLabel labelFechaLlegada = new JLabel("Fecha de llegada:");
 		labelFechaLlegada.setBounds(200, 100, 120, 20);
 		contentPane.add(labelFechaLlegada);
-		
+
 		JLabel labelKmViaje = new JLabel("Km del viaje:");
 		labelKmViaje.setBounds(10, 130, 120, 20);
 		contentPane.add(labelKmViaje);
-		
-		textField = new JTextField();
-		textField.setBounds(55, 10, 367, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(55, 40, 367, 20);
-		contentPane.add(textField_1);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(95, 70, 86, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
-		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(290, 70, 86, 20);
-		contentPane.add(textField_3);
-		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(95, 100, 86, 20);
-		contentPane.add(textField_4);
-		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(290, 100, 86, 20);
-		contentPane.add(textField_5);
-		
-		textField_6 = new JTextField();
-		textField_6.setBounds(95, 130, 86, 20);
-		contentPane.add(textField_6);
-		textField_6.setColumns(10);
-		
+
+		tOrigen = new JTextField();
+		tOrigen.setBounds(55, 10, 367, 20);
+		contentPane.add(tOrigen);
+		tOrigen.setColumns(10);
+
+		tDestino = new JTextField();
+		tDestino.setColumns(10);
+		tDestino.setBounds(55, 40, 367, 20);
+		contentPane.add(tDestino);
+
+		tHoraSalida = new JTextField();
+		tHoraSalida.setBounds(95, 70, 86, 20);
+		contentPane.add(tHoraSalida);
+		tHoraSalida.setColumns(10);
+
+		tHoraLlegada = new JTextField();
+		tHoraLlegada.setColumns(10);
+		tHoraLlegada.setBounds(290, 70, 86, 20);
+		contentPane.add(tHoraLlegada);
+
+		tFechaSalida = new JTextField();
+		tFechaSalida.setColumns(10);
+		tFechaSalida.setBounds(95, 100, 86, 20);
+		contentPane.add(tFechaSalida);
+
+		tFechaLegada = new JTextField();
+		tFechaLegada.setColumns(10);
+		tFechaLegada.setBounds(290, 100, 86, 20);
+		contentPane.add(tFechaLegada);
+
+		tKmViaje = new JTextField();
+		tKmViaje.setBounds(95, 130, 86, 20);
+		contentPane.add(tKmViaje);
+		tKmViaje.setColumns(10);
+
 		JButton buttonAceptar = new JButton("ACEPTAR");
+		buttonAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				butonAceptarActionPerformed(e);
+			}
+		});
 		buttonAceptar.setBounds(10, 161, 120, 25);
 		contentPane.add(buttonAceptar);
-		
+
 		JButton buttonBorrar = new JButton("");
+		buttonBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				butonBorrarActionPerformed(e);
+			}
+		});
 		buttonBorrar.setBounds(140, 161, 25, 25);
 		contentPane.add(buttonBorrar);
 	}
-	
+
 	private void formWindowClosing(java.awt.event.WindowEvent evt) {
-        this.setVisible(false);
-    }
+		this.setVisible(false);
+	}
+
+	private void butonBorrarActionPerformed(java.awt.event.ActionEvent e) {
+		tDestino.setText("");
+		tFechaLegada.setText("");
+		tFechaSalida.setText("");
+		tHoraLlegada.setText("");
+		tHoraSalida.setText("");
+		tKmViaje.setText("");
+		tOrigen.setText("");
+
+	}
+
+	//ultimo campo = this.pb.getPorte().getIdPorte()
+	private void butonAceptarActionPerformed(java.awt.event.ActionEvent e) {
+		this.ventanaAnterior.anadirViaje(new Viaje(0, tOrigen.getText(), tDestino.getText(), new Timestamp(1000),
+				new Timestamp(1000), Date.valueOf(tFechaSalida.getText()), Date.valueOf(tFechaLegada.getText()),
+				Integer.valueOf(tKmViaje.getText()), 1));
+
+	}
 
 }

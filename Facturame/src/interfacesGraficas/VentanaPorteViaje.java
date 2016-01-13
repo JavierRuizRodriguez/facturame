@@ -15,10 +15,12 @@ import javax.swing.border.TitledBorder;
 
 import builders.PorteGrafico;
 import pojo.Porte;
+import pojo.Viaje;
 
 public class VentanaPorteViaje extends JFrame {
 
 	private Porte p;
+	private ArrayList<Viaje> viajes;
 	private PorteGrafico pb;
 	private JPanel contentPane;
 	private JTextField textoNumeroBastidor;
@@ -34,7 +36,7 @@ public class VentanaPorteViaje extends JFrame {
 	public VentanaPorteViaje(PorteGrafico pb, Porte p) {
 		this.p = p;
 		this.pb = pb;
-				
+		this.viajes = new ArrayList<Viaje>();
 		setTitle("Facturame --- Porte");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 650, 450);
@@ -141,7 +143,7 @@ public class VentanaPorteViaje extends JFrame {
 		contentPane.add(buttonAceptar);
 		buttonAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// meter aqui lo que hacer
+				buttonAnadirPorteActionPerformed(e);
 			}
 		});
 
@@ -150,6 +152,11 @@ public class VentanaPorteViaje extends JFrame {
 		contentPane.add(buttonBorrar);
 
 		JButton buttonAnadirViaje = new JButton("A\u00D1ADIR VIAJE");
+		buttonAnadirViaje.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAnadirViajeActionPerformed(e);
+			}
+		});
 
 		buttonAnadirViaje.setBounds(140, 375, 120, 25);
 		contentPane.add(buttonAnadirViaje);
@@ -171,7 +178,7 @@ public class VentanaPorteViaje extends JFrame {
 	}
 
 	private void buttonAnadirViajeActionPerformed(java.awt.event.ActionEvent evt) {
-		VentanaViaje formViaje = new VentanaViaje();
+		VentanaViaje formViaje = new VentanaViaje(this);
 		formViaje.setVisible(true);
 	}
 
@@ -179,22 +186,17 @@ public class VentanaPorteViaje extends JFrame {
 		this.setVisible(false);
 	}
 
-	public ArrayList<JLabel> pruebaCreacion(JPanel panel) {
-
-		JLabel labelAux;
-		ArrayList<JLabel> viajes = new ArrayList<JLabel>();
-		int x = 0;
-		for (int i = 0; i <= 10; i++) {
-			labelAux = new JLabel(i + ": Barcelona - Bilbao");
-			x = (i == 0) ? 18 : 18 * (i + 1);
-			labelAux.setBounds(10, x, 180, 20);
-			panel.add(labelAux);
-			viajes.add(labelAux);
-		}
-		return viajes;
+	private void buttonAnadirPorteActionPerformed(java.awt.event.ActionEvent evt) {
+		pb.setEspera(false);
+		this.setVisible(false);
 	}
-	
+
 	public Porte getPorte() {
 		return p;
 	}
+
+	public void anadirViaje(Viaje v) {
+		pb.anadirViaje(v);
+	}
+
 }
