@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
@@ -32,6 +33,7 @@ public class VentanaPorteViaje extends JFrame {
 	private JTextField textPrecio;
 	private JLabel labelGrupaje;
 	private JTextField textDescripcion;
+	private JTextPane tViajes;
 
 	public VentanaPorteViaje(PorteGrafico pb) {
 		this.p = pb.getPorte();
@@ -39,7 +41,7 @@ public class VentanaPorteViaje extends JFrame {
 		this.viajes = new ArrayList<Viaje>();
 		setTitle("Facturame --- Porte");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 650, 450);
+		setBounds(100, 100, 862, 450);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -164,9 +166,14 @@ public class VentanaPorteViaje extends JFrame {
 
 		JPanel panelViajes = new JPanel();
 		panelViajes.setBorder(new TitledBorder(null, "Viajes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelViajes.setBounds(410, 20, 214, 170);
+		panelViajes.setBounds(410, 20, 426, 380);
 		contentPane.add(panelViajes);
 		panelViajes.setLayout(null);
+
+		this.tViajes = new JTextPane();
+		tViajes.setEditable(false);
+		tViajes.setBounds(10, 21, 406, 348);
+		panelViajes.add(tViajes);
 
 		textConcepto.setText(p.getConcepto());
 		textDescripcion.setText(p.getDescripcion());
@@ -199,6 +206,7 @@ public class VentanaPorteViaje extends JFrame {
 
 	public void anadirViaje(Viaje v) {
 		pb.anadirViaje(v);
+		tViajes.setText(tViajes.getText().concat("\n Dirección origen: " + v.getLugarInicio() + "\n Dirección destino: "
+				+ v.getLugarDestino() + "\n   ··········"));
 	}
-
 }
