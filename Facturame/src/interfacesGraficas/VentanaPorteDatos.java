@@ -26,6 +26,7 @@ public class VentanaPorteDatos extends JFrame {
 	private JTextField textPrecio;
 	private JTextField textDescripcion;
 
+<<<<<<< HEAD
 	public VentanaPorteDatos(VentanaPrincipal principal) {
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -33,6 +34,11 @@ public class VentanaPorteDatos extends JFrame {
 				formWindowClosing(e, principal);
 			}
 		});
+=======
+	public VentanaPorteDatos(PorteGrafico pb) {
+		this.p = pb.getPorte();
+		this.pb = pb;
+>>>>>>> feature/continuacionBuilder
 		setTitle("Facturame --- Porte --- Datos");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 417, 383);
@@ -113,10 +119,33 @@ public class VentanaPorteDatos extends JFrame {
 		this.setVisible(false);
 		principal.setVisible(true);
 	}
+<<<<<<< HEAD
 	
 	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt, VentanaPrincipal principal) {
 		VentanaPorteEmpresa formPorteEmpresa = new VentanaPorteEmpresa(principal);
 		formPorteEmpresa.setVisible(true);
 	    this.setVisible(false);
+=======
+
+	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt) {
+		if (!textKgCarga.getText().equals(""))
+			p.setKgCarga(Integer.parseInt(textKgCarga.getText()));
+		if (!textVolumenCarga.getText().equals(""))
+			p.setVolCarga(Integer.parseInt(textVolumenCarga.getText()));
+		if (!textConcepto.getText().equals(""))
+			p.setConcepto(textConcepto.getText());
+		p.setEsGrupaje(checkBoxGrupaje.isSelected());
+		if (!textDescripcion.getText().equals(""))
+			p.setDescripcion(textDescripcion.getText());
+		if (!textPrecio.getText().equals(""))
+			p.setPrecio(Double.valueOf(textPrecio.getText()));
+
+		pb.setEspera(false);
+		this.setVisible(false);
+	}
+
+	public Porte getPorte() {
+		return p;
+>>>>>>> feature/continuacionBuilder
 	}
 }

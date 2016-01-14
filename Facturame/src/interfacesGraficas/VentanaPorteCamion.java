@@ -42,6 +42,7 @@ public class VentanaPorteCamion extends JFrame {
 	private JLabel label_8;
 	private JTextField textField_7;
 	private JLabel label_9;
+<<<<<<< HEAD
 	private JCheckBox checkBox;
 	
 	public VentanaPorteCamion(VentanaPrincipal principal) {
@@ -51,6 +52,15 @@ public class VentanaPorteCamion extends JFrame {
 				formWindowClosing(e, principal);
 			}
 		});
+=======
+	private JCheckBox tTrampilla;
+
+	public VentanaPorteCamion(PorteGrafico pb) throws SQLException {
+		this.p = pb.getPorte();
+		this.pb = pb;
+		this.fc = new FactoriaCRUD();
+		this.cc = (CRUDcamiones) fc.crearCRUD(FactoriaCRUD.TIPO_CAMION);
+>>>>>>> feature/continuacionBuilder
 		setTitle("Facturame --- Porte --- Cami\u00F3n");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 340, 313);

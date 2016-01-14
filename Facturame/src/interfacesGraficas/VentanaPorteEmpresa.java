@@ -22,6 +22,7 @@ public class VentanaPorteEmpresa extends JFrame {
 	private JTextField textNombre;
 	private JTextField textTelefono;
 	private JTextField textMail;
+<<<<<<< HEAD
 	
 	public VentanaPorteEmpresa(VentanaPrincipal principal) {
 		addWindowListener(new WindowAdapter() {
@@ -30,6 +31,14 @@ public class VentanaPorteEmpresa extends JFrame {
 				formWindowClosing(e, principal);
 			}
 		});
+=======
+
+	public VentanaPorteEmpresa(PorteGrafico pb) throws SQLException {
+		this.p = pb.getPorte();
+		this.pb = pb;
+		this.fc = new FactoriaCRUD();
+		this.ce = (CRUDempresa) fc.crearCRUD(FactoriaCRUD.TIPO_EMPRESA);
+>>>>>>> feature/continuacionBuilder
 		setTitle("Facturame --- Porte --- Empresa");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 340, 260);
@@ -106,10 +115,46 @@ public class VentanaPorteEmpresa extends JFrame {
 		this.setVisible(false);
 		principal.setVisible(true);
 	}
+<<<<<<< HEAD
 	
 	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt, VentanaPrincipal principal) {
 		VentanaPorteTransportista formPorteTransportista = new VentanaPorteTransportista(principal);
 		formPorteTransportista.setVisible(true);
 	    this.setVisible(false);
+=======
+
+	private void comboActionPerformed(ActionEvent evt) throws SQLException {
+		JComboBox comboBox = (JComboBox) evt.getSource();
+		Object selected = comboBox.getSelectedItem();
+		Empresa empresa = (Empresa) ce.buscarUno(selected);
+
+		textNombre.setText(empresa.getEmpresa());
+		textMail.setText(empresa.getEmail());
+		textTelefono.setText(String.valueOf(empresa.getnTelefono()));
+
+		p.setNif(empresa.getNif());
+
+	}
+
+	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt) {
+		pb.setEspera(false);
+		this.setVisible(false);
+	}
+
+	public Porte getPorte() {
+		return p;
+	}
+
+	private void buttonBuscarActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
+		Object selected = textEmpresa.getText();
+		Empresa empresa = (Empresa) ce.buscarUno(selected);
+
+		if (empresa != null) {
+			textNombre.setText((String.valueOf(empresa.getEmpresa())));
+			textTelefono.setText((String.valueOf(empresa.getnTelefono())));
+			textMail.setText(empresa.getEmail());
+			p.setNif(empresa.getNif());
+		}
+>>>>>>> feature/continuacionBuilder
 	}
 }

@@ -14,19 +14,64 @@ import conexionBD.Conexion;
 import pojo.Porte;
 import pojo.Viaje;
 
-public class CRUDviajes {
+public class CRUDviajes extends CRUDesquema {
 
 	private static String selectAllViaje = "select * from \"Viaje\"";
 	private static String updateViaje = "UPDATE \"Viaje\" SET \"idViaje\"=?, \"lugarInicio\"=?, \"lugarDestino\"=?, \"horaInico\"=?, \"horaLlegada\"=?, \"fechaInico\"=?, \"fechaLlegada\"=?, \"kmViaje\"=?, \"idPorte\"=? WHERE \"idViaje\" = ?";
 	private static String borrarViaje = "delete from \"Vieje\" where \"idViaje\"=?";
 	private static String insertViaje = "INSERT INTO \"Viaje\"(\"idViaje\", \"lugarInicio\", \"lugarDestino\", \"horaInico\", \"horaLlegada\", \"fechaInico\", \"fechaLlegada\", \"kmViaje\", \"idPorte\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static String selectViaje = "select * from \"Viaje\" where \"idViaje\" = ?";
+	private static String getUltimoSerial = "SELECT last_value FROM \"Viaje_idViaje_seq\"";
+	private static String setUltimoSerial ="ALTER SEQUENCE \"Viaje_idViaje_seq\" RESTART WITH ";
+	private int idViajePeticion;
 
 	public CRUDviajes() {
 	}
 
+<<<<<<< HEAD
 	public ArrayList<Viaje> buscarTodosViajes() throws SQLException {
 		ArrayList<Viaje> respuesta = new ArrayList<Viaje>();
+=======
+	public int setUltimoId(int ultimoId) throws SQLException {
+		int respuesta = 0;
+		Connection con;
+		PreparedStatement pst;
+
+		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
+		pst = con.prepareStatement(CRUDviajes.setUltimoSerial.concat(String.valueOf(ultimoId)));
+		respuesta = pst.executeUpdate();
+
+		con.close();
+		pst.close();
+
+		return respuesta;
+
+	}
+	
+	public int ultimoId() throws SQLException {
+		Connection con;
+		Statement st;
+		ResultSet rs;
+
+		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
+		st = con.createStatement();
+		rs = st.executeQuery(CRUDviajes.getUltimoSerial);
+
+		while (rs.next()) {
+			idViajePeticion = rs.getInt(1);
+		}
+
+		con.close();
+		st.close();
+		rs.close();
+
+		return idViajePeticion;
+	}
+	
+	@Override
+	public ArrayList<Object> buscarTodo() throws SQLException {
+		ArrayList<Object> respuesta = new ArrayList<Object>();
+>>>>>>> feature/continuacionBuilder
 
 		Connection con;
 		Statement st;
@@ -52,7 +97,7 @@ public class CRUDviajes {
 			kmViaje = rs.getInt(8);
 			idPorte = rs.getInt(9);
 
-			respuesta.add(new Viaje(idViaje, lugarInicio, lugarDestino, horaInicio, horaLlegada, fechaInicio,
+			respuesta.add((Object) new Viaje(idViaje, lugarInicio, lugarDestino, horaInicio, horaLlegada, fechaInicio,
 					fechaLlegada, kmViaje, idPorte));
 		}
 
@@ -64,7 +109,8 @@ public class CRUDviajes {
 
 	}
 
-	public Viaje buscarUnViaje(String idViajeBuscado) throws SQLException {
+	public Object buscarUno(Object entrada) throws SQLException {
+		String idViajeBuscado = String.valueOf(entrada);
 		Viaje respuesta = null;
 
 		Connection con;
@@ -100,11 +146,12 @@ public class CRUDviajes {
 		pst.close();
 		rs.close();
 
-		return respuesta;
+		return (Object) respuesta;
 
 	}
 
-	public int insertarActualizaViaje(Viaje viaje, boolean esInsert) throws SQLException {
+	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		Viaje viaje = (Viaje) entrada;
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -137,7 +184,9 @@ public class CRUDviajes {
 
 	}
 
-	public int borrarViaje(int idViaje) throws SQLException {
+	@Override
+	public int borrar(Object entrada) throws SQLException {
+		int idViaje = (int) entrada;
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

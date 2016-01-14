@@ -11,15 +11,55 @@ import java.util.ArrayList;
 import conexionBD.Conexion;
 import pojo.Porte;
 
-public class CRUDportes {
+public class CRUDportes extends CRUDesquema {
 
 	private static String selectAllPorte = "select * from \"Porte\"";
 	private static String updatePorte = "UPDATE \"Porte\" SET \"idPorte\"=?, \"nBastidor\"=?, dni=?, \"kgCarga\"=?, \"volumenCarga\"=?, concepto=?, precio=?, \"esGrupaje\"=?, descripcion=?, \"NIF\"=? WHERE \"idPorte\"=?";
 	private static String borrarPorte = "delete from \"Porte\" where \"idPorte\"=?";
 	private static String insertPorte = "INSERT INTO \"Porte\"(\"idPorte\", \"nBastidor\", dni, \"kgCarga\", \"volumenCarga\", concepto, precio, \"esGrupaje\", descripcion, \"NIF\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static String selectPorte = "select * from \"Porte\" where \"idPorte\" = ?";
+	private static String getUltimoSerial = "SELECT last_value FROM \"Porte_idPorte_seq\"";
+	private static String setUltimoSerial ="ALTER SEQUENCE \"Porte_idPorte_seq\" RESTART WITH ";
+	private int idPorteSeq;
 
 	public CRUDportes() {
+		idPorteSeq = 0;
+	}
+
+	public int setUltimoId(int ultimoId) throws SQLException {
+		int respuesta = 0;
+		Connection con;
+		PreparedStatement pst;
+
+		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
+		pst = con.prepareStatement(CRUDportes.setUltimoSerial.concat(String.valueOf(ultimoId)));
+		respuesta = pst.executeUpdate();
+
+		con.close();
+		pst.close();
+
+		return respuesta;
+
+	}
+	
+	public int getUltimoId() throws SQLException {
+		Connection con;
+		Statement st;
+		ResultSet rs;
+
+		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
+		st = con.createStatement();
+		rs = st.executeQuery(CRUDportes.getUltimoSerial);
+
+		while (rs.next()) {
+			idPorteSeq = rs.getInt(1);
+		}
+
+		con.close();
+		st.close();
+		rs.close();
+
+		return idPorteSeq;
 	}
 
 	public ArrayList<Porte> buscarTodosPortes() throws SQLException {

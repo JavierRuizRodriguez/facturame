@@ -12,8 +12,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+<<<<<<< HEAD
 import java.awt.event.MouseWheelListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.ActionListener;
@@ -23,9 +25,21 @@ import java.awt.event.WindowEvent;
 
 public class VentanaPorteViaje extends JFrame {
 
+=======
+
+import builders.PorteGrafico;
+import pojo.Porte;
+import pojo.Viaje;
+
+public class VentanaPorteViaje extends JFrame {
+
+	private Porte p;
+	private ArrayList<Viaje> viajes;
+	private PorteGrafico pb;
+>>>>>>> feature/continuacionBuilder
 	private JPanel contentPane;
 	private JTextField textoNumeroBastidor;
-	private JTextField textField;
+	private JTextField textDni;
 	private JTextField textEmpresa;
 	private JTextField textKgCarga;
 	private JTextField textVolumenCarga;
@@ -33,7 +47,9 @@ public class VentanaPorteViaje extends JFrame {
 	private JTextField textPrecio;
 	private JLabel labelGrupaje;
 	private JTextField textDescripcion;
+	private JTextPane tViajes;
 
+<<<<<<< HEAD
 	public VentanaPorteViaje(VentanaPrincipal principal) {
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -41,9 +57,15 @@ public class VentanaPorteViaje extends JFrame {
 				formWindowClosing(e, principal);
 			}
 		});
+=======
+	public VentanaPorteViaje(PorteGrafico pb) {
+		this.p = pb.getPorte();
+		this.pb = pb;
+		this.viajes = new ArrayList<Viaje>();
+>>>>>>> feature/continuacionBuilder
 		setTitle("Facturame --- Porte");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 650, 450);
+		setBounds(100, 100, 862, 450);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -58,6 +80,7 @@ public class VentanaPorteViaje extends JFrame {
 		textoNumeroBastidor.setBounds(130, 15, 90, 20);
 		contentPane.add(textoNumeroBastidor);
 		textoNumeroBastidor.setColumns(10);
+<<<<<<< HEAD
 		
 		JLabel labelDni = new JLabel("DNI/NIF: ");
 		labelDni.setBounds(250, 20, 55, 15);
@@ -69,6 +92,19 @@ public class VentanaPorteViaje extends JFrame {
 		textField.setBounds(300, 15, 90, 20);
 		contentPane.add(textField);
 		
+=======
+
+		JLabel labelDni = new JLabel("NIF:");
+		labelDni.setBounds(255, 20, 40, 15);
+		contentPane.add(labelDni);
+
+		textDni = new JTextField();
+		textDni.setEditable(false);
+		textDni.setColumns(10);
+		textDni.setBounds(300, 15, 90, 20);
+		contentPane.add(textDni);
+
+>>>>>>> feature/continuacionBuilder
 		JLabel labelEmpresa = new JLabel("Empresa:");
 		labelEmpresa.setBounds(10, 50, 120, 15);
 		contentPane.add(labelEmpresa);
@@ -128,7 +164,12 @@ public class VentanaPorteViaje extends JFrame {
 		JCheckBox checkBox = new JCheckBox("");
 		checkBox.setBounds(240, 195, 25, 25);
 		contentPane.add(checkBox);
+<<<<<<< HEAD
 		
+=======
+		checkBox.setEnabled(false);
+
+>>>>>>> feature/continuacionBuilder
 		JPanel panelDescripcion = new JPanel();
 		panelDescripcion.setBorder(new TitledBorder(null, "Descripci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelDescripcion.setBounds(10, 225, 380, 139);
@@ -144,7 +185,16 @@ public class VentanaPorteViaje extends JFrame {
 		JButton buttonAceptar = new JButton("ACEPTAR");
 		buttonAceptar.setBounds(10, 375, 120, 25);
 		contentPane.add(buttonAceptar);
+<<<<<<< HEAD
 		
+=======
+		buttonAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonAnadirPorteActionPerformed(e);
+			}
+		});
+
+>>>>>>> feature/continuacionBuilder
 		JButton buttonBorrar = new JButton("");
 		buttonBorrar.setBounds(270, 375, 25, 25);
 		contentPane.add(buttonBorrar);
@@ -155,22 +205,45 @@ public class VentanaPorteViaje extends JFrame {
 				buttonAnadirViajeActionPerformed(e);
 			}
 		});
+<<<<<<< HEAD
+=======
+
+>>>>>>> feature/continuacionBuilder
 		buttonAnadirViaje.setBounds(140, 375, 120, 25);
 		contentPane.add(buttonAnadirViaje);
 		
 		JPanel panelViajes = new JPanel();
 		panelViajes.setBorder(new TitledBorder(null, "Viajes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelViajes.setBounds(410, 20, 214, 170);
+		panelViajes.setBounds(410, 20, 426, 380);
 		contentPane.add(panelViajes);
 		panelViajes.setLayout(null);
+<<<<<<< HEAD
 		
 		ArrayList<JLabel> viajes = pruebaCreacion(panelViajes);
 		
+=======
+
+		this.tViajes = new JTextPane();
+		tViajes.setEditable(false);
+		tViajes.setBounds(10, 21, 406, 348);
+		panelViajes.add(tViajes);
+
+		textConcepto.setText(p.getConcepto());
+		textDescripcion.setText(p.getDescripcion());
+		textEmpresa.setText(p.getNif());
+		textKgCarga.setText(String.valueOf(p.getKgCarga()));
+		textoNumeroBastidor.setText(p.getnBastidor());
+		textPrecio.setText(String.valueOf(p.getPrecio()));
+		textVolumenCarga.setText(String.valueOf(p.getVolCarga()));
+		textDni.setText(p.getDni());
+		checkBox.setSelected(p.isEsGrupaje());
+>>>>>>> feature/continuacionBuilder
 	}
 
 	private void buttonAnadirViajeActionPerformed(java.awt.event.ActionEvent evt) {
-		VentanaViaje formViaje = new VentanaViaje();
+		VentanaViaje formViaje = new VentanaViaje(this);
 		formViaje.setVisible(true);
+<<<<<<< HEAD
     }
 	
 	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
@@ -192,4 +265,26 @@ public class VentanaPorteViaje extends JFrame {
 		}		
 		return viajes;
 	}
+=======
+	}
+
+	private void formWindowClosing(java.awt.event.WindowEvent evt) {
+		this.setVisible(false);
+	}
+
+	private void buttonAnadirPorteActionPerformed(java.awt.event.ActionEvent evt) {
+		pb.setEspera(false);
+		this.setVisible(false);
+	}
+
+	public Porte getPorte() {
+		return p;
+	}
+
+	public void anadirViaje(Viaje v) {
+		pb.anadirViaje(v);
+		tViajes.setText(tViajes.getText().concat("\n Dirección origen: " + v.getLugarInicio() + "\n Dirección destino: "
+				+ v.getLugarDestino() + "\n   ··········"));
+	}
+>>>>>>> feature/continuacionBuilder
 }
