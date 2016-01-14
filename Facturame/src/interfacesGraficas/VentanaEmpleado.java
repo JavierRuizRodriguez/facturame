@@ -151,9 +151,9 @@ public class VentanaEmpleado extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					crearEmpleado();
-				} catch (SQLException e1) {
+				} catch (SQLException sqle) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					sqle.printStackTrace();
 				}
 			}
 		});
@@ -194,23 +194,6 @@ public class VentanaEmpleado extends JFrame {
 		textos.add(textSueldo);
 		textos.add(textSueldo);
 		textos.add(textRango);
-		
-		anadirComponentes();
-	}
-	
-	private void anadirComponentes() {
-        componentes = new HashMap<String,Component>();
-        Component[] componentesAux = contentPane.getComponents();
-        for (int i=0; i < componentesAux.length; i++) {
-        	componentes.put(componentesAux[i].getName(), componentesAux[i]);
-        }
-	}
-	
-	private Component getComponentePorNombre(String name) {
-	    if (componentes.containsKey(name)) {
-	            return (Component) componentes.get(name);
-	    }
-	    else return null;
 	}
 	
 	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
