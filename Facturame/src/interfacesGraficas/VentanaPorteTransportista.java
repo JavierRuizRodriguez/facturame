@@ -1,14 +1,9 @@
 package interfacesGraficas;
 
-<<<<<<< HEAD
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-=======
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
->>>>>>> feature/continuacionBuilder
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,13 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-<<<<<<< HEAD
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class VentanaPorteTransportista extends JFrame {
-
-=======
 
 import builders.PorteGrafico;
 import factorias.FactoriaCRUD;
@@ -41,26 +29,15 @@ public class VentanaPorteTransportista extends JFrame {
 	private FactoriaCRUD fc;
 	private PorteGrafico pb;
 	private CRUDempleados ce;
->>>>>>> feature/continuacionBuilder
 	private JPanel contentPane;
 	private JTextField textDni;
 	private JTextField textNombre;
 
-<<<<<<< HEAD
-	public VentanaPorteTransportista(VentanaPrincipal principal) {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				formWindowClosing(e, principal);
-			}
-		});
-=======
 	public VentanaPorteTransportista(PorteGrafico pb) throws SQLException {
 		this.p = pb.getPorte();
 		this.pb = pb;
 		this.fc = new FactoriaCRUD();
 		this.ce = (CRUDempleados) fc.crearCRUD(FactoriaCRUD.TIPO_EMPLEADO);
->>>>>>> feature/continuacionBuilder
 		setTitle("Facturame --- Porte --- Transportista");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 340, 195);
@@ -68,26 +45,23 @@ public class VentanaPorteTransportista extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		panel.setBounds(0, 0, 324, 222);
 		contentPane.add(panel);
-		
+
 		JLabel lblEligeUnTransportista = new JLabel("Elige transportista:");
 		lblEligeUnTransportista.setBounds(10, 10, 110, 20);
 		panel.add(lblEligeUnTransportista);
-		
+
 		textDni = new JTextField();
 		textDni.setColumns(10);
 		textDni.setBounds(120, 10, 140, 20);
 		panel.add(textDni);
-		
+
 		JButton buttonBuscar = new JButton("");
-<<<<<<< HEAD
-		buttonBuscar.setIcon(new ImageIcon("D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\lupa_16.png"));
-=======
 		buttonBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -100,10 +74,9 @@ public class VentanaPorteTransportista extends JFrame {
 		});
 		buttonBuscar.setIcon(new ImageIcon(
 				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\lupa_16.png"));
->>>>>>> feature/continuacionBuilder
 		buttonBuscar.setBounds(270, 8, 25, 25);
 		panel.add(buttonBuscar);
-		
+
 		JComboBox comboBoxDni = new JComboBox();
 		comboBoxDni.setBounds(120, 40, 140, 20);
 		
@@ -124,65 +97,46 @@ public class VentanaPorteTransportista extends JFrame {
 			}
 		});
 		panel.add(comboBoxDni);
-		
+
 		JLabel labelNombre = new JLabel("Nombre:");
 		labelNombre.setBounds(10, 98, 46, 14);
 		panel.add(labelNombre);
-		
+
 		textNombre = new JTextField();
 		textNombre.setEditable(false);
 		textNombre.setColumns(10);
 		textNombre.setBounds(86, 95, 209, 20);
 		panel.add(textNombre);
-<<<<<<< HEAD
-		
-		JLabel labelTelefono = new JLabel("Tel\u00E9fono:");
-		labelTelefono.setBounds(10, 129, 71, 14);
-		panel.add(labelTelefono);
-		
-		textTelefono = new JTextField();
-		textTelefono.setEditable(false);
-		textTelefono.setColumns(10);
-		textTelefono.setBounds(86, 126, 209, 20);
-		panel.add(textTelefono);
-		
-=======
 
->>>>>>> feature/continuacionBuilder
 		JButton buttonSiguiente = new JButton("");
 		buttonSiguiente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				buttonSiguienteActionPerformed(e, principal);
+				buttonSiguienteActionPerformed(e);
 			}
 		});
-<<<<<<< HEAD
-		buttonSiguiente.setIcon(new ImageIcon("D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\flecha_16.png"));
-		buttonSiguiente.setBounds(120, 157, 89, 23);
-=======
 		buttonSiguiente.setIcon(new ImageIcon(
 				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\flecha_16.png"));
 		buttonSiguiente.setBounds(120, 126, 89, 23);
->>>>>>> feature/continuacionBuilder
 		panel.add(buttonSiguiente);
-		
+
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 71, 304, 14);
 		panel.add(separator);
 	}
-	
-	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
+
+	private void formWindowClosing(java.awt.event.WindowEvent evt) {
 		this.setVisible(false);
-		principal.setVisible(true);
 	}
 
-	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt, VentanaPrincipal principal) {
-		VentanaPorteCamion formPorteCamion = new VentanaPorteCamion(principal);
-		formPorteCamion.setVisible(true);
-	    this.setVisible(false);
+	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt) {
+		pb.setEspera(false);
+		this.setVisible(false);
+	}
+
+	public Porte getPorte() {
+		return p;
 	}
 	
-<<<<<<< HEAD
-=======
 	private void comboActionPerformed(ActionEvent evt) throws SQLException {
 		JComboBox comboBox = (JComboBox) evt.getSource();
 		Object selected = comboBox.getSelectedItem();
@@ -204,5 +158,4 @@ public class VentanaPorteTransportista extends JFrame {
 			p.setDni(empleado.getDni());
 		}
 	}
->>>>>>> feature/continuacionBuilder
 }

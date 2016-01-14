@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import conexionBD.Conexion;
 import pojo.Empresa;
 
-public class CRUDempresa {
+public class CRUDempresa extends CRUDesquema{
 
 	private static String selectAllEmpresa = "select * from \"Empresa\"";
 	private static String updateEmpresa = "UPDATE \"Empresa\" SET \"NIF\"=?, \"nEmpresa\"=?, \"Dirección\"=?, email=?, telefono=? WHERE \"NIF\" = ?";
@@ -22,8 +22,9 @@ public class CRUDempresa {
 	public CRUDempresa() {
 	}
 
-	public ArrayList<Empresa> buscarTodasEmpresas() throws SQLException {
-		ArrayList<Empresa> respuesta = new ArrayList<Empresa>();
+	@Override
+	public ArrayList<Object> buscarTodo() throws SQLException {
+		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		Connection con;
 		Statement st;
@@ -42,8 +43,8 @@ public class CRUDempresa {
 			direccion = rs.getString(3);
 			mail = rs.getString(4);
 			nTelefono = rs.getInt(5);
-			
-			respuesta.add(new Empresa(nif, empresa, direccion, nTelefono, mail));
+
+			respuesta.add((Object) new Empresa(nif, empresa, direccion, nTelefono, mail));
 		}
 
 		con.close();
@@ -54,7 +55,9 @@ public class CRUDempresa {
 
 	}
 
-	public Empresa buscarUnaEmpresa(String nifBuscado) throws SQLException {
+	@Override
+	public Object buscarUno(Object entrada) throws SQLException {
+		String nifBuscado = String.valueOf(entrada);
 		Empresa respuesta = null;
 
 		Connection con;
@@ -73,8 +76,8 @@ public class CRUDempresa {
 			nif = rs.getString(1);
 			empresa = rs.getString(2);
 			direccion = rs.getString(3);
-			nTelefono = rs.getInt(4);
-			mail = rs.getString(5);
+			mail = rs.getString(4);
+			nTelefono = rs.getInt(5);
 
 			respuesta = new Empresa(nif, empresa, direccion, nTelefono, mail);
 		}
@@ -83,13 +86,15 @@ public class CRUDempresa {
 		pst.close();
 		rs.close();
 
-		return respuesta;
+		return (Object) respuesta;
 
 	}
 
 	// mode 0 --> insert
 	// mode 1 --> update
-	public int insertarActualizarEmpresa(Empresa empresa, boolean esInsert) throws SQLException {
+	@Override
+	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		Empresa empresa = (Empresa) entrada;
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;
@@ -118,7 +123,9 @@ public class CRUDempresa {
 
 	}
 
-	public int borrarEmpresa(String nif) throws SQLException {
+	@Override
+	public int borrar(Object entrada) throws SQLException {
+		String nif = String.valueOf(entrada);
 		int respuesta = 0;
 		Connection con;
 		PreparedStatement pst;

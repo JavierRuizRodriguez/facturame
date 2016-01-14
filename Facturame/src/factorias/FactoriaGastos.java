@@ -4,7 +4,7 @@ import pojo.LibroGastos;
 
 public class FactoriaGastos {
 
-	public static LibroGastos crearGasto(){
+	public LibroGastos crearGasto(){
 		return new LibroGastos();
 	}
 }

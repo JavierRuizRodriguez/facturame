@@ -28,10 +28,6 @@ public class CRUDviajes extends CRUDesquema {
 	public CRUDviajes() {
 	}
 
-<<<<<<< HEAD
-	public ArrayList<Viaje> buscarTodosViajes() throws SQLException {
-		ArrayList<Viaje> respuesta = new ArrayList<Viaje>();
-=======
 	public int setUltimoId(int ultimoId) throws SQLException {
 		int respuesta = 0;
 		Connection con;
@@ -71,7 +67,6 @@ public class CRUDviajes extends CRUDesquema {
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
 		ArrayList<Object> respuesta = new ArrayList<Object>();
->>>>>>> feature/continuacionBuilder
 
 		Connection con;
 		Statement st;

@@ -5,11 +5,11 @@ import pojo.Trabajador;
 
 public class FactoriaTrabajador {
 
-	public static Trabajador crearTrabajador() {
+	public Trabajador crearTrabajador() {
 		return new Trabajador();
 	}
 
-	public static Subordinado crearSubordinado() {
+	public Subordinado crearSubordinado() {
 		return new Subordinado();
 	}
 }

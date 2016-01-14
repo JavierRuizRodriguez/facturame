@@ -1,10 +1,8 @@
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
 
-import ordenacionObjetos.ContextoFacturas;
-import ordenacionObjetos.EstrategiaPortes;
-import pojo.Porte;
+import builders.CreadorPortes;
+import builders.PorteGrafico;
 
 public class Main {
 
@@ -39,7 +37,7 @@ public class Main {
 		 * "Emilio", 1500000.00), true));
 		 */
 
-		ArrayList<Porte> portes = new ArrayList<Porte>();
+		/*ArrayList<Porte> portes = new ArrayList<Porte>();
 
 		portes.add(new Porte(2, "bb", "bb", 1, 1, "bb", 2, false, "bb", "bb"));
 		portes.add(new Porte(4, "dd", "aa", 1, 1, "aa", 4, false, "aa", "aa"));
@@ -53,7 +51,18 @@ public class Main {
 		ArrayList<Porte> portesOrdenados = new ArrayList<Porte>(con.ejecutarEstrategia(4));
 		
 		for (Porte p:portesOrdenados)
-			System.out.println(p.toString());
+			System.out.println(p.toString());*/
+		
+		PorteGrafico pg = new PorteGrafico();
+		CreadorPortes cp = new CreadorPortes();
+		
+		cp.setPb(pg);
+		try {
+			cp.hacerPorte();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
