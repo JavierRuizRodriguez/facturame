@@ -3,16 +3,19 @@ package builders;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import factorias.FactoriaPorte;
 import pojo.Porte;
 import pojo.Viaje;
 
 public abstract class PorteBuilder {
 
-	private Porte porte;
-
-	private ArrayList<Viaje> viajes;
+	Porte porte;
+	FactoriaPorte fp;
+	ArrayList<Viaje> viajes;
 
 	public PorteBuilder() {
+		this.fp = new FactoriaPorte();
+		this.porte = fp.crearPorte();
 		this.viajes = new ArrayList<Viaje>();
 	}
 

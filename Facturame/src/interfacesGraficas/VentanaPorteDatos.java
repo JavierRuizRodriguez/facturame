@@ -28,8 +28,8 @@ public class VentanaPorteDatos extends JFrame {
 	private JTextField textPrecio;
 	private JTextField textDescripcion;
 
-	public VentanaPorteDatos(PorteGrafico pb, Porte p) {
-		this.p = p;
+	public VentanaPorteDatos(PorteGrafico pb) {
+		this.p = pb.getPorte();
 		this.pb = pb;
 		setTitle("Facturame --- Porte --- Datos");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -122,6 +122,8 @@ public class VentanaPorteDatos extends JFrame {
 		p.setEsGrupaje(checkBoxGrupaje.isSelected());
 		if (!textDescripcion.getText().equals(""))
 			p.setDescripcion(textDescripcion.getText());
+		if (!textPrecio.getText().equals(""))
+			p.setPrecio(Double.valueOf(textPrecio.getText()));
 
 		pb.setEspera(false);
 		this.setVisible(false);

@@ -37,8 +37,8 @@ public class VentanaPorteEmpresa extends JFrame {
 	private JTextField textTelefono;
 	private JTextField textMail;
 
-	public VentanaPorteEmpresa(PorteGrafico pb, Porte p) throws SQLException {
-		this.p = p;
+	public VentanaPorteEmpresa(PorteGrafico pb) throws SQLException {
+		this.p = pb.getPorte();
 		this.pb = pb;
 		this.fc = new FactoriaCRUD();
 		this.ce = (CRUDempresa) fc.crearCRUD(FactoriaCRUD.TIPO_EMPRESA);

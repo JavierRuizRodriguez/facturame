@@ -33,8 +33,8 @@ public class VentanaPorteTransportista extends JFrame {
 	private JTextField textDni;
 	private JTextField textNombre;
 
-	public VentanaPorteTransportista(PorteGrafico pb, Porte p) throws SQLException {
-		this.p = p;
+	public VentanaPorteTransportista(PorteGrafico pb) throws SQLException {
+		this.p = pb.getPorte();
 		this.pb = pb;
 		this.fc = new FactoriaCRUD();
 		this.ce = (CRUDempleados) fc.crearCRUD(FactoriaCRUD.TIPO_EMPLEADO);

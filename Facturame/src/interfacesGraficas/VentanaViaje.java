@@ -139,6 +139,7 @@ public class VentanaViaje extends JFrame {
 		this.ventanaAnterior.anadirViaje(new Viaje(0, tOrigen.getText(), tDestino.getText(), new Timestamp(1000),
 				new Timestamp(1000), Date.valueOf(tFechaSalida.getText()), Date.valueOf(tFechaLegada.getText()),
 				Integer.valueOf(tKmViaje.getText()), 1));
+		this.setVisible(false);
 
 	}
 

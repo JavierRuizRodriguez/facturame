@@ -18,11 +18,14 @@ public class CreadorPortes {
 	Porte p;
 	ArrayList<Viaje> viajes;
 
-	public void setPb(PorteBuilder pb) {
-		this.pb = pb;
+	public CreadorPortes(){
 		this.fc = new FactoriaCRUD();
 		cp = (CRUDportes) fc.crearCRUD(FactoriaCRUD.TIPO_PORTE);
 		cv = (CRUDviajes) fc.crearCRUD(FactoriaCRUD.TIPO_VIAJE);
+	}
+	
+	public void setPb(PorteBuilder pb) {
+		this.pb = pb;
 	}
 
 	public void hacerPorte() throws InterruptedException, SQLException {
@@ -31,6 +34,7 @@ public class CreadorPortes {
 		pb.getDatosTransportista();
 		pb.getDatosCamion();
 		pb.getDatosViajes();
+		
 		p = pb.getPorte();
 		viajes = new ArrayList<Viaje>(pb.cogerViajes());
 

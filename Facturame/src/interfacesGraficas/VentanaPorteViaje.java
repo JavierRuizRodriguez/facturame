@@ -33,8 +33,8 @@ public class VentanaPorteViaje extends JFrame {
 	private JLabel labelGrupaje;
 	private JTextField textDescripcion;
 
-	public VentanaPorteViaje(PorteGrafico pb, Porte p) {
-		this.p = p;
+	public VentanaPorteViaje(PorteGrafico pb) {
+		this.p = pb.getPorte();
 		this.pb = pb;
 		this.viajes = new ArrayList<Viaje>();
 		setTitle("Facturame --- Porte");

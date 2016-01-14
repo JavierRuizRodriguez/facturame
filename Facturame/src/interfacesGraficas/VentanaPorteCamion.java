@@ -54,8 +54,8 @@ public class VentanaPorteCamion extends JFrame {
 	private JLabel label_9;
 	private JCheckBox tTrampilla;
 
-	public VentanaPorteCamion(PorteGrafico pb, Porte p) throws SQLException {
-		this.p = p;
+	public VentanaPorteCamion(PorteGrafico pb) throws SQLException {
+		this.p = pb.getPorte();
 		this.pb = pb;
 		this.fc = new FactoriaCRUD();
 		this.cc = (CRUDcamiones) fc.crearCRUD(FactoriaCRUD.TIPO_CAMION);

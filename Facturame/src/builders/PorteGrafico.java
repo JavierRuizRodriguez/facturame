@@ -12,8 +12,6 @@ import pojo.Porte;
 
 public class PorteGrafico extends PorteBuilder {
 
-	private Porte p;	
-	private FactoriaPorte fp;
 	private boolean espera;
 	private VentanaPorteDatos v1;
 	private VentanaPorteEmpresa v2;
@@ -25,67 +23,66 @@ public class PorteGrafico extends PorteBuilder {
 		super();
 		this.espera = true;
 		this.fp = new FactoriaPorte();
-		this.p = fp.crearPorte();
 	}
 
 	@Override
 	void getDatosPrincipales() throws InterruptedException {
-		v1 = new VentanaPorteDatos(this, p);
+		v1 = new VentanaPorteDatos(this);
 		v1.setVisible(true);
 		while (espera) {
 			Thread.sleep(500);
 		}
 		espera = true;
-		p = v1.getPorte();
+		this.porte = v1.getPorte();
 		v1 = null;
 	}
 
 	@Override
 	void getDatosEmpresa() throws InterruptedException, SQLException {
-		v2 = new VentanaPorteEmpresa(this, p);
+		v2 = new VentanaPorteEmpresa(this);
 		v2.setVisible(true);
 		while (espera) {
 			Thread.sleep(500);
 		}
 		espera = true;
-		p = v2.getPorte();
+		this.porte = v2.getPorte();
 		v2 = null;
 	}
 
 	@Override
 	void getDatosTransportista() throws InterruptedException, SQLException {
-		v3 = new VentanaPorteTransportista(this, p);
+		v3 = new VentanaPorteTransportista(this);
 		v3.setVisible(true);
 		while (espera) {
 			Thread.sleep(500);
 		}
 		espera = true;
-		p = v3.getPorte();
+		this.porte = v3.getPorte();
 		v3 = null;
 	}
 
 	@Override
 	void getDatosCamion() throws InterruptedException, SQLException {
-		v4 = new VentanaPorteCamion(this, p);
+		v4 = new VentanaPorteCamion(this);
 		v4.setVisible(true);
 		while (espera) {
 			Thread.sleep(500);
 		}
 		espera = true;
-		p = v4.getPorte();
+		this.porte = v4.getPorte();
 		v4 = null;
 	}
 
 	@Override
 	void getDatosViajes() throws InterruptedException {
-		v5 = new VentanaPorteViaje(this, p);
+		v5 = new VentanaPorteViaje(this);
 		v5.setVisible(true);
 		while (espera) {
 			Thread.sleep(500);
 		}
 		espera = true;
-		p = v5.getPorte();
-		p.setIdPorte(1);
+		this.porte = v5.getPorte();
+		this.porte.setIdPorte(1);
 		v5 = null;
 	}
 
