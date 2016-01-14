@@ -124,6 +124,7 @@ public class VentanaPorteViaje extends JFrame {
 		JCheckBox checkBox = new JCheckBox("");
 		checkBox.setBounds(240, 195, 25, 25);
 		contentPane.add(checkBox);
+		checkBox.setEnabled(false);
 
 		JPanel panelDescripcion = new JPanel();
 		panelDescripcion.setBorder(
@@ -175,6 +176,7 @@ public class VentanaPorteViaje extends JFrame {
 		textPrecio.setText(String.valueOf(p.getPrecio()));
 		textVolumenCarga.setText(String.valueOf(p.getVolCarga()));
 		textDni.setText(p.getDni());
+		checkBox.setSelected(p.isEsGrupaje());
 	}
 
 	private void buttonAnadirViajeActionPerformed(java.awt.event.ActionEvent evt) {

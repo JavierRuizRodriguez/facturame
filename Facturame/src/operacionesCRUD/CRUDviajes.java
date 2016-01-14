@@ -21,10 +21,49 @@ public class CRUDviajes extends CRUDesquema {
 	private static String borrarViaje = "delete from \"Vieje\" where \"idViaje\"=?";
 	private static String insertViaje = "INSERT INTO \"Viaje\"(\"idViaje\", \"lugarInicio\", \"lugarDestino\", \"horaInico\", \"horaLlegada\", \"fechaInico\", \"fechaLlegada\", \"kmViaje\", \"idPorte\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static String selectViaje = "select * from \"Viaje\" where \"idViaje\" = ?";
+	private static String getUltimoSerial = "SELECT last_value FROM \"Viaje_idViaje_seq\"";
+	private static String setUltimoSerial ="ALTER SEQUENCE \"Viaje_idViaje_seq\" RESTART WITH ";
+	private int idViajePeticion;
 
 	public CRUDviajes() {
 	}
 
+	public int setUltimoId(int ultimoId) throws SQLException {
+		int respuesta = 0;
+		Connection con;
+		PreparedStatement pst;
+
+		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
+		pst = con.prepareStatement(CRUDviajes.setUltimoSerial.concat(String.valueOf(ultimoId)));
+		respuesta = pst.executeUpdate();
+
+		con.close();
+		pst.close();
+
+		return respuesta;
+
+	}
+	
+	public int ultimoId() throws SQLException {
+		Connection con;
+		Statement st;
+		ResultSet rs;
+
+		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
+		st = con.createStatement();
+		rs = st.executeQuery(CRUDviajes.getUltimoSerial);
+
+		while (rs.next()) {
+			idViajePeticion = rs.getInt(1);
+		}
+
+		con.close();
+		st.close();
+		rs.close();
+
+		return idViajePeticion;
+	}
+	
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
 		ArrayList<Object> respuesta = new ArrayList<Object>();

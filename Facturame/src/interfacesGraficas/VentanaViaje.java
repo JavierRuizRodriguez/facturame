@@ -138,7 +138,7 @@ public class VentanaViaje extends JFrame {
 	private void butonAceptarActionPerformed(java.awt.event.ActionEvent e) {
 		this.ventanaAnterior.anadirViaje(new Viaje(0, tOrigen.getText(), tDestino.getText(), new Timestamp(1000),
 				new Timestamp(1000), Date.valueOf(tFechaSalida.getText()), Date.valueOf(tFechaLegada.getText()),
-				Integer.valueOf(tKmViaje.getText()), 1));
+				Integer.valueOf(tKmViaje.getText()), 0));
 		this.setVisible(false);
 
 	}

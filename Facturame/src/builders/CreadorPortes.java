@@ -17,13 +17,16 @@ public class CreadorPortes {
 	CRUDviajes cv;
 	Porte p;
 	ArrayList<Viaje> viajes;
+	int idViaje, idPorte;
 
-	public CreadorPortes(){
+	public CreadorPortes() {
+		this.idViaje = 0;
+		this.idPorte = 0;
 		this.fc = new FactoriaCRUD();
-		cp = (CRUDportes) fc.crearCRUD(FactoriaCRUD.TIPO_PORTE);
-		cv = (CRUDviajes) fc.crearCRUD(FactoriaCRUD.TIPO_VIAJE);
+		this.cp = (CRUDportes) fc.crearCRUD(FactoriaCRUD.TIPO_PORTE);
+		this.cv = (CRUDviajes) fc.crearCRUD(FactoriaCRUD.TIPO_VIAJE);
 	}
-	
+
 	public void setPb(PorteBuilder pb) {
 		this.pb = pb;
 	}
@@ -34,13 +37,23 @@ public class CreadorPortes {
 		pb.getDatosTransportista();
 		pb.getDatosCamion();
 		pb.getDatosViajes();
-		
-		p = pb.getPorte();
-		viajes = new ArrayList<Viaje>(pb.cogerViajes());
 
+		idPorte = cp.getUltimoId();
+		p = pb.getPorte();
+		p.setIdPorte(idPorte + 1);
 		cp.insertarActualizar((Object) p, true);
-		for (Viaje v : viajes)
+
+		viajes = new ArrayList<Viaje>(pb.cogerViajes());
+		idViaje = cv.ultimoId();
+		for (Viaje v : viajes) {
+			v.setIdViaje(idViaje + 1);
+			v.setIdPorte(idPorte + 1);
 			cv.insertarActualizar((Object) v, true);
+			idViaje++;
+		}
+
+		cp.setUltimoId(idPorte + 1);
+		cv.setUltimoId(idViaje);
 
 	}
 
