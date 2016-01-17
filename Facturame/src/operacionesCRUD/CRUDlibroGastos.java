@@ -1,16 +1,14 @@
 package operacionesCRUD;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-import conexionBD.Conexion;
-import pojo.Empresa;
+import conexionProxyBBDD.Conexion;
 import pojo.LibroGastos;
 
 public class CRUDlibroGastos extends CRUDesquema {
@@ -21,25 +19,25 @@ public class CRUDlibroGastos extends CRUDesquema {
 	private static String insertGasto = "INSERT INTO \"LibroGastos\"(\"idEntrada\", concepto, dinero, \"fechaAsiento\", descripcion) VALUES (?, ?, ?, ?, ?)";
 	private static String selectGasto = "select * from \"LibroGastos\" where \"idEntrada\" = ?";
 
-	public CRUDlibroGastos() {
+	private Conexion c;
+
+	public CRUDlibroGastos() throws SQLException, IOException {
+		super();
+		this.c = cc.crearConexion();
 	}
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
-		Connection con;
-		Statement st;
-		ResultSet rs;
-
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		st = con.createStatement();
-		rs = st.executeQuery(CRUDlibroGastos.selectAllGasto);
+		c.setSt(c.getCon().createStatement());
+		c.setRs(c.getSt().executeQuery(CRUDlibroGastos.selectAllGasto));
 
 		String concepto, descripcion;
 		int idEntrada;
 		double dinero;
 		Date fechaAsiento;
+		ResultSet rs = c.getRs();
 
 		while (rs.next()) {
 			idEntrada = rs.getInt(1);
@@ -51,8 +49,9 @@ public class CRUDlibroGastos extends CRUDesquema {
 			respuesta.add((Object) new LibroGastos(idEntrada, concepto, dinero, fechaAsiento, descripcion));
 		}
 
-		con.close();
-		st.close();
+		c.cerrarObjCon();
+		c.cerrarObjSt();
+		c.cerrarObjRs();
 		rs.close();
 
 		return respuesta;
@@ -64,19 +63,15 @@ public class CRUDlibroGastos extends CRUDesquema {
 		int idEntradaBuscado = (int) entrada;
 		LibroGastos respuesta = null;
 
-		Connection con;
-		PreparedStatement pst;
-		ResultSet rs;
-
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		pst = con.prepareStatement(CRUDlibroGastos.selectGasto);
-		pst.setInt(1, idEntradaBuscado);
-		rs = pst.executeQuery();
+		c.setPst(c.getCon().prepareStatement(CRUDlibroGastos.selectGasto));
+		c.prepararPst(1, idEntradaBuscado);
+		c.setRs(c.getPst().executeQuery());
 
 		String concepto, descripcion;
 		int idEntrada;
 		double dinero;
 		Date fechaAsiento;
+		ResultSet rs = c.getRs();
 
 		while (rs.next()) {
 			idEntrada = rs.getInt(1);
@@ -88,10 +83,10 @@ public class CRUDlibroGastos extends CRUDesquema {
 			respuesta = new LibroGastos(idEntrada, concepto, dinero, fechaAsiento, descripcion);
 		}
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
+		c.cerrarObjRs();
 		rs.close();
-
 		return (Object) respuesta;
 
 	}
@@ -102,28 +97,25 @@ public class CRUDlibroGastos extends CRUDesquema {
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
 		LibroGastos gasto = (LibroGastos) entrada;
 		int respuesta = 0;
-		Connection con;
-		PreparedStatement pst;
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
 		if (esInsert)
-			pst = con.prepareStatement(CRUDlibroGastos.insertGasto);
+			c.setPst(c.getCon().prepareStatement(CRUDlibroGastos.insertGasto));
 		else
-			pst = con.prepareStatement(CRUDlibroGastos.updateGasto);
+			c.setPst(c.getCon().prepareStatement(CRUDlibroGastos.updateGasto));
 
-		pst.setInt(1, gasto.getIdEntrada());
-		pst.setString(2, gasto.getConcepto());
-		pst.setDouble(3, gasto.getDinero());
-		pst.setDate(4, gasto.getFechaAsiento());
-		pst.setString(5, gasto.getDescripcion());
+		c.prepararPst(1, gasto.getIdEntrada());
+		c.prepararPst(2, gasto.getConcepto());
+		c.prepararPst(3, gasto.getDinero());
+		c.prepararPst(4, gasto.getFechaAsiento());
+		c.prepararPst(5, gasto.getDescripcion());
 
 		if (!esInsert)
-			pst.setInt(6, gasto.getIdEntrada());
+			c.prepararPst(6, gasto.getIdEntrada());
 
-		respuesta = pst.executeUpdate();
+		respuesta = c.getPst().executeUpdate();
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
 
 		return respuesta;
 
@@ -136,13 +128,12 @@ public class CRUDlibroGastos extends CRUDesquema {
 		Connection con;
 		PreparedStatement pst;
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		pst = con.prepareStatement(CRUDlibroGastos.borrarGasto);
-		pst.setInt(1, idEntrada);
-		respuesta = pst.executeUpdate();
+		c.setPst(c.getCon().prepareStatement(CRUDlibroGastos.borrarGasto));
+		c.prepararPst(1, idEntrada);
+		respuesta = c.getPst().executeUpdate();
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
 
 		return respuesta;
 

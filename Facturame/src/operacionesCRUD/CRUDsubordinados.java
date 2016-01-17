@@ -1,5 +1,6 @@
 package operacionesCRUD;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,10 +9,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import conexionBD.Conexion;
+import conexionProxyBBDD.Conexion;
 import pojo.Subordinado;
 
-public class CRUDsubordinados extends CRUDesquema{
+public class CRUDsubordinados extends CRUDesquema {
 
 	private static String selectAllSubordinado = "select * from \"Subordinado\"";
 	private static String updateSubordinado = "UPDATE \"Subordinado\" SET \"dniSubordinado\"=?, \"dniJefe\"=? WHERE \"dniJefe\" =?";
@@ -19,18 +20,22 @@ public class CRUDsubordinados extends CRUDesquema{
 	private static String insertSubordinado = "INSERT INTO \"Subordinado\"(\"dniJefe\",\"dniSubordinado\") VALUES (?, ?)";
 	private static String selectSubordinado = "select * from \"Subordinado\" where \"dniJefe\" = ?";
 
+	private Conexion c;
+
+	public CRUDsubordinados() throws SQLException, IOException {
+		super();
+		this.c = cc.crearConexion();
+	}
+
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
 		ArrayList<Object> respuesta = new ArrayList<Object>();
-		Connection con;
-		Statement st;
-		ResultSet rs;
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		st = con.createStatement();
-		rs = st.executeQuery(CRUDsubordinados.selectAllSubordinado);
+		c.setSt(c.getCon().createStatement());
+		c.setRs(c.getSt().executeQuery(CRUDsubordinados.selectAllSubordinado));
 
 		String dniJefe, dniSubordinado;
+		ResultSet rs = c.getRs();
 
 		while (rs.next()) {
 			dniJefe = rs.getString(1);
@@ -38,8 +43,9 @@ public class CRUDsubordinados extends CRUDesquema{
 			respuesta.add((Object) new Subordinado(dniJefe, dniSubordinado));
 		}
 
-		con.close();
-		st.close();
+		c.cerrarObjCon();
+		c.cerrarObjSt();
+		c.cerrarObjRs();
 		rs.close();
 
 		return respuesta;
@@ -51,16 +57,12 @@ public class CRUDsubordinados extends CRUDesquema{
 		String dniJefeBuscado = String.valueOf(entrada);
 		Object respuesta = null;
 
-		Connection con;
-		PreparedStatement pst;
-		ResultSet rs;
-
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		pst = con.prepareStatement(CRUDsubordinados.selectSubordinado);
-		pst.setString(1, dniJefeBuscado);
-		rs = pst.executeQuery();
+		c.setPst(c.getCon().prepareStatement(CRUDsubordinados.selectSubordinado));
+		c.prepararPst(1, dniJefeBuscado);
+		c.setRs(c.getPst().executeQuery());
 
 		String dniJefe, dniSubordinado;
+		ResultSet rs = c.getRs();
 
 		while (rs.next()) {
 			dniJefe = rs.getString(1);
@@ -68,8 +70,9 @@ public class CRUDsubordinados extends CRUDesquema{
 			respuesta = new Subordinado(dniJefe, dniSubordinado);
 		}
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
+		c.cerrarObjRs();
 		rs.close();
 
 		return (Object) respuesta;
@@ -80,25 +83,22 @@ public class CRUDsubordinados extends CRUDesquema{
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
 		Subordinado subordinado = (Subordinado) entrada;
 		int respuesta = 0;
-		Connection con;
-		PreparedStatement pst;
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
 		if (esInsert)
-			pst = con.prepareStatement(CRUDsubordinados.insertSubordinado);
+			c.setPst(c.getCon().prepareStatement(CRUDsubordinados.insertSubordinado));
 		else
-			pst = con.prepareStatement(CRUDsubordinados.updateSubordinado);
+			c.setPst(c.getCon().prepareStatement(CRUDsubordinados.updateSubordinado));
 
-		pst.setString(1, subordinado.getDniJefe());
-		pst.setString(2, subordinado.getDniSubordinado());
+		c.prepararPst(1, subordinado.getDniJefe());
+		c.prepararPst(2, subordinado.getDniSubordinado());
 
 		if (!esInsert)
-			pst.setString(9, subordinado.getDniJefe());
+			c.prepararPst(9, subordinado.getDniJefe());
 
-		respuesta = pst.executeUpdate();
+		respuesta = c.getPst().executeUpdate();
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
 
 		return respuesta;
 
@@ -108,16 +108,13 @@ public class CRUDsubordinados extends CRUDesquema{
 	public int borrar(Object entrada) throws SQLException {
 		String dniJefe = String.valueOf(entrada);
 		int respuesta = 0;
-		Connection con;
-		PreparedStatement pst;
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		pst = con.prepareStatement(CRUDsubordinados.borrarSubordinado);
-		pst.setString(1, dniJefe);
-		respuesta = pst.executeUpdate();
+		c.setPst(c.getCon().prepareStatement(CRUDsubordinados.borrarSubordinado));
+		c.prepararPst(1, dniJefe);
+		respuesta = c.getPst().executeUpdate();
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
 
 		return respuesta;
 

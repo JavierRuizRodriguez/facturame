@@ -1,9 +1,6 @@
+/daos/
 /factorias/
+/conexionProxyBBDD/
 /operacionesCRUD/
-/ordenacionObjetos/
-/pojo/
-/interfacesGraficas/
-/builders.class
 /builders/
-/conexionBD/
-/utils/
+/interfacesGraficas/

@@ -1,17 +1,17 @@
 package operacionesCRUD;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-import conexionBD.Conexion;
+import conexionProxyBBDD.Conexion;
 import pojo.Empresa;
 
-public class CRUDempresa extends CRUDesquema{
+public class CRUDempresa extends CRUDesquema {
 
 	private static String selectAllEmpresa = "select * from \"Empresa\"";
 	private static String updateEmpresa = "UPDATE \"Empresa\" SET \"NIF\"=?, \"nEmpresa\"=?, \"Dirección\"=?, email=?, telefono=? WHERE \"NIF\" = ?";
@@ -19,23 +19,23 @@ public class CRUDempresa extends CRUDesquema{
 	private static String insertEmpresa = "INSERT INTO \"Empresa\"(\"NIF\", \"nEmpresa\", \"Dirección\", email, telefono)VALUES (?, ?, ?, ?, ?)";
 	private static String selectEmpresa = "select * from \"Empresa\" where \"NIF\" = ?";
 
-	public CRUDempresa() {
+	private Conexion c;
+
+	public CRUDempresa() throws SQLException, IOException {
+		super();
+		this.c = cc.crearConexion();
 	}
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
-		Connection con;
-		Statement st;
-		ResultSet rs;
-
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		st = con.createStatement();
-		rs = st.executeQuery(CRUDempresa.selectAllEmpresa);
+		c.setSt(c.getCon().createStatement());
+		c.setRs(c.getSt().executeQuery(CRUDempresa.selectAllEmpresa));
 
 		String nif, empresa, direccion, mail;
 		int nTelefono;
+		ResultSet rs = c.getRs();
 
 		while (rs.next()) {
 			nif = rs.getString(1);
@@ -46,9 +46,9 @@ public class CRUDempresa extends CRUDesquema{
 
 			respuesta.add((Object) new Empresa(nif, empresa, direccion, nTelefono, mail));
 		}
-
-		con.close();
-		st.close();
+		c.cerrarObjCon();
+		c.cerrarObjSt();
+		c.cerrarObjRs();
 		rs.close();
 
 		return respuesta;
@@ -60,17 +60,13 @@ public class CRUDempresa extends CRUDesquema{
 		String nifBuscado = String.valueOf(entrada);
 		Empresa respuesta = null;
 
-		Connection con;
-		PreparedStatement pst;
-		ResultSet rs;
-
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		pst = con.prepareStatement(CRUDempresa.selectEmpresa);
-		pst.setString(1, nifBuscado);
-		rs = pst.executeQuery();
+		c.setPst(c.getCon().prepareStatement(CRUDempresa.selectEmpresa));
+		c.prepararPst(1, nifBuscado);
+		c.setRs(c.getPst().executeQuery());
 
 		String nif, empresa, direccion, mail;
 		int nTelefono;
+		ResultSet rs = c.getRs();
 
 		while (rs.next()) {
 			nif = rs.getString(1);
@@ -82,8 +78,9 @@ public class CRUDempresa extends CRUDesquema{
 			respuesta = new Empresa(nif, empresa, direccion, nTelefono, mail);
 		}
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
+		c.cerrarObjRs();
 		rs.close();
 
 		return (Object) respuesta;
@@ -96,28 +93,25 @@ public class CRUDempresa extends CRUDesquema{
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
 		Empresa empresa = (Empresa) entrada;
 		int respuesta = 0;
-		Connection con;
-		PreparedStatement pst;
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
 		if (esInsert)
-			pst = con.prepareStatement(CRUDempresa.insertEmpresa);
+			c.setPst(c.getCon().prepareStatement(CRUDempresa.insertEmpresa));
 		else
-			pst = con.prepareStatement(CRUDempresa.updateEmpresa);
+			c.setPst(c.getCon().prepareStatement(CRUDempresa.updateEmpresa));
 
-		pst.setString(1, empresa.getNif());
-		pst.setString(2, empresa.getEmpresa());
-		pst.setString(3, empresa.getDireccion());
-		pst.setString(4, empresa.getEmail());
-		pst.setInt(5, empresa.getnTelefono());
+		c.prepararPst(1, empresa.getNif());
+		c.prepararPst(2, empresa.getEmpresa());
+		c.prepararPst(3, empresa.getDireccion());
+		c.prepararPst(4, empresa.getEmail());
+		c.prepararPst(5, empresa.getnTelefono());
 
 		if (!esInsert)
-			pst.setString(6, empresa.getNif());
+			c.prepararPst(6, empresa.getNif());
 
-		respuesta = pst.executeUpdate();
+		respuesta = c.getPst().executeUpdate();
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
 
 		return respuesta;
 
@@ -130,13 +124,12 @@ public class CRUDempresa extends CRUDesquema{
 		Connection con;
 		PreparedStatement pst;
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		pst = con.prepareStatement(CRUDempresa.borrarEmpresa);
-		pst.setString(1, nif);
-		respuesta = pst.executeUpdate();
+		c.setPst(c.getCon().prepareStatement(CRUDempresa.borrarEmpresa));
+		c.prepararPst(1, nif);
+		respuesta = c.getPst().executeUpdate();
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
 
 		return respuesta;
 

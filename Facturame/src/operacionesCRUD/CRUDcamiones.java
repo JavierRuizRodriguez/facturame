@@ -1,5 +1,6 @@
 package operacionesCRUD;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import conexionBD.Conexion;
+import conexionProxyBBDD.Conexion;
 import pojo.Camion;
 
 public class CRUDcamiones extends CRUDesquema {
@@ -19,25 +20,26 @@ public class CRUDcamiones extends CRUDesquema {
 	private static String insertCamion = "INSERT INTO \"Camion\"(\"nBastidor\", matricula, combustible, \"nPasajeros\", \"potenciaCV\",\"potenciaKWh\", \"kmTotales\", peso, largo, ancho, \"longCaja\", \"anchoCaja\", \"pesoMaxCaja\", \"volumenCaja\", trampilla, descripcion, \"altoCaja\", galibo)VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static String selectCamion = "select * from \"Camion\" where matricula = ?";
 
-	public CRUDcamiones() {
+	private Conexion c;
+
+	public CRUDcamiones() throws SQLException, IOException {
+		super();
+		this.c = cc.crearConexion();
+
 	}
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
-		Connection con;
-		Statement st;
-		ResultSet rs;
-
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		st = con.createStatement();
-		rs = st.executeQuery(CRUDcamiones.selectAllCamion);
+		c.setSt(c.getCon().createStatement());
+		c.setRs(c.getSt().executeQuery(CRUDcamiones.selectAllCamion));
 
 		String nBastidor, matricula, combustible, descripcion;
 		int nPasajeros, potenciaCV, PotenciaKWh, kmTotales, peso;
 		Double largo, ancho, longCaja, anchoCaja, pesoMaxCaja, volumenCaja, altoCaja, galibo;
 		boolean trampilla;
+		ResultSet rs = c.getRs();
 
 		while (rs.next()) {
 			nBastidor = rs.getString(1);
@@ -63,8 +65,9 @@ public class CRUDcamiones extends CRUDesquema {
 					descripcion, altoCaja, galibo));
 		}
 
-		con.close();
-		st.close();
+		c.cerrarObjCon();
+		c.cerrarObjSt();
+		c.cerrarObjRs();
 		rs.close();
 
 		return respuesta;
@@ -76,19 +79,15 @@ public class CRUDcamiones extends CRUDesquema {
 		String matriculaBuscada = String.valueOf(entrada);
 		Camion respuesta = null;
 
-		Connection con;
-		PreparedStatement pst;
-		ResultSet rs;
-
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		pst = con.prepareStatement(CRUDcamiones.selectCamion);
-		pst.setString(1, matriculaBuscada);
-		rs = pst.executeQuery();
+		c.setPst(c.getCon().prepareStatement(CRUDcamiones.selectCamion));
+		c.prepararPst(1, matriculaBuscada);
+		c.setRs(c.getPst().executeQuery());
 
 		String nBastidor, matricula, combustible, descripcion;
 		int nPasajeros, potenciaCV, PotenciaKWh, kmTotales, peso;
 		Double largo, ancho, longCaja, anchoCaja, pesoMaxCaja, volumenCaja, altoCaja, galibo;
 		boolean trampilla;
+		ResultSet rs = c.getRs();
 
 		while (rs.next()) {
 			nBastidor = rs.getString(1);
@@ -114,8 +113,9 @@ public class CRUDcamiones extends CRUDesquema {
 					galibo);
 		}
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
+		c.cerrarObjRs();
 		rs.close();
 
 		return (Object) respuesta;
@@ -128,41 +128,38 @@ public class CRUDcamiones extends CRUDesquema {
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
 		Camion camion = (Camion) entrada;
 		int respuesta = 0;
-		Connection con;
-		PreparedStatement pst;
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
 		if (esInsert)
-			pst = con.prepareStatement(CRUDcamiones.insertCamion);
+			c.setPst(c.getCon().prepareStatement(CRUDcamiones.insertCamion));
 		else
-			pst = con.prepareStatement(CRUDcamiones.updateCamion);
+			c.setPst(c.getCon().prepareStatement(CRUDcamiones.updateCamion));
 
-		pst.setString(1, camion.getnBastidor());
-		pst.setString(2, camion.getMatricula());
-		pst.setString(3, camion.getCombustible());
-		pst.setInt(4, camion.getnPasajeros());
-		pst.setInt(5, camion.getPotenciaCV());
-		pst.setInt(6, camion.getPotenciaKWh());
-		pst.setInt(7, camion.getKmTotales());
-		pst.setInt(8, camion.getPeso());
-		pst.setDouble(9, camion.getLargo());
-		pst.setDouble(10, camion.getAncho());
-		pst.setDouble(11, camion.getLongCaja());
-		pst.setDouble(12, camion.getAnchoCaja());
-		pst.setDouble(13, camion.getPesoMaxCaja());
-		pst.setDouble(14, camion.getVolumenCaja());
-		pst.setBoolean(15, camion.isTrampilla());
-		pst.setString(16, camion.getDescripcion());
-		pst.setDouble(17, camion.getAlturaCaja());
-		pst.setDouble(18, camion.getGalibo());
+		c.prepararPst(1, camion.getnBastidor());
+		c.prepararPst(2, camion.getMatricula());
+		c.prepararPst(3, camion.getCombustible());
+		c.prepararPst(4, camion.getnPasajeros());
+		c.prepararPst(5, camion.getPotenciaCV());
+		c.prepararPst(6, camion.getPotenciaKWh());
+		c.prepararPst(7, camion.getKmTotales());
+		c.prepararPst(8, camion.getPeso());
+		c.prepararPst(9, camion.getLargo());
+		c.prepararPst(10, camion.getAncho());
+		c.prepararPst(11, camion.getLongCaja());
+		c.prepararPst(12, camion.getAnchoCaja());
+		c.prepararPst(13, camion.getPesoMaxCaja());
+		c.prepararPst(14, camion.getVolumenCaja());
+		c.prepararPst(15, camion.isTrampilla());
+		c.prepararPst(16, camion.getDescripcion());
+		c.prepararPst(17, camion.getAlturaCaja());
+		c.prepararPst(18, camion.getGalibo());
 
 		if (!esInsert)
-			pst.setString(19, camion.getnBastidor());
+			c.prepararPst(19, camion.getnBastidor());
 
-		respuesta = pst.executeUpdate();
+		respuesta = c.getPst().executeUpdate();
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
 
 		return respuesta;
 
@@ -172,16 +169,13 @@ public class CRUDcamiones extends CRUDesquema {
 	public int borrar(Object entrada) throws SQLException {
 		String nBastidor = String.valueOf(entrada);
 		int respuesta = 0;
-		Connection con;
-		PreparedStatement pst;
+		
+		c.setPst(c.getCon().prepareStatement(CRUDcamiones.borrarCamion));
+		c.prepararPst(1, nBastidor);
+		respuesta = c.getPst().executeUpdate();
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		pst = con.prepareStatement(CRUDcamiones.borrarCamion);
-		pst.setString(1, nBastidor);
-		respuesta = pst.executeUpdate();
-
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
 
 		return respuesta;
 

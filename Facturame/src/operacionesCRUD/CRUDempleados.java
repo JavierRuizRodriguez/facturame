@@ -1,15 +1,12 @@
 package operacionesCRUD;
 
-import java.sql.Connection;
+import java.io.IOException;
 import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-import conexionBD.Conexion;
+import conexionProxyBBDD.Conexion;
 import pojo.Trabajador;
 
 public class CRUDempleados extends CRUDesquema {
@@ -20,24 +17,24 @@ public class CRUDempleados extends CRUDesquema {
 	private static String insertEmpleado = "INSERT INTO \"Empleado\"(dni, nombre, apellidos, \"fechaNacimiento\", sexo, \"fechaAltaEmpleado\",sueldo, rango) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 	private static String selectEmpleado = "select * from \"Empleado\" where dni = ?";
 
-	public CRUDempleados() {
+	private Conexion c;
+
+	public CRUDempleados() throws SQLException, IOException {
+		super();
+		this.c = cc.crearConexion();
 	}
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
-		Connection con;
-		Statement st;
-		ResultSet rs;
-
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		st = con.createStatement();
-		rs = st.executeQuery(CRUDempleados.selectAllEmpleado);
+		c.setSt(c.getCon().createStatement());
+		c.setRs(c.getSt().executeQuery(CRUDempleados.selectAllEmpleado));
 
 		String dni, nombre, apellidos, sexo, rango;
 		Date fechaNacimiento, fechaAltaEmpleado;
 		Double sueldo;
+		ResultSet rs = c.getRs();
 
 		while (rs.next()) {
 			dni = rs.getString(1);
@@ -52,8 +49,9 @@ public class CRUDempleados extends CRUDesquema {
 					rango, sueldo));
 		}
 
-		con.close();
-		st.close();
+		c.cerrarObjCon();
+		c.cerrarObjSt();
+		c.cerrarObjRs();
 		rs.close();
 
 		return respuesta;
@@ -65,18 +63,14 @@ public class CRUDempleados extends CRUDesquema {
 		String dniBuscado = String.valueOf(entrada);
 		Trabajador respuesta = null;
 
-		Connection con;
-		PreparedStatement pst;
-		ResultSet rs;
-
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		pst = con.prepareStatement(CRUDempleados.selectEmpleado);
-		pst.setString(1, dniBuscado);
-		rs = pst.executeQuery();
+		c.setPst(c.getCon().prepareStatement(CRUDempleados.selectEmpleado));
+		c.prepararPst(1, dniBuscado);
+		c.setRs(c.getPst().executeQuery());
 
 		String dni, nombre, apellidos, sexo, rango;
 		Date fechaNacimiento, fechaAltaEmpleado;
 		Double sueldo;
+		ResultSet rs = c.getRs();
 
 		while (rs.next()) {
 			dni = rs.getString(1);
@@ -90,8 +84,9 @@ public class CRUDempleados extends CRUDesquema {
 			respuesta = new Trabajador(dni, nombre, apellidos, fechaNacimiento, sexo, fechaAltaEmpleado, rango, sueldo);
 		}
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
+		c.cerrarObjRs();
 		rs.close();
 
 		return (Object) respuesta;
@@ -102,31 +97,28 @@ public class CRUDempleados extends CRUDesquema {
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
 		Trabajador empleado = (Trabajador) entrada;
 		int respuesta = 0;
-		Connection con;
-		PreparedStatement pst;
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
 		if (esInsert)
-			pst = con.prepareStatement(CRUDempleados.insertEmpleado);
+			c.setPst(c.getCon().prepareStatement(CRUDempleados.insertEmpleado));
 		else
-			pst = con.prepareStatement(CRUDempleados.updateEmpleado);
+			c.setPst(c.getCon().prepareStatement(CRUDempleados.updateEmpleado));
 
-		pst.setString(1, empleado.getDni());
-		pst.setString(2, empleado.getNombre());
-		pst.setString(3, empleado.getApellidos());
-		pst.setDate(4, empleado.getFechaNacimiento());
-		pst.setString(5, empleado.getSexo());
-		pst.setDate(6, empleado.getFechaAltaEmpleado());
-		pst.setDouble(7, empleado.getSueldo());
-		pst.setString(8, empleado.getRango());
+		c.prepararPst(1, empleado.getDni());
+		c.prepararPst(2, empleado.getNombre());
+		c.prepararPst(3, empleado.getApellidos());
+		c.prepararPst(4, empleado.getFechaNacimiento());
+		c.prepararPst(5, empleado.getSexo());
+		c.prepararPst(6, empleado.getFechaAltaEmpleado());
+		c.prepararPst(7, empleado.getSueldo());
+		c.prepararPst(8, empleado.getRango());
 
 		if (!esInsert)
-			pst.setString(9, empleado.getDni());
+			c.prepararPst(9, empleado.getDni());
 
-		respuesta = pst.executeUpdate();
+		respuesta = c.getPst().executeUpdate();
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
 
 		return respuesta;
 
@@ -136,16 +128,13 @@ public class CRUDempleados extends CRUDesquema {
 	public int borrar(Object entrada) throws SQLException {
 		String dniEmpleado = String.valueOf(entrada);
 		int respuesta = 0;
-		Connection con;
-		PreparedStatement pst;
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		pst = con.prepareStatement(CRUDempleados.borrarEmpleado);
-		pst.setString(1, dniEmpleado);
-		respuesta = pst.executeUpdate();
+		c.setPst(c.getCon().prepareStatement(CRUDempleados.borrarEmpleado));
+		c.prepararPst(1, dniEmpleado);
+		respuesta = c.getPst().executeUpdate();
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
 
 		return respuesta;
 
