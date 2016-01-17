@@ -1,5 +1,6 @@
 package operacionesCRUD;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import conexionBD.Conexion;
+import conexionProxyBBDD.Conexion;
 import pojo.UsuarioSistema;
 
 public class CRUDusuariosSistema extends CRUDesquema{
@@ -20,24 +21,24 @@ public class CRUDusuariosSistema extends CRUDesquema{
 	private static String insertUsuariosSistema = "INSERT INTO \"UsuarioSistema\"(dni, nickname, \"hashContrasena\", admin, \"fechaAltaUsuario\") VALUES (?, ?, ?, ?, ?)";
 	private static String selectUsuariosSistema = "select * from \"UsuarioSistema\" where dni = ?";
 
-	public CRUDusuariosSistema() {
+	private Conexion c;
+	
+	public CRUDusuariosSistema() throws SQLException, IOException {
+		super();
+		this.c = cc.crearConexion();
 	}
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
-		Connection con;
-		Statement st;
-		ResultSet rs;
-
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		st = con.createStatement();
-		rs = st.executeQuery(CRUDusuariosSistema.selectAllUsuariosSistema);
+		c.setSt(c.getCon().createStatement());
+		c.setRs(c.getSt().executeQuery(CRUDusuariosSistema.selectAllUsuariosSistema));
 
 		String dni, nickname, hashContrasena;
 		Date fechaAltaUsuario;
 		boolean admin;
+		ResultSet rs = c.getRs();
 
 		while (rs.next()) {
 			dni = rs.getString(1);
@@ -49,9 +50,11 @@ public class CRUDusuariosSistema extends CRUDesquema{
 			respuesta.add((Object) new UsuarioSistema(dni, nickname, hashContrasena, admin, fechaAltaUsuario));
 		}
 
-		con.close();
-		st.close();
+		c.cerrarObjCon();
+		c.cerrarObjSt();
+		c.cerrarObjRs();
 		rs.close();
+
 
 		return respuesta;
 
@@ -62,18 +65,14 @@ public class CRUDusuariosSistema extends CRUDesquema{
 		String dniUsuario = String.valueOf(entrada);
 		UsuarioSistema respuesta = null;
 
-		Connection con;
-		PreparedStatement pst;
-		ResultSet rs;
-
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		pst = con.prepareStatement(CRUDusuariosSistema.selectUsuariosSistema);
-		pst.setString(1, dniUsuario);
-		rs = pst.executeQuery();
+		c.setPst(c.getCon().prepareStatement(CRUDusuariosSistema.selectUsuariosSistema));
+		c.prepararPst(1, dniUsuario);
+		c.setRs(c.getPst().executeQuery());
 
 		String dni, nickname, hashContrasena;
 		Date fechaAltaUsuario;
 		boolean admin;
+		ResultSet rs = c.getRs();
 
 		while (rs.next()) {
 			dni = rs.getString(1);
@@ -85,8 +84,9 @@ public class CRUDusuariosSistema extends CRUDesquema{
 			respuesta = new UsuarioSistema(dni, nickname, hashContrasena, admin, fechaAltaUsuario);
 		}
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
+		c.cerrarObjRs();
 		rs.close();
 
 		return (Object) respuesta;
@@ -97,27 +97,24 @@ public class CRUDusuariosSistema extends CRUDesquema{
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
 		UsuarioSistema usuario = (UsuarioSistema) entrada;
 		int respuesta = 0;
-		Connection con;
-		PreparedStatement pst;
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
 		if (esInsert)
-			pst = con.prepareStatement(CRUDusuariosSistema.insertUsuariosSistema);
+			c.setPst(c.getCon().prepareStatement(CRUDusuariosSistema.insertUsuariosSistema));
 		else
-			pst = con.prepareStatement(CRUDusuariosSistema.updateUsuariosSistema);
+			c.setPst(c.getCon().prepareStatement(CRUDusuariosSistema.updateUsuariosSistema));
 
-		pst.setString(1, usuario.getDni());
-		pst.setString(2, usuario.getNickname());
-		pst.setString(3, usuario.getHashContraseña());
-		pst.setBoolean(4, usuario.isAdmin());
+		c.prepararPst(1, usuario.getDni());
+		c.prepararPst(2, usuario.getNickname());
+		c.prepararPst(3, usuario.getHashContraseña());
+		c.prepararPst(4, usuario.isAdmin());
 
 		if (!esInsert)
-			pst.setDate(5, usuario.getFechaAltaUsuario());
+			c.prepararPst(5, usuario.getFechaAltaUsuario());
 
-		respuesta = pst.executeUpdate();
+		respuesta = c.getPst().executeUpdate();
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
 
 		return respuesta;
 
@@ -127,16 +124,13 @@ public class CRUDusuariosSistema extends CRUDesquema{
 	public int borrar(Object entrada) throws SQLException {
 		String dniUsuario = String.valueOf(entrada);
 		int respuesta = 0;
-		Connection con;
-		PreparedStatement pst;
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		pst = con.prepareStatement(CRUDusuariosSistema.borrarUsuariosSistema);
-		pst.setString(1, dniUsuario);
-		respuesta = pst.executeUpdate();
+		c.setPst(c.getCon().prepareStatement(CRUDusuariosSistema.borrarUsuariosSistema));
+		c.prepararPst(1, dniUsuario);
+		respuesta = c.getPst().executeUpdate();
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
 
 		return respuesta;
 

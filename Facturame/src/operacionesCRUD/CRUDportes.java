@@ -1,5 +1,6 @@
 package operacionesCRUD;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import conexionBD.Conexion;
+import conexionProxyBBDD.Conexion;
 import pojo.Porte;
 
 public class CRUDportes extends CRUDesquema {
@@ -19,46 +20,44 @@ public class CRUDportes extends CRUDesquema {
 	private static String insertPorte = "INSERT INTO \"Porte\"(\"idPorte\", \"nBastidor\", dni, \"kgCarga\", \"volumenCarga\", concepto, precio, \"esGrupaje\", descripcion, \"NIF\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static String selectPorte = "select * from \"Porte\" where \"idPorte\" = ?";
 	private static String getUltimoSerial = "SELECT last_value FROM \"Porte_idPorte_seq\"";
-	private static String setUltimoSerial ="ALTER SEQUENCE \"Porte_idPorte_seq\" RESTART WITH ";
-	private int idPorteSeq;
+	private static String setUltimoSerial = "ALTER SEQUENCE \"Porte_idPorte_seq\" RESTART WITH ";
 
-	public CRUDportes() {
-		idPorteSeq = 0;
+	private int idPorteSeq;
+	private Conexion c;
+
+	public CRUDportes() throws SQLException, IOException {
+		super();
+		this.c = cc.crearConexion();
+		this.idPorteSeq = 0;
 	}
 
 	public int setUltimoId(int ultimoId) throws SQLException {
 		int respuesta = 0;
-		Connection con;
-		PreparedStatement pst;
+		c.setPst(c.getCon().prepareStatement(CRUDportes.setUltimoSerial.concat(String.valueOf(ultimoId))));
+		respuesta = c.getPst().executeUpdate();
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		pst = con.prepareStatement(CRUDportes.setUltimoSerial.concat(String.valueOf(ultimoId)));
-		respuesta = pst.executeUpdate();
-
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
 
 		return respuesta;
 
 	}
-	
-	public int getUltimoId() throws SQLException {
-		Connection con;
-		Statement st;
-		ResultSet rs;
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		st = con.createStatement();
-		rs = st.executeQuery(CRUDportes.getUltimoSerial);
+	public int getUltimoId() throws SQLException {
+		c.setSt(c.getCon().createStatement());
+		c.setRs(c.getSt().executeQuery(CRUDportes.getUltimoSerial));
+
+		ResultSet rs = c.getRs();
 
 		while (rs.next()) {
 			idPorteSeq = rs.getInt(1);
 		}
 
-		con.close();
-		st.close();
+		c.cerrarObjCon();
+		c.cerrarObjSt();
+		c.cerrarObjRs();
 		rs.close();
-
+		
 		return idPorteSeq;
 	}
 
@@ -66,18 +65,14 @@ public class CRUDportes extends CRUDesquema {
 	public ArrayList<Object> buscarTodo() throws SQLException {
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
-		Connection con;
-		Statement st;
-		ResultSet rs;
-
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		st = con.createStatement();
-		rs = st.executeQuery(CRUDportes.selectAllPorte);
+		c.setSt(c.getCon().createStatement());
+		c.setRs(c.getSt().executeQuery(CRUDportes.selectAllPorte));
 
 		String nBastidor, dni, concepto, descripcion, nif;
 		int idPorte, kgCarga, volCarga;
 		double precio;
 		boolean esGrupaje;
+		ResultSet rs = c.getRs();
 
 		while (rs.next()) {
 			idPorte = rs.getInt(1);
@@ -95,8 +90,9 @@ public class CRUDportes extends CRUDesquema {
 					descripcion, nif));
 		}
 
-		con.close();
-		st.close();
+		c.cerrarObjCon();
+		c.cerrarObjSt();
+		c.cerrarObjRs();
 		rs.close();
 
 		return respuesta;
@@ -107,19 +103,15 @@ public class CRUDportes extends CRUDesquema {
 		String idPorteBuscado = String.valueOf(entrada);
 		Object respuesta = null;
 
-		Connection con;
-		PreparedStatement pst;
-		ResultSet rs;
-
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		pst = con.prepareStatement(CRUDportes.selectPorte);
-		pst.setString(1, idPorteBuscado);
-		rs = pst.executeQuery();
+		c.setPst(c.getCon().prepareStatement(CRUDportes.selectPorte));
+		c.prepararPst(1, idPorteBuscado);
+		c.setRs(c.getPst().executeQuery());
 
 		String nBastidor, dni, concepto, descripcion, nif;
 		int idPorte, kgCarga, volCarga;
 		double precio;
 		boolean esGrupaje;
+		ResultSet rs = c.getRs();
 
 		while (rs.next()) {
 			idPorte = rs.getInt(1);
@@ -137,8 +129,9 @@ public class CRUDportes extends CRUDesquema {
 					nif);
 		}
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
+		c.cerrarObjRs();
 		rs.close();
 
 		return (Object) respuesta;
@@ -148,33 +141,30 @@ public class CRUDportes extends CRUDesquema {
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
 		Porte porte = (Porte) entrada;
 		int respuesta = 0;
-		Connection con;
-		PreparedStatement pst;
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
 		if (esInsert)
-			pst = con.prepareStatement(CRUDportes.insertPorte);
+			c.setPst(c.getCon().prepareStatement(CRUDportes.insertPorte));
 		else
-			pst = con.prepareStatement(CRUDportes.updatePorte);
+			c.setPst(c.getCon().prepareStatement(CRUDportes.updatePorte));
 
-		pst.setInt(1, porte.getIdPorte());
-		pst.setString(2, porte.getnBastidor());
-		pst.setString(3, porte.getDni());
-		pst.setInt(4, porte.getKgCarga());
-		pst.setInt(5, porte.getVolCarga());
-		pst.setString(6, porte.getConcepto());
-		pst.setDouble(7, porte.getPrecio());
-		pst.setBoolean(8, porte.isEsGrupaje());
-		pst.setString(9, porte.getDescripcion());
-		pst.setString(10, porte.getNif());
+		c.prepararPst(1, porte.getIdPorte());
+		c.prepararPst(2, porte.getnBastidor());
+		c.prepararPst(3, porte.getDni());
+		c.prepararPst(4, porte.getKgCarga());
+		c.prepararPst(5, porte.getVolCarga());
+		c.prepararPst(6, porte.getConcepto());
+		c.prepararPst(7, porte.getPrecio());
+		c.prepararPst(8, porte.isEsGrupaje());
+		c.prepararPst(9, porte.getDescripcion());
+		c.prepararPst(10, porte.getNif());
 
 		if (!esInsert)
-			pst.setInt(11, porte.getIdPorte());
+			c.prepararPst(11, porte.getIdPorte());
 
-		respuesta = pst.executeUpdate();
+		respuesta = c.getPst().executeUpdate();
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
 
 		return respuesta;
 
@@ -184,16 +174,13 @@ public class CRUDportes extends CRUDesquema {
 	public int borrar(Object entrada) throws SQLException {
 		int idPorte = (int) entrada;
 		int respuesta = 0;
-		Connection con;
-		PreparedStatement pst;
 
-		con = DriverManager.getConnection(Conexion.URL, Conexion.USER, Conexion.PASSWORD);
-		pst = con.prepareStatement(CRUDportes.borrarPorte);
-		pst.setInt(1, idPorte);
-		respuesta = pst.executeUpdate();
+		c.setPst(c.getCon().prepareStatement(CRUDportes.borrarPorte));
+		c.prepararPst(1, idPorte);
+		respuesta = c.getPst().executeUpdate();
 
-		con.close();
-		pst.close();
+		c.cerrarObjCon();
+		c.cerrarObjPst();
 
 		return respuesta;
 

@@ -1,5 +1,6 @@
 package builders;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public class CreadorPortes {
 	ArrayList<Viaje> viajes;
 	int idViaje, idPorte;
 
-	public CreadorPortes() {
+	public CreadorPortes() throws SQLException, IOException {
 		this.idViaje = 0;
 		this.idPorte = 0;
 		this.fc = new FactoriaCRUD();
