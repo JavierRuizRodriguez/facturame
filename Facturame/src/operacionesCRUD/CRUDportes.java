@@ -27,11 +27,11 @@ public class CRUDportes extends CRUDesquema {
 
 	public CRUDportes() throws SQLException, IOException {
 		super();
-		this.c = cc.crearConexion();
 		this.idPorteSeq = 0;
 	}
 
 	public int setUltimoId(int ultimoId) throws SQLException {
+		this.c = cc.crearConexion();
 		int respuesta = 0;
 		c.setPst(c.getCon().prepareStatement(CRUDportes.setUltimoSerial.concat(String.valueOf(ultimoId))));
 		respuesta = c.getPst().executeUpdate();
@@ -44,6 +44,7 @@ public class CRUDportes extends CRUDesquema {
 	}
 
 	public int getUltimoId() throws SQLException {
+		this.c = cc.crearConexion();
 		c.setSt(c.getCon().createStatement());
 		c.setRs(c.getSt().executeQuery(CRUDportes.getUltimoSerial));
 
@@ -63,6 +64,7 @@ public class CRUDportes extends CRUDesquema {
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
+		this.c = cc.crearConexion();
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		c.setSt(c.getCon().createStatement());
@@ -100,6 +102,7 @@ public class CRUDportes extends CRUDesquema {
 	}
 
 	public Object buscarUno(Object entrada) throws SQLException {
+		this.c = cc.crearConexion();
 		String idPorteBuscado = String.valueOf(entrada);
 		Object respuesta = null;
 
@@ -139,6 +142,7 @@ public class CRUDportes extends CRUDesquema {
 	}
 
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		this.c = cc.crearConexion();
 		Porte porte = (Porte) entrada;
 		int respuesta = 0;
 
@@ -172,6 +176,7 @@ public class CRUDportes extends CRUDesquema {
 
 	@Override
 	public int borrar(Object entrada) throws SQLException {
+		this.c = cc.crearConexion();
 		int idPorte = (int) entrada;
 		int respuesta = 0;
 

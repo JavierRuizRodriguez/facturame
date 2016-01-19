@@ -1,5 +1,6 @@
 package builders;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -21,11 +22,11 @@ public abstract class PorteBuilder {
 
 	abstract void getDatosPrincipales() throws InterruptedException;
 
-	abstract void getDatosEmpresa() throws InterruptedException, SQLException;
+	abstract void getDatosEmpresa() throws InterruptedException, SQLException, IOException;
 
-	abstract void getDatosTransportista() throws InterruptedException, SQLException;
+	abstract void getDatosTransportista() throws InterruptedException, SQLException, IOException;
 
-	abstract void getDatosCamion() throws InterruptedException, SQLException;
+	abstract void getDatosCamion() throws InterruptedException, SQLException, IOException;
 
 	abstract void getDatosViajes() throws InterruptedException;
 

@@ -23,11 +23,11 @@ public class CRUDempresa extends CRUDesquema {
 
 	public CRUDempresa() throws SQLException, IOException {
 		super();
-		this.c = cc.crearConexion();
 	}
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
+		this.c = cc.crearConexion();
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		c.setSt(c.getCon().createStatement());
@@ -57,6 +57,7 @@ public class CRUDempresa extends CRUDesquema {
 
 	@Override
 	public Object buscarUno(Object entrada) throws SQLException {
+		this.c = cc.crearConexion();
 		String nifBuscado = String.valueOf(entrada);
 		Empresa respuesta = null;
 
@@ -91,6 +92,7 @@ public class CRUDempresa extends CRUDesquema {
 	// mode 1 --> update
 	@Override
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		this.c = cc.crearConexion();
 		Empresa empresa = (Empresa) entrada;
 		int respuesta = 0;
 
@@ -119,6 +121,7 @@ public class CRUDempresa extends CRUDesquema {
 
 	@Override
 	public int borrar(Object entrada) throws SQLException {
+		this.c = cc.crearConexion();
 		String nif = String.valueOf(entrada);
 		int respuesta = 0;
 		Connection con;

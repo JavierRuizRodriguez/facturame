@@ -23,11 +23,11 @@ public class CRUDlibroGastos extends CRUDesquema {
 
 	public CRUDlibroGastos() throws SQLException, IOException {
 		super();
-		this.c = cc.crearConexion();
 	}
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
+		this.c = cc.crearConexion();
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		c.setSt(c.getCon().createStatement());
@@ -60,6 +60,7 @@ public class CRUDlibroGastos extends CRUDesquema {
 
 	@Override
 	public Object buscarUno(Object entrada) throws SQLException {
+		this.c = cc.crearConexion();
 		int idEntradaBuscado = (int) entrada;
 		LibroGastos respuesta = null;
 
@@ -95,6 +96,7 @@ public class CRUDlibroGastos extends CRUDesquema {
 	// mode 1 --> update
 	@Override
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		this.c = cc.crearConexion();
 		LibroGastos gasto = (LibroGastos) entrada;
 		int respuesta = 0;
 
@@ -123,6 +125,7 @@ public class CRUDlibroGastos extends CRUDesquema {
 
 	@Override
 	public int borrar(Object entrada) throws SQLException {
+		this.c = cc.crearConexion();
 		int idEntrada = (int) entrada;
 		int respuesta = 0;
 		Connection con;

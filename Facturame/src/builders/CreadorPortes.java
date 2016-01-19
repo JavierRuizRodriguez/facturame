@@ -32,7 +32,7 @@ public class CreadorPortes {
 		this.pb = pb;
 	}
 
-	public void hacerPorte() throws InterruptedException, SQLException {
+	public void hacerPorte() throws InterruptedException, SQLException, IOException {
 		pb.getDatosPrincipales();
 		pb.getDatosEmpresa();
 		pb.getDatosTransportista();
