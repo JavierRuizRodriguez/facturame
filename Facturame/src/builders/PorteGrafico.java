@@ -1,5 +1,6 @@
 package builders;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import factorias.FactoriaPorte;
@@ -38,7 +39,7 @@ public class PorteGrafico extends PorteBuilder {
 	}
 
 	@Override
-	void getDatosEmpresa() throws InterruptedException, SQLException {
+	void getDatosEmpresa() throws InterruptedException, SQLException, IOException {
 		v2 = new VentanaPorteEmpresa(this);
 		v2.setVisible(true);
 		while (espera) {
@@ -50,7 +51,7 @@ public class PorteGrafico extends PorteBuilder {
 	}
 
 	@Override
-	void getDatosTransportista() throws InterruptedException, SQLException {
+	void getDatosTransportista() throws InterruptedException, SQLException, IOException {
 		v3 = new VentanaPorteTransportista(this);
 		v3.setVisible(true);
 		while (espera) {
@@ -62,7 +63,7 @@ public class PorteGrafico extends PorteBuilder {
 	}
 
 	@Override
-	void getDatosCamion() throws InterruptedException, SQLException {
+	void getDatosCamion() throws InterruptedException, SQLException, IOException {
 		v4 = new VentanaPorteCamion(this);
 		v4.setVisible(true);
 		while (espera) {

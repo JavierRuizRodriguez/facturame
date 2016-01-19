@@ -30,11 +30,11 @@ public class CRUDviajes extends CRUDesquema {
 
 	public CRUDviajes() throws SQLException, IOException {
 		super();
-		this.c = cc.crearConexion();
 		this.idViajePeticion = 0;
 	}
 
 	public int setUltimoId(int ultimoId) throws SQLException {
+		this.c = cc.crearConexion();
 		int respuesta = 0;
 		
 		c.setPst(c.getCon().prepareStatement(CRUDviajes.setUltimoSerial.concat(String.valueOf(ultimoId))));
@@ -48,6 +48,7 @@ public class CRUDviajes extends CRUDesquema {
 	}
 
 	public int ultimoId() throws SQLException {
+		this.c = cc.crearConexion();
 		c.setSt(c.getCon().createStatement());
 		c.setRs(c.getSt().executeQuery(CRUDviajes.getUltimoSerial));
 		
@@ -67,6 +68,7 @@ public class CRUDviajes extends CRUDesquema {
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
+		this.c = cc.crearConexion();
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		c.setSt(c.getCon().createStatement());
@@ -103,6 +105,7 @@ public class CRUDviajes extends CRUDesquema {
 	}
 
 	public Object buscarUno(Object entrada) throws SQLException {
+		this.c = cc.crearConexion();
 		String idViajeBuscado = String.valueOf(entrada);
 		Viaje respuesta = null;
 
@@ -141,6 +144,7 @@ public class CRUDviajes extends CRUDesquema {
 	}
 
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		this.c = cc.crearConexion();
 		Viaje viaje = (Viaje) entrada;
 		int respuesta = 0;
 
@@ -173,6 +177,7 @@ public class CRUDviajes extends CRUDesquema {
 
 	@Override
 	public int borrar(Object entrada) throws SQLException {
+		this.c = cc.crearConexion();
 		int idViaje = (int) entrada;
 		int respuesta = 0;
 

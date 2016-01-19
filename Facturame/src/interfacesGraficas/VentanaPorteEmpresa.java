@@ -2,6 +2,7 @@ package interfacesGraficas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -17,13 +18,12 @@ import javax.swing.border.EmptyBorder;
 
 import builders.PorteGrafico;
 import factorias.FactoriaCRUD;
-import factorias.FactoriaEmpresa;
-import operacionesCRUD.CRUDcamiones;
+import iterador.Agregado;
+import iterador.AgregadoConcreto;
+import iterador.Iterador;
 import operacionesCRUD.CRUDempresa;
-import pojo.Camion;
 import pojo.Empresa;
 import pojo.Porte;
-import utils.ConversorArrays;
 
 public class VentanaPorteEmpresa extends JFrame {
 
@@ -37,7 +37,7 @@ public class VentanaPorteEmpresa extends JFrame {
 	private JTextField textTelefono;
 	private JTextField textMail;
 
-	public VentanaPorteEmpresa(PorteGrafico pb) throws SQLException {
+	public VentanaPorteEmpresa(PorteGrafico pb) throws SQLException, IOException {
 		this.p = pb.getPorte();
 		this.pb = pb;
 		this.fc = new FactoriaCRUD();
@@ -79,11 +79,20 @@ public class VentanaPorteEmpresa extends JFrame {
 
 		JComboBox comboBoxEmpresa = new JComboBox();
 		comboBoxEmpresa.setBounds(120, 40, 140, 20);
-		ArrayList<Object> empresasO = new ArrayList<Object>(ce.buscarTodo());
-		ArrayList<Empresa> empresas = ConversorArrays.convertirEmpresas(empresasO);
 
-		for (Empresa e : empresas)
-			comboBoxEmpresa.addItem(e.getEmpresa());
+		ArrayList<Object> empresasO = new ArrayList<Object>(ce.buscarTodo());
+		Agregado agregado = new AgregadoConcreto(empresasO);
+		Iterador iterador = agregado.crearIterador();
+
+		try {
+			while (iterador.hayMas()) {
+				Empresa empresa = (Empresa) iterador.elementoActual();
+				comboBoxEmpresa.addItem(empresa.getEmpresa());
+				iterador.siguiente();
+			}
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Error: " + e.toString());
+		}
 
 		comboBoxEmpresa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

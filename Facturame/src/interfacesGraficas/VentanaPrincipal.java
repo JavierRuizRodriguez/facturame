@@ -3,6 +3,8 @@ package interfacesGraficas;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -52,7 +54,12 @@ public class VentanaPrincipal extends JFrame {
 		JButton btnRegistrarU = new JButton("Registrar USUARIO SISTEMA");
 		btnRegistrarU.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				buttonRegistrarUsuarioSistemaActionPerformed(e);
+				try {
+					buttonRegistrarUsuarioSistemaActionPerformed(e);
+				} catch (SQLException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnRegistrarU.setBounds(120, 175, 179, 25);
@@ -75,7 +82,7 @@ public class VentanaPrincipal extends JFrame {
 		//hacer llamada al patron BUILDER de los portes
     }
 	
-	private void buttonRegistrarUsuarioSistemaActionPerformed(java.awt.event.ActionEvent evt) {
+	private void buttonRegistrarUsuarioSistemaActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, IOException {
 		VentanaUsuarioSistema formUsuarioSistema = new VentanaUsuarioSistema(this);
 		formUsuarioSistema.setVisible(true);
         this.setVisible(false);

@@ -25,11 +25,11 @@ public class CRUDusuariosSistema extends CRUDesquema{
 	
 	public CRUDusuariosSistema() throws SQLException, IOException {
 		super();
-		this.c = cc.crearConexion();
 	}
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
+		this.c = cc.crearConexion();
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		c.setSt(c.getCon().createStatement());
@@ -62,6 +62,7 @@ public class CRUDusuariosSistema extends CRUDesquema{
 
 	@Override
 	public Object buscarUno(Object entrada) throws SQLException {
+		this.c = cc.crearConexion();
 		String dniUsuario = String.valueOf(entrada);
 		UsuarioSistema respuesta = null;
 
@@ -95,6 +96,7 @@ public class CRUDusuariosSistema extends CRUDesquema{
 
 	@Override
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		this.c = cc.crearConexion();
 		UsuarioSistema usuario = (UsuarioSistema) entrada;
 		int respuesta = 0;
 
@@ -122,6 +124,7 @@ public class CRUDusuariosSistema extends CRUDesquema{
 
 	@Override
 	public int borrar(Object entrada) throws SQLException {
+		this.c = cc.crearConexion();
 		String dniUsuario = String.valueOf(entrada);
 		int respuesta = 0;
 

@@ -2,6 +2,7 @@ package interfacesGraficas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -17,11 +18,12 @@ import javax.swing.border.EmptyBorder;
 
 import builders.PorteGrafico;
 import factorias.FactoriaCRUD;
+import iterador.Agregado;
+import iterador.AgregadoConcreto;
+import iterador.Iterador;
 import operacionesCRUD.CRUDempleados;
-import pojo.Camion;
 import pojo.Porte;
 import pojo.Trabajador;
-import utils.ConversorArrays;
 
 public class VentanaPorteTransportista extends JFrame {
 
@@ -33,7 +35,7 @@ public class VentanaPorteTransportista extends JFrame {
 	private JTextField textDni;
 	private JTextField textNombre;
 
-	public VentanaPorteTransportista(PorteGrafico pb) throws SQLException {
+	public VentanaPorteTransportista(PorteGrafico pb) throws SQLException, IOException {
 		this.p = pb.getPorte();
 		this.pb = pb;
 		this.fc = new FactoriaCRUD();
@@ -79,12 +81,20 @@ public class VentanaPorteTransportista extends JFrame {
 
 		JComboBox comboBoxDni = new JComboBox();
 		comboBoxDni.setBounds(120, 40, 140, 20);
-		
-		ArrayList<Object> trabajadoresO = new ArrayList<Object>(ce.buscarTodo());
-		ArrayList<Trabajador> trabajadores = ConversorArrays.convertirTrabajadores(trabajadoresO);
 
-		for (Trabajador t : trabajadores)
-			comboBoxDni.addItem(t.getDni());
+		ArrayList<Object> trabajadoresO = new ArrayList<Object>(ce.buscarTodo());
+		Agregado agregado = new AgregadoConcreto(trabajadoresO);
+		Iterador iterador = agregado.crearIterador();
+
+		try {
+			while (iterador.hayMas()) {
+				Trabajador trabajador = (Trabajador) iterador.elementoActual();
+				comboBoxDni.addItem(trabajador.getDni());
+				iterador.siguiente();
+			}
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Error: " + e.toString());
+		}
 
 		comboBoxDni.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -136,14 +146,14 @@ public class VentanaPorteTransportista extends JFrame {
 	public Porte getPorte() {
 		return p;
 	}
-	
+
 	private void comboActionPerformed(ActionEvent evt) throws SQLException {
 		JComboBox comboBox = (JComboBox) evt.getSource();
 		Object selected = comboBox.getSelectedItem();
 		Trabajador empleado = (Trabajador) ce.buscarUno(selected);
 
 		textNombre.setText((String.valueOf(empleado.getNombre() + " " + empleado.getApellidos())));
-		
+
 		p.setDni(empleado.getDni());
 
 	}

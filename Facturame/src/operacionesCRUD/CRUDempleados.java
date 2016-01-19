@@ -21,11 +21,11 @@ public class CRUDempleados extends CRUDesquema {
 
 	public CRUDempleados() throws SQLException, IOException {
 		super();
-		this.c = cc.crearConexion();
 	}
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
+		this.c = cc.crearConexion();
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		c.setSt(c.getCon().createStatement());
@@ -60,6 +60,7 @@ public class CRUDempleados extends CRUDesquema {
 
 	@Override
 	public Object buscarUno(Object entrada) throws SQLException {
+		this.c = cc.crearConexion();
 		String dniBuscado = String.valueOf(entrada);
 		Trabajador respuesta = null;
 
@@ -95,6 +96,7 @@ public class CRUDempleados extends CRUDesquema {
 
 	@Override
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		this.c = cc.crearConexion();
 		Trabajador empleado = (Trabajador) entrada;
 		int respuesta = 0;
 
@@ -126,6 +128,7 @@ public class CRUDempleados extends CRUDesquema {
 
 	@Override
 	public int borrar(Object entrada) throws SQLException {
+		this.c = cc.crearConexion();
 		String dniEmpleado = String.valueOf(entrada);
 		int respuesta = 0;
 

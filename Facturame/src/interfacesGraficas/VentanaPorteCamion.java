@@ -2,6 +2,7 @@ package interfacesGraficas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -18,11 +19,12 @@ import javax.swing.border.EmptyBorder;
 
 import builders.PorteGrafico;
 import factorias.FactoriaCRUD;
-import factorias.FactoriaVehiculo;
+import iterador.Agregado;
+import iterador.AgregadoConcreto;
+import iterador.Iterador;
 import operacionesCRUD.CRUDcamiones;
 import pojo.Camion;
 import pojo.Porte;
-import utils.ConversorArrays;
 
 public class VentanaPorteCamion extends JFrame {
 
@@ -54,7 +56,7 @@ public class VentanaPorteCamion extends JFrame {
 	private JLabel label_9;
 	private JCheckBox tTrampilla;
 
-	public VentanaPorteCamion(PorteGrafico pb) throws SQLException {
+	public VentanaPorteCamion(PorteGrafico pb) throws SQLException, IOException {
 		this.p = pb.getPorte();
 		this.pb = pb;
 		this.fc = new FactoriaCRUD();
@@ -78,11 +80,20 @@ public class VentanaPorteCamion extends JFrame {
 
 		JComboBox comboBoxMatricula = new JComboBox();
 		comboBoxMatricula.setBounds(120, 41, 140, 20);
-		ArrayList<Object> camionesO = new ArrayList<Object>(cc.buscarTodo());
-		ArrayList<Camion> camiones = ConversorArrays.convertirCamiones(camionesO);
 
-		for (Camion c : camiones)
-			comboBoxMatricula.addItem(c.getMatricula());
+		ArrayList<Object> camionesO = new ArrayList<Object>(cc.buscarTodo());
+		Agregado agregado = new AgregadoConcreto(camionesO);
+		Iterador iterador = agregado.crearIterador();
+
+		try {
+			while (iterador.hayMas()) {
+				Camion camion = (Camion) iterador.elementoActual();
+				comboBoxMatricula.addItem(camion.getMatricula());
+				iterador.siguiente();
+			}
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Error: " + e.toString());
+		}
 
 		comboBoxMatricula.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

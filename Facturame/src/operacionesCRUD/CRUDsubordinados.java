@@ -24,11 +24,11 @@ public class CRUDsubordinados extends CRUDesquema {
 
 	public CRUDsubordinados() throws SQLException, IOException {
 		super();
-		this.c = cc.crearConexion();
 	}
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
+		this.c = cc.crearConexion();
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		c.setSt(c.getCon().createStatement());
@@ -54,6 +54,7 @@ public class CRUDsubordinados extends CRUDesquema {
 
 	@Override
 	public Object buscarUno(Object entrada) throws SQLException {
+		this.c = cc.crearConexion();
 		String dniJefeBuscado = String.valueOf(entrada);
 		Object respuesta = null;
 
@@ -81,6 +82,7 @@ public class CRUDsubordinados extends CRUDesquema {
 
 	@Override
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		this.c = cc.crearConexion();
 		Subordinado subordinado = (Subordinado) entrada;
 		int respuesta = 0;
 
@@ -106,6 +108,7 @@ public class CRUDsubordinados extends CRUDesquema {
 
 	@Override
 	public int borrar(Object entrada) throws SQLException {
+		this.c = cc.crearConexion();
 		String dniJefe = String.valueOf(entrada);
 		int respuesta = 0;
 

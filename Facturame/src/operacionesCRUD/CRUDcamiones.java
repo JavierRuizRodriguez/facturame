@@ -24,12 +24,11 @@ public class CRUDcamiones extends CRUDesquema {
 
 	public CRUDcamiones() throws SQLException, IOException {
 		super();
-		this.c = cc.crearConexion();
-
 	}
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
+		this.c = cc.crearConexion();
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		c.setSt(c.getCon().createStatement());
@@ -76,6 +75,7 @@ public class CRUDcamiones extends CRUDesquema {
 
 	@Override
 	public Object buscarUno(Object entrada) throws SQLException {
+		this.c = cc.crearConexion();
 		String matriculaBuscada = String.valueOf(entrada);
 		Camion respuesta = null;
 
@@ -126,6 +126,7 @@ public class CRUDcamiones extends CRUDesquema {
 	// mode 1 --> update
 	@Override
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
+		this.c = cc.crearConexion();
 		Camion camion = (Camion) entrada;
 		int respuesta = 0;
 
@@ -167,9 +168,10 @@ public class CRUDcamiones extends CRUDesquema {
 
 	@Override
 	public int borrar(Object entrada) throws SQLException {
+		this.c = cc.crearConexion();
 		String nBastidor = String.valueOf(entrada);
 		int respuesta = 0;
-		
+
 		c.setPst(c.getCon().prepareStatement(CRUDcamiones.borrarCamion));
 		c.prepararPst(1, nBastidor);
 		respuesta = c.getPst().executeUpdate();
