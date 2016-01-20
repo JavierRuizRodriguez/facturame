@@ -138,7 +138,7 @@ public class VentanaGenerarFactura extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					buttonSiguienteActionPerformed(e);
-				} catch (SQLException e1) {
+				} catch (SQLException | IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -185,7 +185,7 @@ public class VentanaGenerarFactura extends JFrame {
 
 	}
 
-	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
+	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, IOException {
 		this.setVisible(false);
 		VentanaTabla2PDF ventanaPDF = new VentanaTabla2PDF(tFechaInicio.getText(), tFechaFinal.getText(), empresa.getNif());
 		ventanaPDF.setVisible(true);

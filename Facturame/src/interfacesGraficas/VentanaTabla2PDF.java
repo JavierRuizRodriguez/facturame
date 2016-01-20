@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -23,8 +24,10 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
 import factorias.FactoriaCRUD;
+import operacionesCRUD.CRUDempresa;
 import operacionesCRUD.CRUDportes;
 import operacionesCRUD.CRUDviajes;
+import pojo.Empresa;
 import pojo.Porte;
 import pojo.Viaje;
 
@@ -32,21 +35,22 @@ public class VentanaTabla2PDF extends JFrame {
 	private static Color color = Color.CYAN;
 	private ArrayList<Object> viajes;
 	private JTable table;
+	private JTable table1;
 	private Document doc;
 	private ArrayList<Object> portes;
 	private FactoriaCRUD fc;
 	private CRUDportes cp;
 	private CRUDviajes cv;
+	private Empresa empresa;
+	private CRUDempresa ce;
 
-	/**
-	 * Constructor for PrintJTable.
-	 * 
-	 * @throws SQLException
-	 */
-	public VentanaTabla2PDF(String fInicio, String fFinal, String empresa) throws SQLException {
+	public VentanaTabla2PDF(String fInicio, String fFinal, String empresa) throws SQLException, IOException {
 		this.table = new JTable();
-		table.setPreferredSize(getPreferredSize());
+		this.table1 = new JTable();
+		this.table.setPreferredSize(getPreferredSize());
 		this.fc = new FactoriaCRUD();
+		this.ce = (CRUDempresa) fc.crearCRUD(FactoriaCRUD.TIPO_EMPRESA);
+		this.empresa = (Empresa) ce.buscarUno(empresa);
 		this.cp = (CRUDportes) fc.crearCRUD(FactoriaCRUD.TIPO_PORTE);
 		this.cv = (CRUDviajes) fc.crearCRUD(FactoriaCRUD.TIPO_VIAJE);
 		this.portes = new ArrayList<Object>(cp.buscarPorFechas(fInicio, fFinal, empresa));
@@ -63,15 +67,19 @@ public class VentanaTabla2PDF extends JFrame {
 	}
 
 	private void crearTablaResumen() {
-		// TODO Auto-generated method stub
-		
+		double sumatorio = 0;
+		for (Object o : portes) {
+			Porte p = (Porte) o;
+			sumatorio = +p.getPrecio();
+		}
+
+		String[] columnNames = { "Nombre empresa", "NIF", "Teléfono", "Precio" };
+		Object[][] datos = { { empresa.getEmpresa(), empresa.getNif(), empresa.getnTelefono(),
+				String.valueOf(sumatorio).concat(" €") } };
+		table = new JTable(datos, columnNames);
+
 	}
 
-	/**
-	 * Create a table with some dummy data
-	 * 
-	 * @throws SQLException
-	 */
 	private void crearTablaCuerpo() throws SQLException {
 		ArrayList<ArrayList<Object>> datos = new ArrayList<ArrayList<Object>>();
 
@@ -108,12 +116,11 @@ public class VentanaTabla2PDF extends JFrame {
 			contador++;
 		}
 
-		String[] columnNames = { "ID factura", "NIF", "Origen", "Destino", "F. inicio", "Kg carga", "Precio",
+		String[] columnNames = { "ID porte", "NIF", "Origen", "Destino", "F. inicio", "Kg carga", "Precio",
 				"Grupaje?" };
 
 		table = new JTable(datosO, columnNames);
 
-		// Use a panel to contains the table and add it the frame
 		JPanel tPanel = new JPanel(new BorderLayout());
 		tPanel.add(table.getTableHeader(), BorderLayout.NORTH);
 		tPanel.add(table, BorderLayout.CENTER);
@@ -121,9 +128,6 @@ public class VentanaTabla2PDF extends JFrame {
 		getContentPane().add(tPanel, BorderLayout.CENTER);
 	}
 
-	/**
-	 * Toolbar for print and exit
-	 */
 	private void crearBarraHerramientas() {
 		JToolBar tb = new JToolBar();
 
@@ -142,7 +146,7 @@ public class VentanaTabla2PDF extends JFrame {
 	private void imprimir() {
 		try {
 			doc = new Document();
-			PdfWriter.getInstance(doc, new FileOutputStream("table.pdf"));
+			PdfWriter.getInstance(doc, new FileOutputStream("documentacion\\table.pdf"));
 			PdfPTable pdfTable = new PdfPTable(table.getColumnCount());
 			manejarDocumento(0);
 
@@ -158,7 +162,25 @@ public class VentanaTabla2PDF extends JFrame {
 				}
 			}
 			doc.add(pdfTable);
+
+			PdfPTable pdfTable1 = new PdfPTable(table1.getColumnCount());
+			manejarDocumento(0);
+
+			for (int i = 0; i < table.getColumnCount(); i++) {
+				PdfPCell celda = new PdfPCell(new Phrase(table.getColumnName(i)));
+				celda.setBackgroundColor(VentanaTabla2PDF.color);
+				pdfTable1.addCell(celda);
+			}
+
+			for (int fil = 0; fil < table.getRowCount(); fil++) {
+				for (int col = 0; col < table.getColumnCount(); col++) {
+					pdfTable1.addCell(table.getModel().getValueAt(fil, col).toString());
+				}
+			}
+			pdfTable1.setTotalWidth(doc.right(doc.rightMargin()) - doc.left(doc.leftMargin()));
+
 			manejarDocumento(1);
+			System.out.println("Impreso");
 
 		} catch (Exception e) {
 			e.printStackTrace();

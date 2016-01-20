@@ -22,28 +22,6 @@ public class VentanaVisualizacionComposite extends JFrame {
 	private String jefe;
 	private JTextPane tResultado;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaVisualizacionComposite frame = new VentanaVisualizacionComposite();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 * 
-	 * @throws IOException
-	 * @throws SQLException
-	 */
 	public VentanaVisualizacionComposite() throws SQLException, IOException {
 		this.jefe = "1";
 		this.ae = new AccesoEmpleados(jefe);

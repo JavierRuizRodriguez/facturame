@@ -30,7 +30,7 @@ public class CRUDusuariosSistema extends CRUDesquema{
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException, NoSuchAlgorithmException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		c.setSt(c.getCon().createStatement());
@@ -63,7 +63,7 @@ public class CRUDusuariosSistema extends CRUDesquema{
 
 	@Override
 	public Object buscarUno(Object entrada) throws SQLException, NoSuchAlgorithmException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		String nicknameU = String.valueOf(entrada);
 		UsuarioSistema respuesta = null;
 
@@ -127,7 +127,7 @@ public class CRUDusuariosSistema extends CRUDesquema{
 
 	@Override
 	public int borrar(Object entrada) throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		String dniUsuario = String.valueOf(entrada);
 		int respuesta = 0;
 
