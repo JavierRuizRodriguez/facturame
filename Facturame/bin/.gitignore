@@ -1,9 +1,1 @@
-/daos/
-/factorias/
-/conexionProxyBBDD/
-/operacionesCRUD/
-/builders/
-/interfacesGraficas/
-/pojo/
-/utils/
-/iterador/
+/composite/

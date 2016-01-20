@@ -1,13 +1,16 @@
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Map;
 
-import builders.CreadorPortes;
-import builders.PorteGrafico;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+
+import composite.AccesoEmpleados;
 
 public class Main {
 
-	public static void main(String[] args) throws SQLException, ParseException {
+	public static void main(String[] args) throws SQLException, ParseException, IOException {
 		/*
 		 * Jefe t1 = new Jefe("director", 3000.00); Jefe j1 = new
 		 * Jefe("director1", 2000.00); Empleado t2 = new Empleado("chofer1",
@@ -57,7 +60,7 @@ public class Main {
 		 * for (Porte p:portesOrdenados) System.out.println(p.toString());
 		 */
 
-		PorteGrafico pg = new PorteGrafico();
+		/*PorteGrafico pg = new PorteGrafico();
 		CreadorPortes cp;
 		try {
 			cp = new CreadorPortes();
@@ -65,12 +68,25 @@ public class Main {
 			cp.setPb(pg);
 			cp.hacerPorte();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
+		
+		/*ListMultimap<String, String> mapa = ArrayListMultimap.create();
+
+		mapa.put("1", "valor 1");
+		mapa.put("1", "valor 2");
+		mapa.put("2", "valor 2");
+		mapa.put("3", "valor 3");
+
+		for (Map.Entry entry : mapa.entries()) { 
+			System.out.println(mapa.containsKey((entry.getKey())));
+		}*/
+			
+		AccesoEmpleados ae = new AccesoEmpleados("1");
+		System.out.println("Sueldos --> " + ae.getSueldos());
+		System.out.println("Sueldos --> " + ae.getDescripciones());
 	}
 
 }
