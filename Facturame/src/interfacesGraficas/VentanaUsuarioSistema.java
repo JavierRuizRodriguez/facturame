@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -25,6 +24,7 @@ import factorias.FactoriaCRUD;
 import factorias.FactoriaUsuarioSistema;
 import operacionesCRUD.CRUDusuariosSistema;
 import pojo.UsuarioSistema;
+import util.UtilVentanas;
 
 public class VentanaUsuarioSistema extends JFrame {
 
@@ -93,9 +93,8 @@ public class VentanaUsuarioSistema extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					crearUsuarioSistema();
-				} catch (SQLException | NoSuchAlgorithmException sqle) {
-					// TODO Auto-generated catch block
- 					sqle.printStackTrace();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				}
 			}
 		});
@@ -119,7 +118,7 @@ public class VentanaUsuarioSistema extends JFrame {
 		principal.setVisible(true);
 	}
 
-	private void crearUsuarioSistema() throws SQLException, NoSuchAlgorithmException {
+	private void crearUsuarioSistema() throws SQLException {
 		Boolean camposObligatorios = true;
 		for (JTextField texto : textos) {
 			camposObligatorios = texto.getText().equals("") ? false : camposObligatorios;
@@ -133,11 +132,9 @@ public class VentanaUsuarioSistema extends JFrame {
 			usuarioSistema.setFechaAltaUsuario(fechaAlta);
 			usuarioSistema.setNickname(textNombre.getText());
 			usuarioSistema.setAdmin(checkBoxAdministrador.isSelected());
-			usuarioSistema.setHashContrasena("hash");
+			usuarioSistema.setHashContraseña("hash");
 
 			cus.insertarActualizar(usuarioSistema, true);
-
-			JOptionPane.showMessageDialog(null, "Nuevo usuario del sistema creado.");
 		} else {
 			JOptionPane.showMessageDialog(null, "Faltan campos por rellenar");
 		}

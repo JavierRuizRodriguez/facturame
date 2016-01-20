@@ -1,23 +1,42 @@
 package interfacesGraficas;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
-import javax.swing.JSeparator;
-import javax.swing.border.TitledBorder;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
+
+import factorias.FactoriaCRUD;
+import factorias.FactoriaVehiculo;
+import operacionesCRUD.CRUDcamiones;
+import pojo.Camion;
+import util.UtilVentanas;
+import javax.swing.DefaultComboBoxModel;
 
 public class VentanaCamion extends JFrame {
-
+	
+	public static void main(String[] args) throws SQLException {		
+		VentanaPrincipal principal = new VentanaPrincipal();
+		principal.setVisible(false);
+		VentanaCamion ventCami = new VentanaCamion(principal);
+		ventCami.setVisible(true);	
+	}
+	
 	private JPanel contentPane;
 	private JTextField textNumeroBastidor;
 	private JTextField textMatricula;
@@ -35,6 +54,11 @@ public class VentanaCamion extends JFrame {
 	private JTextField textAltoCaja;
 	private JTextField textGalibo;
 	private JTextField textDescripcion;
+	private JCheckBox checkTrampilla;
+	private JComboBox comboBoxCombustible;
+	private ArrayList<JTextField> textos = new ArrayList<JTextField>();
+	private FactoriaVehiculo fv;
+	private FactoriaCRUD fc;
 	
 	public VentanaCamion(VentanaPrincipal principal) {
 		addWindowListener(new WindowAdapter() {
@@ -42,7 +66,7 @@ public class VentanaCamion extends JFrame {
 			public void windowClosing(WindowEvent e) {
                 formWindowClosing(e, principal);
 			}
-		});
+		});		
 		setTitle("Facturame --- Camion");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 555, 440);
@@ -73,9 +97,10 @@ public class VentanaCamion extends JFrame {
 		labelCombustible.setBounds(285, 76, 120, 15);
 		contentPane.add(labelCombustible);
 		
-		JComboBox comboCombustible = new JComboBox();
-		comboCombustible.setBounds(400, 71, 120, 20);
-		contentPane.add(comboCombustible);
+		comboBoxCombustible = new JComboBox();
+		comboBoxCombustible.setModel(new DefaultComboBoxModel(new String[] {"Diesel", "Gasolina"}));
+		comboBoxCombustible.setBounds(400, 71, 120, 20);
+		contentPane.add(comboBoxCombustible);
 		
 		JLabel labelNumeroPasajeros = new JLabel("N\u00FAmero de pasajeros: ");
 		labelNumeroPasajeros.setBounds(20, 76, 120, 15);
@@ -199,11 +224,22 @@ public class VentanaCamion extends JFrame {
 		labelTrampilla.setBounds(385, 136, 90, 15);
 		contentPane.add(labelTrampilla);
 		
-		JCheckBox checkTrampilla = new JCheckBox("");
+		checkTrampilla = new JCheckBox("");
 		checkTrampilla.setBounds(455, 131, 21, 23);
 		contentPane.add(checkTrampilla);
 		
 		JButton buttonAnadir = new JButton("A\u00D1ADIR");
+		buttonAnadir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					crearCamion();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+				} catch (IOException ioe) {
+					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
+				}
+			}
+		});
 		buttonAnadir.setBounds(20, 356, 120, 25);
 		contentPane.add(buttonAnadir);
 		
@@ -215,9 +251,15 @@ public class VentanaCamion extends JFrame {
 		buttonCancelar.setBounds(280, 356, 120, 25);
 		contentPane.add(buttonCancelar);
 		
-		JButton buttonBorra = new JButton("");
-		buttonBorra.setBounds(410, 356, 25, 25);
-		contentPane.add(buttonBorra);
+		JButton buttonBorrar = new JButton("");
+		buttonBorrar.setIcon(new ImageIcon("images\\papelera_16.png"));		
+		buttonBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UtilVentanas.borrarTextos(textos);
+			}
+		});
+		buttonBorrar.setBounds(410, 356, 25, 25);
+		contentPane.add(buttonBorrar);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(20, 111, 500, 2);
@@ -233,6 +275,74 @@ public class VentanaCamion extends JFrame {
 		textDescripcion.setColumns(10);
 		textDescripcion.setBounds(10, 15, 500, 55);
 		panelTextDescripcion.add(textDescripcion);
+		
+		JButton buttonCalcular = new JButton("");
+		buttonCalcular.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				calcularVolumen();
+			}
+		});
+		buttonCalcular.setIcon(new ImageIcon("images\\calculadora_16.png"));
+		buttonCalcular.setBounds(382, 218, 25, 25);
+		contentPane.add(buttonCalcular);
+		
+		textos.add(textNumeroBastidor);
+		textos.add(textMatricula);
+		textos.add(textNumeroPasajeros);
+		textos.add(textPotenciaCv);
+		textos.add(textPotenciaKwh);
+		textos.add(textKmTotales);
+		textos.add(textPeso);
+		textos.add(textLargo);
+		textos.add(textAncho);
+		textos.add(textLargoCaja);
+		textos.add(textAnchoCaja);
+		textos.add(textPesoMaxCaja);
+		textos.add(textVolumenCaja);
+		textos.add(textAltoCaja);
+		textos.add(textGalibo);
+		textos.add(textDescripcion);
+		this.fv = new FactoriaVehiculo();
+		this.fc = new FactoriaCRUD();		
+	}
+	
+	public void calcularVolumen(){
+		if(textLargoCaja.getText().isEmpty() || textAnchoCaja.getText().isEmpty() || textAltoCaja.getText().isEmpty()){
+			UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_CAMPOS_INCOMPLETOS,"");
+		} else {
+			int largoCaja = Integer.parseInt(textLargoCaja.getText());
+			int anchoCaja = Integer.parseInt(textAnchoCaja.getText());
+			int altoCaja = Integer.parseInt(textAltoCaja.getText());
+			String volumenCaja = String.valueOf(largoCaja*anchoCaja*altoCaja);
+			textVolumenCaja.setText(volumenCaja);
+		}				
+	}
+	
+	private void crearCamion() throws SQLException, IOException{
+		if(UtilVentanas.textosIncompletos(textos)){
+			Camion camion = (Camion) fv.crearCamion(1);
+			camion.setCombustible(comboBoxCombustible.getSelectedItem().toString());	
+			camion.setAncho(Double.parseDouble(textAncho.getText()));
+			camion.setLargo(Double.parseDouble(textLargo.getText()));
+			camion.setGalibo(Double.parseDouble(textGalibo.getText()));
+			camion.setAnchoCaja(Double.parseDouble(textAnchoCaja.getText()));
+			camion.setLongCaja(Double.parseDouble(textLargo.getText()));
+			camion.setAlturaCaja(Double.parseDouble(textAltoCaja.getText()));
+			camion.setDescripcion(textDescripcion.getText());
+			camion.setKmTotales(Integer.parseInt(textKmTotales.getText()));
+			camion.setMatricula(textMatricula.getText());
+			camion.setnBastidor(textNumeroBastidor.getText());
+			camion.setnPasajeros(Integer.parseInt(textNumeroPasajeros.getText()));
+			camion.setPeso(Integer.parseInt(textPeso.getText()));
+			camion.setPesoMaxCaja(Integer.parseInt(textPesoMaxCaja.getText()));
+			camion.setPotenciaCV(Integer.parseInt(textPotenciaCv.getText()));
+			camion.setPotenciaKWh(Integer.parseInt(textPotenciaKwh.getText()));
+			camion.setTrampilla(checkTrampilla.isSelected());
+			camion.setVolumenCaja(Integer.parseInt(textVolumenCaja.getText()));			
+			fc.crearCRUD(FactoriaCRUD.TIPO_CAMION).insertarActualizar(camion, true);
+		} else {
+			JOptionPane.showMessageDialog(null, "Faltan campos por rellenar");
+		}		
 	}
 	
 	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {

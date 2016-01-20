@@ -16,7 +16,7 @@ public class ProxyConexion implements CrearConexion {
 	FileHandler fh;
 
 	public ProxyConexion() throws SecurityException, IOException {
-		this.fh = new FileHandler("C:/Users/javier/Documents/Patrones software/LogAccesoBD.log");
+		this.fh = new FileHandler("logs\\LogAccesoBD.log");
 		logger.addHandler(fh);
 		SimpleFormatter formatter = new SimpleFormatter();
 		fh.setFormatter(formatter);

@@ -24,6 +24,7 @@ import iterador.Iterador;
 import operacionesCRUD.CRUDempresa;
 import pojo.Empresa;
 import pojo.Porte;
+import util.UtilVentanas;
 
 public class VentanaPorteEmpresa extends JFrame {
 
@@ -64,16 +65,13 @@ public class VentanaPorteEmpresa extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					buttonBuscarActionPerformed(e);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				}
 			}
 		});
-		buttonBuscar.setIcon(new ImageIcon(
-				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\lupa_16.png"));
-		buttonBuscar.setSelectedIcon(new ImageIcon(
-				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\lupa_24.png"));
+		buttonBuscar.setIcon(new ImageIcon("images\\lupa_16.png"));
+		buttonBuscar.setSelectedIcon(new ImageIcon("images\\lupa_16.png"));
 		buttonBuscar.setBounds(270, 8, 25, 25);
 		contentPane.add(buttonBuscar);
 
@@ -86,21 +84,19 @@ public class VentanaPorteEmpresa extends JFrame {
 
 		try {
 			while (iterador.hayMas()) {
-				Empresa empresa = (Empresa) iterador.elementoActual();
-				comboBoxEmpresa.addItem(empresa.getEmpresa());
+				comboBoxEmpresa.addItem(((Empresa) iterador.elementoActual()).getEmpresa());
 				iterador.siguiente();
 			}
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("Error: " + e.toString());
+		} catch (IndexOutOfBoundsException iobe) {
+			UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
 		}
 
 		comboBoxEmpresa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					comboActionPerformed(e);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				}
 			}
 		});

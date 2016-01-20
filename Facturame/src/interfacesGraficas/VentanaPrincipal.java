@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import util.UtilVentanas;
+
 public class VentanaPrincipal extends JFrame {
 
 	private JPanel contentPane;
@@ -56,9 +58,10 @@ public class VentanaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					buttonRegistrarUsuarioSistemaActionPerformed(e);
-				} catch (SQLException | IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+				} catch (IOException ioe) {
+					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
 				}
 			}
 		});

@@ -24,6 +24,7 @@ import iterador.Iterador;
 import operacionesCRUD.CRUDempleados;
 import pojo.Porte;
 import pojo.Trabajador;
+import util.UtilVentanas;
 
 public class VentanaPorteTransportista extends JFrame {
 
@@ -34,6 +35,7 @@ public class VentanaPorteTransportista extends JFrame {
 	private JPanel contentPane;
 	private JTextField textDni;
 	private JTextField textNombre;
+	private JComboBox comboBoxDni;
 
 	public VentanaPorteTransportista(PorteGrafico pb) throws SQLException, IOException {
 		this.p = pb.getPorte();
@@ -65,21 +67,19 @@ public class VentanaPorteTransportista extends JFrame {
 
 		JButton buttonBuscar = new JButton("");
 		buttonBuscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				try {
-					buttonBuscarActionPerformed(arg0);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					buttonBuscarActionPerformed(e);
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				}
 			}
 		});
-		buttonBuscar.setIcon(new ImageIcon(
-				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\lupa_16.png"));
+		buttonBuscar.setIcon(new ImageIcon("images\\lupa_16.png"));
 		buttonBuscar.setBounds(270, 8, 25, 25);
 		panel.add(buttonBuscar);
 
-		JComboBox comboBoxDni = new JComboBox();
+		comboBoxDni = new JComboBox();
 		comboBoxDni.setBounds(120, 40, 140, 20);
 
 		ArrayList<Object> trabajadoresO = new ArrayList<Object>(ce.buscarTodo());
@@ -88,21 +88,19 @@ public class VentanaPorteTransportista extends JFrame {
 
 		try {
 			while (iterador.hayMas()) {
-				Trabajador trabajador = (Trabajador) iterador.elementoActual();
-				comboBoxDni.addItem(trabajador.getDni());
+				comboBoxDni.addItem(((Trabajador) iterador.elementoActual()).getDni());
 				iterador.siguiente();
 			}
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("Error: " + e.toString());
+		} catch (IndexOutOfBoundsException iobe) {
+			UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
 		}
 
 		comboBoxDni.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					comboActionPerformed(e);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				}
 			}
 		});
@@ -124,8 +122,7 @@ public class VentanaPorteTransportista extends JFrame {
 				buttonSiguienteActionPerformed(e);
 			}
 		});
-		buttonSiguiente.setIcon(new ImageIcon(
-				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\flecha_16.png"));
+		buttonSiguiente.setIcon(new ImageIcon("images\\flecha_16.png"));
 		buttonSiguiente.setBounds(120, 126, 89, 23);
 		panel.add(buttonSiguiente);
 
