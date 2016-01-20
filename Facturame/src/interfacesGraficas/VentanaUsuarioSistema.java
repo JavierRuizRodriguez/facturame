@@ -24,6 +24,7 @@ import factorias.FactoriaCRUD;
 import factorias.FactoriaUsuarioSistema;
 import operacionesCRUD.CRUDusuariosSistema;
 import pojo.UsuarioSistema;
+import util.UtilVentanas;
 
 public class VentanaUsuarioSistema extends JFrame {
 
@@ -93,8 +94,7 @@ public class VentanaUsuarioSistema extends JFrame {
 				try {
 					crearUsuarioSistema();
 				} catch (SQLException sqle) {
-					// TODO Auto-generated catch block
-					sqle.printStackTrace();
+					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				}
 			}
 		});

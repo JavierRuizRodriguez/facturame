@@ -25,6 +25,7 @@ import iterador.Iterador;
 import operacionesCRUD.CRUDcamiones;
 import pojo.Camion;
 import pojo.Porte;
+import util.UtilVentanas;
 
 public class VentanaPorteCamion extends JFrame {
 
@@ -35,26 +36,26 @@ public class VentanaPorteCamion extends JFrame {
 	private JPanel contentPane;
 	private JTextField textMatricula;
 	private JSeparator separator;
-	private JButton button;
-	private JButton button_1;
-	private JLabel label_1;
-	private JTextField tLargo;
-	private JLabel label_2;
-	private JTextField tAncho;
-	private JLabel label_3;
-	private JTextField tLargoCaja;
-	private JLabel label_4;
-	private JTextField tAnchoCaja;
-	private JLabel lblPesomaxCaja;
-	private JTextField tPesoCaja;
-	private JLabel label_6;
-	private JTextField tVolCaja;
-	private JLabel label_7;
-	private JTextField tAltoCaja;
-	private JLabel label_8;
-	private JTextField tGalibo;
-	private JLabel label_9;
-	private JCheckBox tTrampilla;
+	private JButton buttonSiguiente;
+	private JButton buttonBuscar;
+	private JLabel labelLargo;
+	private JTextField textLargo;
+	private JLabel labelAncho;
+	private JTextField textAncho;
+	private JLabel labelLargoCaja;
+	private JTextField textLargoCaja;
+	private JLabel labelAnchoCaja;
+	private JTextField textAnchoCaja;
+	private JLabel labelPesomaxCaja;
+	private JTextField textPesoCaja;
+	private JLabel labelVolumenCaja;
+	private JTextField textVolumenCaja;
+	private JLabel labelAltoCaja;
+	private JTextField textAltoCaja;
+	private JLabel labelGalibo;
+	private JTextField textGalibo;
+	private JLabel labelTrampilla;
+	private JCheckBox checkBoxTrampilla;
 
 	public VentanaPorteCamion(PorteGrafico pb) throws SQLException, IOException {
 		this.p = pb.getPorte();
@@ -69,9 +70,9 @@ public class VentanaPorteCamion extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel label = new JLabel("Elige cami\u00F3n:");
-		label.setBounds(10, 11, 110, 20);
-		contentPane.add(label);
+		JLabel labelElige = new JLabel("Elige cami\u00F3n:");
+		labelElige.setBounds(10, 11, 110, 20);
+		contentPane.add(labelElige);
 
 		textMatricula = new JTextField();
 		textMatricula.setColumns(10);
@@ -86,22 +87,20 @@ public class VentanaPorteCamion extends JFrame {
 		Iterador iterador = agregado.crearIterador();
 
 		try {
-			while (iterador.hayMas()) {
-				Camion camion = (Camion) iterador.elementoActual();
-				comboBoxMatricula.addItem(camion.getMatricula());
+			while (iterador.hayMas()) {				
+				comboBoxMatricula.addItem(((Camion) iterador.elementoActual()).getMatricula());
 				iterador.siguiente();
 			}
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("Error: " + e.toString());
+		} catch (IndexOutOfBoundsException iobe) {
+			UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
 		}
 
 		comboBoxMatricula.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					comboActionPerformed(e);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				}
 			}
 		});
@@ -112,123 +111,120 @@ public class VentanaPorteCamion extends JFrame {
 		separator.setBounds(10, 74, 304, 14);
 		contentPane.add(separator);
 
-		button = new JButton("");
-		button.addActionListener(new ActionListener() {
+		buttonSiguiente = new JButton("");
+		buttonSiguiente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttonActionPerformed(e);
 			}
 		});
 
-		button.setIcon(new ImageIcon(
-				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\flecha_16.png"));
-		button.setBounds(119, 238, 89, 23);
-		contentPane.add(button);
+		buttonSiguiente.setIcon(new ImageIcon("images\\flecha_16.png"));
+		buttonSiguiente.setBounds(119, 238, 89, 23);
+		contentPane.add(buttonSiguiente);
 
-		button_1 = new JButton("");
-		button_1.addActionListener(new ActionListener() {
+		buttonBuscar = new JButton("");
+		buttonBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					button1ActionPerformed(e);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				}
 			}
 		});
-		button_1.setIcon(new ImageIcon(
-				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\lupa_16.png"));
-		button_1.setBounds(271, 6, 25, 25);
-		contentPane.add(button_1);
+		buttonBuscar.setIcon(new ImageIcon("images\\lupa_16.png"));
+		buttonBuscar.setBounds(271, 6, 25, 25);
+		contentPane.add(buttonBuscar);
 
-		label_1 = new JLabel("Largo: ");
-		label_1.setBounds(10, 92, 60, 15);
-		contentPane.add(label_1);
+		labelLargo = new JLabel("Largo: ");
+		labelLargo.setBounds(10, 92, 60, 15);
+		contentPane.add(labelLargo);
 
-		tLargo = new JTextField();
-		tLargo.setEditable(false);
-		tLargo.setColumns(10);
-		tLargo.setBounds(95, 87, 60, 20);
-		contentPane.add(tLargo);
+		textLargo = new JTextField();
+		textLargo.setEditable(false);
+		textLargo.setColumns(10);
+		textLargo.setBounds(95, 87, 60, 20);
+		contentPane.add(textLargo);
 
-		label_2 = new JLabel("Ancho: ");
-		label_2.setBounds(10, 122, 75, 15);
-		contentPane.add(label_2);
+		labelAncho = new JLabel("Ancho: ");
+		labelAncho.setBounds(10, 122, 75, 15);
+		contentPane.add(labelAncho);
 
-		tAncho = new JTextField();
-		tAncho.setEditable(false);
-		tAncho.setColumns(10);
-		tAncho.setBounds(95, 117, 60, 20);
-		contentPane.add(tAncho);
+		textAncho = new JTextField();
+		textAncho.setEditable(false);
+		textAncho.setColumns(10);
+		textAncho.setBounds(95, 117, 60, 20);
+		contentPane.add(textAncho);
 
-		label_3 = new JLabel("Largo caja: ");
-		label_3.setBounds(165, 91, 68, 15);
-		contentPane.add(label_3);
+		labelLargoCaja = new JLabel("Largo caja: ");
+		labelLargoCaja.setBounds(165, 91, 68, 15);
+		contentPane.add(labelLargoCaja);
 
-		tLargoCaja = new JTextField();
-		tLargoCaja.setEditable(false);
-		tLargoCaja.setColumns(10);
-		tLargoCaja.setBounds(243, 90, 60, 20);
-		contentPane.add(tLargoCaja);
+		textLargoCaja = new JTextField();
+		textLargoCaja.setEditable(false);
+		textLargoCaja.setColumns(10);
+		textLargoCaja.setBounds(243, 90, 60, 20);
+		contentPane.add(textLargoCaja);
 
-		label_4 = new JLabel("Ancho caja: ");
-		label_4.setBounds(165, 123, 75, 15);
-		contentPane.add(label_4);
+		labelAnchoCaja = new JLabel("Ancho caja: ");
+		labelAnchoCaja.setBounds(165, 123, 75, 15);
+		contentPane.add(labelAnchoCaja);
 
-		tAnchoCaja = new JTextField();
-		tAnchoCaja.setEditable(false);
-		tAnchoCaja.setColumns(10);
-		tAnchoCaja.setBounds(243, 120, 60, 20);
-		contentPane.add(tAnchoCaja);
+		textAnchoCaja = new JTextField();
+		textAnchoCaja.setEditable(false);
+		textAnchoCaja.setColumns(10);
+		textAnchoCaja.setBounds(243, 120, 60, 20);
+		contentPane.add(textAnchoCaja);
 
-		lblPesomaxCaja = new JLabel("Peso(max) caja: ");
-		lblPesomaxCaja.setBounds(10, 184, 89, 15);
-		contentPane.add(lblPesomaxCaja);
+		labelPesomaxCaja = new JLabel("Peso(max) caja: ");
+		labelPesomaxCaja.setBounds(10, 184, 89, 15);
+		contentPane.add(labelPesomaxCaja);
 
-		tPesoCaja = new JTextField();
-		tPesoCaja.setEditable(false);
-		tPesoCaja.setColumns(10);
-		tPesoCaja.setBounds(95, 179, 60, 20);
-		contentPane.add(tPesoCaja);
+		textPesoCaja = new JTextField();
+		textPesoCaja.setEditable(false);
+		textPesoCaja.setColumns(10);
+		textPesoCaja.setBounds(95, 179, 60, 20);
+		contentPane.add(textPesoCaja);
 
-		label_6 = new JLabel("Volumen caja: ");
-		label_6.setBounds(165, 182, 89, 15);
-		contentPane.add(label_6);
+		labelVolumenCaja = new JLabel("Volumen caja: ");
+		labelVolumenCaja.setBounds(165, 182, 89, 15);
+		contentPane.add(labelVolumenCaja);
 
-		tVolCaja = new JTextField();
-		tVolCaja.setEditable(false);
-		tVolCaja.setColumns(10);
-		tVolCaja.setBounds(243, 179, 60, 20);
-		contentPane.add(tVolCaja);
+		textVolumenCaja = new JTextField();
+		textVolumenCaja.setEditable(false);
+		textVolumenCaja.setColumns(10);
+		textVolumenCaja.setBounds(243, 179, 60, 20);
+		contentPane.add(textVolumenCaja);
 
-		label_7 = new JLabel("Alto caja: ");
-		label_7.setBounds(165, 156, 60, 15);
-		contentPane.add(label_7);
+		labelAltoCaja = new JLabel("Alto caja: ");
+		labelAltoCaja.setBounds(165, 156, 60, 15);
+		contentPane.add(labelAltoCaja);
 
-		tAltoCaja = new JTextField();
-		tAltoCaja.setEditable(false);
-		tAltoCaja.setColumns(10);
-		tAltoCaja.setBounds(243, 153, 60, 20);
-		contentPane.add(tAltoCaja);
+		textAltoCaja = new JTextField();
+		textAltoCaja.setEditable(false);
+		textAltoCaja.setColumns(10);
+		textAltoCaja.setBounds(243, 153, 60, 20);
+		contentPane.add(textAltoCaja);
 
-		label_8 = new JLabel("G\u00E1libo: ");
-		label_8.setBounds(10, 155, 60, 15);
-		contentPane.add(label_8);
+		labelGalibo = new JLabel("G\u00E1libo: ");
+		labelGalibo.setBounds(10, 155, 60, 15);
+		contentPane.add(labelGalibo);
 
-		tGalibo = new JTextField();
-		tGalibo.setEditable(false);
-		tGalibo.setColumns(10);
-		tGalibo.setBounds(95, 148, 60, 20);
-		contentPane.add(tGalibo);
+		textGalibo = new JTextField();
+		textGalibo.setEditable(false);
+		textGalibo.setColumns(10);
+		textGalibo.setBounds(95, 148, 60, 20);
+		contentPane.add(textGalibo);
 
-		label_9 = new JLabel("Trampilla:");
-		label_9.setBounds(10, 210, 68, 15);
-		contentPane.add(label_9);
+		labelTrampilla = new JLabel("Trampilla:");
+		labelTrampilla.setBounds(10, 210, 68, 15);
+		contentPane.add(labelTrampilla);
 
-		tTrampilla = new JCheckBox("");
-		tTrampilla.setSelected(true);
-		tTrampilla.setEnabled(false);
-		tTrampilla.setBounds(95, 206, 21, 23);
-		contentPane.add(tTrampilla);
+		checkBoxTrampilla = new JCheckBox("");
+		checkBoxTrampilla.setSelected(true);
+		checkBoxTrampilla.setEnabled(false);
+		checkBoxTrampilla.setBounds(95, 206, 21, 23);
+		contentPane.add(checkBoxTrampilla);
 	}
 
 	private void formWindowClosing(java.awt.event.WindowEvent evt) {
@@ -249,15 +245,15 @@ public class VentanaPorteCamion extends JFrame {
 		Object selected = comboBox.getSelectedItem();
 		Camion camion = (Camion) cc.buscarUno(selected);
 
-		tAncho.setText((String.valueOf(camion.getAncho())));
-		tAnchoCaja.setText((String.valueOf(camion.getAncho())));
-		tAltoCaja.setText((String.valueOf(camion.getAlturaCaja())));
-		tGalibo.setText((String.valueOf(camion.getGalibo())));
-		tLargo.setText((String.valueOf(camion.getLargo())));
-		tLargoCaja.setText((String.valueOf(camion.getLongCaja())));
-		tPesoCaja.setText((String.valueOf(camion.getPesoMaxCaja())));
-		tVolCaja.setText((String.valueOf(camion.getVolumenCaja())));
-		tTrampilla.setSelected((camion.isTrampilla()));
+		textAncho.setText((String.valueOf(camion.getAncho())));
+		textAnchoCaja.setText((String.valueOf(camion.getAncho())));
+		textAltoCaja.setText((String.valueOf(camion.getAlturaCaja())));
+		textGalibo.setText((String.valueOf(camion.getGalibo())));
+		textLargo.setText((String.valueOf(camion.getLargo())));
+		textLargoCaja.setText((String.valueOf(camion.getLongCaja())));
+		textPesoCaja.setText((String.valueOf(camion.getPesoMaxCaja())));
+		textVolumenCaja.setText((String.valueOf(camion.getVolumenCaja())));
+		checkBoxTrampilla.setSelected((camion.isTrampilla()));
 		p.setnBastidor(camion.getnBastidor());
 
 	}
@@ -267,15 +263,15 @@ public class VentanaPorteCamion extends JFrame {
 		Camion camion = (Camion) cc.buscarUno(selected);
 
 		if (camion != null) {
-			tAncho.setText((String.valueOf(camion.getAncho())));
-			tAnchoCaja.setText((String.valueOf(camion.getAncho())));
-			tAltoCaja.setText((String.valueOf(camion.getAlturaCaja())));
-			tGalibo.setText((String.valueOf(camion.getGalibo())));
-			tLargo.setText((String.valueOf(camion.getLargo())));
-			tLargoCaja.setText((String.valueOf(camion.getLongCaja())));
-			tPesoCaja.setText((String.valueOf(camion.getPesoMaxCaja())));
-			tVolCaja.setText((String.valueOf(camion.getVolumenCaja())));
-			tTrampilla.setSelected((camion.isTrampilla()));
+			textAncho.setText((String.valueOf(camion.getAncho())));
+			textAnchoCaja.setText((String.valueOf(camion.getAncho())));
+			textAltoCaja.setText((String.valueOf(camion.getAlturaCaja())));
+			textGalibo.setText((String.valueOf(camion.getGalibo())));
+			textLargo.setText((String.valueOf(camion.getLargo())));
+			textLargoCaja.setText((String.valueOf(camion.getLongCaja())));
+			textPesoCaja.setText((String.valueOf(camion.getPesoMaxCaja())));
+			textVolumenCaja.setText((String.valueOf(camion.getVolumenCaja())));
+			checkBoxTrampilla.setSelected((camion.isTrampilla()));
 			p.setnBastidor(camion.getnBastidor());
 		}
 	}
