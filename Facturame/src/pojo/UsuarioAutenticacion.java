@@ -24,7 +24,7 @@ public class UsuarioAutenticacion {
 		this.cu = (CRUDusuariosSistema) fc.crearCRUD(FactoriaCRUD.TIPO_US_SISTEMA);
 		UsuarioSistema u = (UsuarioSistema) cu.buscarUno(nickname);
 		this.hashContrasena = ch.generarHash(pass);
-		if (u.getHashContraseña().equalsIgnoreCase(hashContrasena)) {
+		if (u.getHashContrasena().equalsIgnoreCase(hashContrasena)) {
 			this.nickname = u.getNickname();
 			this.admin = u.isAdmin();
 		} else {

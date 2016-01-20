@@ -1,19 +1,13 @@
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.Map;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-
-import composite.AccesoEmpleados;
 import interfacesGraficas.VentanaLogin;
-import interfacesGraficas.VentanaUsuarioSistema;
-import interfacesGraficas.VentanaVisualizacionComposite;
 
 public class Main {
 
-	public static void main(String[] args) throws SQLException, ParseException, IOException {
+	public static void main(String[] args) throws SQLException, ParseException, IOException, NoSuchAlgorithmException {
 		/*
 		 * Jefe t1 = new Jefe("director", 3000.00); Jefe j1 = new
 		 * Jefe("director1", 2000.00); Empleado t2 = new Empleado("chofer1",
@@ -91,9 +85,7 @@ public class Main {
 		/*VentanaVisualizacionComposite v = new VentanaVisualizacionComposite();
 		v.setVisible(true);*/
 		
-		//VentanaLogin login = VentanaLogin.getLogin();
-		
-		VentanaUsuarioSistema v = new VentanaUsuarioSistema(principal)
+		VentanaLogin login = VentanaLogin.getLogin();
 	}
 
 }

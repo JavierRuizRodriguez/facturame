@@ -24,7 +24,8 @@ public class UsuarioSistema {
 		this.fechaAltaUsuario = fechaAltaUsuario;
 	}
 
-	public UsuarioSistema(boolean admin) {
+	public UsuarioSistema(boolean admin) throws NoSuchAlgorithmException {
+		this.ch = CreadorHashes.getCreadorHashes();
 		this.admin = admin;
 	}
 
@@ -44,12 +45,16 @@ public class UsuarioSistema {
 		this.nickname = nickname;
 	}
 
-	public String getHashContraseña() {
+	public String getHashContrasena() {
 		return hashContrasena;
 	}
 
-	public void setHashContraseña(String pass) {
+	public void setHashContrasena(String pass) {
 		this.hashContrasena = ch.generarHash(pass);
+	}
+	
+	public void setHashContrasenaAux(String pass) {
+		this.hashContrasena = pass;
 	}
 
 	public boolean isAdmin() {

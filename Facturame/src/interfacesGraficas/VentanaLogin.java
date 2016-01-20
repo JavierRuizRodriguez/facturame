@@ -89,7 +89,7 @@ public class VentanaLogin extends JFrame {
 		if(ua.getNickname() == null)
 			mostrarAlerta(ua);			
 		else{
-			this.setVisible(false);
+			//this.setVisible(false);
 			JOptionPane.showMessageDialog(null, "Bienvenido al sistema " + ua.getNickname() +".");
 			//crear nueva ventana y pasarle el objeto ua.
 		}

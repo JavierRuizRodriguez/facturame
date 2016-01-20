@@ -64,11 +64,11 @@ public class CRUDusuariosSistema extends CRUDesquema{
 	@Override
 	public Object buscarUno(Object entrada) throws SQLException, NoSuchAlgorithmException {
 		this.c = cc.crearConexion();
-		String dniUsuario = String.valueOf(entrada);
+		String nicknameU = String.valueOf(entrada);
 		UsuarioSistema respuesta = null;
 
 		c.setPst(c.getCon().prepareStatement(CRUDusuariosSistema.selectUsuariosSistema));
-		c.prepararPst(1, dniUsuario);
+		c.prepararPst(1, nicknameU);
 		c.setRs(c.getPst().executeQuery());
 
 		String dni, nickname, hashContrasena;
@@ -84,6 +84,7 @@ public class CRUDusuariosSistema extends CRUDesquema{
 			fechaAltaUsuario = rs.getDate(5);
 
 			respuesta = new UsuarioSistema(dni, nickname, hashContrasena, admin, fechaAltaUsuario);
+			respuesta.setHashContrasenaAux(hashContrasena);
 		}
 
 		c.cerrarObjCon();
@@ -101,11 +102,14 @@ public class CRUDusuariosSistema extends CRUDesquema{
 		UsuarioSistema usuario = (UsuarioSistema) entrada;
 		int respuesta = 0;
 
-		c.setPst(c.getCon().prepareStatement(CRUDusuariosSistema.insertUsuariosSistema));
+		if(esInsert)
+			c.setPst(c.getCon().prepareStatement(CRUDusuariosSistema.insertUsuariosSistema));
+		else
+			c.setPst(c.getCon().prepareStatement(CRUDusuariosSistema.updateUsuariosSistema));
 		
 		c.prepararPst(1, usuario.getDni());
 		c.prepararPst(2, usuario.getNickname());
-		c.prepararPst(3, usuario.getHashContraseña());
+		c.prepararPst(3, usuario.getHashContrasena());
 		c.prepararPst(4, usuario.isAdmin());
 		c.prepararPst(5, usuario.getFechaAltaUsuario());
 
