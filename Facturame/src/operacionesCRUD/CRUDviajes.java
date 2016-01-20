@@ -24,6 +24,7 @@ public class CRUDviajes extends CRUDesquema {
 	private static String selectViaje = "select * from \"Viaje\" where \"idViaje\" = ?";
 	private static String getUltimoSerial = "SELECT last_value FROM \"Viaje_idViaje_seq\"";
 	private static String setUltimoSerial = "ALTER SEQUENCE \"Viaje_idViaje_seq\" RESTART WITH ";
+	private static String selectViajePorPorte = "select * from \"Viaje\" where \"idPorte\" = ?";
 
 	private int idViajePeticion;
 	private Conexion c;
@@ -34,9 +35,9 @@ public class CRUDviajes extends CRUDesquema {
 	}
 
 	public int setUltimoId(int ultimoId) throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		int respuesta = 0;
-		
+
 		c.setPst(c.getCon().prepareStatement(CRUDviajes.setUltimoSerial.concat(String.valueOf(ultimoId))));
 		respuesta = c.getPst().executeUpdate();
 
@@ -48,10 +49,10 @@ public class CRUDviajes extends CRUDesquema {
 	}
 
 	public int ultimoId() throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		c.setSt(c.getCon().createStatement());
 		c.setRs(c.getSt().executeQuery(CRUDviajes.getUltimoSerial));
-		
+
 		ResultSet rs = c.getRs();
 
 		while (rs.next()) {
@@ -68,7 +69,7 @@ public class CRUDviajes extends CRUDesquema {
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		c.setSt(c.getCon().createStatement());
@@ -105,7 +106,7 @@ public class CRUDviajes extends CRUDesquema {
 	}
 
 	public Object buscarUno(Object entrada) throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		String idViajeBuscado = String.valueOf(entrada);
 		Viaje respuesta = null;
 
@@ -144,7 +145,7 @@ public class CRUDviajes extends CRUDesquema {
 	}
 
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		Viaje viaje = (Viaje) entrada;
 		int respuesta = 0;
 
@@ -177,7 +178,7 @@ public class CRUDviajes extends CRUDesquema {
 
 	@Override
 	public int borrar(Object entrada) throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		int idViaje = (int) entrada;
 		int respuesta = 0;
 
@@ -191,4 +192,44 @@ public class CRUDviajes extends CRUDesquema {
 		return respuesta;
 
 	}
+
+	public ArrayList<Object> buscarPorPorte(Object entrada) throws SQLException {
+		int idPorteBuscado = (int) entrada;
+		ArrayList<Object> respuesta = new ArrayList<Object>();
+		c = cc.crearConexion();
+
+		c.setPst(c.getCon().prepareStatement(CRUDviajes.selectViajePorPorte));
+		c.prepararPst(1, idPorteBuscado);
+		c.setRs(c.getPst().executeQuery());
+
+		String lugarInicio, lugarDestino;
+		int idPorte, kmViaje, idViaje;
+		Timestamp horaInicio, horaLlegada;
+		Date fechaInicio, fechaLlegada;
+		ResultSet rs = c.getRs();
+
+		while (rs.next()) {
+			idViaje = rs.getInt(1);
+			lugarInicio = rs.getString(2);
+			lugarDestino = rs.getString(3);
+			horaInicio = rs.getTimestamp(4);
+			horaLlegada = rs.getTimestamp(5);
+			fechaInicio = rs.getDate(6);
+			fechaLlegada = rs.getDate(7);
+			kmViaje = rs.getInt(8);
+			idPorte = rs.getInt(9);
+
+			respuesta.add((Object) new Viaje(idViaje, lugarInicio, lugarDestino, horaInicio, horaLlegada, fechaInicio,
+					fechaLlegada, kmViaje, idPorte));
+		}
+
+		c.cerrarObjCon();
+		c.cerrarObjPst();
+		c.cerrarObjRs();
+		rs.close();
+
+		return respuesta;
+
+	}
+
 }

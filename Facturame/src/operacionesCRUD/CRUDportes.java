@@ -1,12 +1,8 @@
 package operacionesCRUD;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import conexionProxyBBDD.Conexion;
@@ -21,6 +17,7 @@ public class CRUDportes extends CRUDesquema {
 	private static String selectPorte = "select * from \"Porte\" where \"idPorte\" = ?";
 	private static String getUltimoSerial = "SELECT last_value FROM \"Porte_idPorte_seq\"";
 	private static String setUltimoSerial = "ALTER SEQUENCE \"Porte_idPorte_seq\" RESTART WITH ";
+	private static String getPorFecha = "SELECT DISTINCT \"Porte\".* FROM \"Porte\" INNER JOIN \"Viaje\" ON \"Porte\".\"idPorte\" = \"Viaje\".\"idPorte\" WHERE ((\"Viaje\".\"fechaInicio\", \"Viaje\".\"fechaInicio\") OVERLAPS (?::DATE, ?::DATE) AND (\"Porte\".\"NIF\" = ?))";
 
 	private int idPorteSeq;
 	private Conexion c;
@@ -31,7 +28,7 @@ public class CRUDportes extends CRUDesquema {
 	}
 
 	public int setUltimoId(int ultimoId) throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		int respuesta = 0;
 		c.setPst(c.getCon().prepareStatement(CRUDportes.setUltimoSerial.concat(String.valueOf(ultimoId))));
 		respuesta = c.getPst().executeUpdate();
@@ -44,7 +41,7 @@ public class CRUDportes extends CRUDesquema {
 	}
 
 	public int getUltimoId() throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		c.setSt(c.getCon().createStatement());
 		c.setRs(c.getSt().executeQuery(CRUDportes.getUltimoSerial));
 
@@ -58,13 +55,13 @@ public class CRUDportes extends CRUDesquema {
 		c.cerrarObjSt();
 		c.cerrarObjRs();
 		rs.close();
-		
+
 		return idPorteSeq;
 	}
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		c.setSt(c.getCon().createStatement());
@@ -102,7 +99,7 @@ public class CRUDportes extends CRUDesquema {
 	}
 
 	public Object buscarUno(Object entrada) throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		String idPorteBuscado = String.valueOf(entrada);
 		Object respuesta = null;
 
@@ -142,7 +139,7 @@ public class CRUDportes extends CRUDesquema {
 	}
 
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		Porte porte = (Porte) entrada;
 		int respuesta = 0;
 
@@ -176,7 +173,7 @@ public class CRUDportes extends CRUDesquema {
 
 	@Override
 	public int borrar(Object entrada) throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		int idPorte = (int) entrada;
 		int respuesta = 0;
 
@@ -186,6 +183,46 @@ public class CRUDportes extends CRUDesquema {
 
 		c.cerrarObjCon();
 		c.cerrarObjPst();
+
+		return respuesta;
+
+	}
+
+	public ArrayList<Object> buscarPorFechas(String fIncio, String fFinal, String empresa) throws SQLException {
+		ArrayList<Object> respuesta = new ArrayList<Object>();
+		c = cc.crearConexion();
+		c.setPst(c.getCon().prepareStatement(CRUDportes.getPorFecha));
+		c.prepararPst(1, fIncio);
+		c.prepararPst(2, fFinal);
+		c.prepararPst(3, empresa);
+		c.setRs(c.getPst().executeQuery());
+
+		String nBastidor, dni, concepto, descripcion, nif;
+		int idPorte, kgCarga, volCarga;
+		double precio;
+		boolean esGrupaje;
+		ResultSet rs = c.getRs();
+
+		while (rs.next()) {
+			idPorte = rs.getInt(1);
+			nBastidor = rs.getString(2);
+			dni = rs.getString(3);
+			kgCarga = rs.getInt(4);
+			volCarga = rs.getInt(5);
+			concepto = rs.getString(6);
+			precio = rs.getDouble(7);
+			esGrupaje = rs.getBoolean(8);
+			descripcion = rs.getString(9);
+			nif = rs.getString(10);
+
+			respuesta.add(new Porte(idPorte, nBastidor, dni, kgCarga, volCarga, concepto, precio, esGrupaje,
+					descripcion, nif));
+		}
+
+		c.cerrarObjCon();
+		c.cerrarObjPst();
+		c.cerrarObjRs();
+		rs.close();
 
 		return respuesta;
 

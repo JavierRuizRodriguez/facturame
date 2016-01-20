@@ -1,9 +1,7 @@
 package operacionesCRUD;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -27,7 +25,7 @@ public class CRUDlibroGastos extends CRUDesquema {
 
 	@Override
 	public ArrayList<Object> buscarTodo() throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 
 		c.setSt(c.getCon().createStatement());
@@ -60,7 +58,7 @@ public class CRUDlibroGastos extends CRUDesquema {
 
 	@Override
 	public Object buscarUno(Object entrada) throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		int idEntradaBuscado = (int) entrada;
 		LibroGastos respuesta = null;
 
@@ -96,7 +94,7 @@ public class CRUDlibroGastos extends CRUDesquema {
 	// mode 1 --> update
 	@Override
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		LibroGastos gasto = (LibroGastos) entrada;
 		int respuesta = 0;
 
@@ -125,11 +123,9 @@ public class CRUDlibroGastos extends CRUDesquema {
 
 	@Override
 	public int borrar(Object entrada) throws SQLException {
-		this.c = cc.crearConexion();
+		c = cc.crearConexion();
 		int idEntrada = (int) entrada;
 		int respuesta = 0;
-		Connection con;
-		PreparedStatement pst;
 
 		c.setPst(c.getCon().prepareStatement(CRUDlibroGastos.borrarGasto));
 		c.prepararPst(1, idEntrada);

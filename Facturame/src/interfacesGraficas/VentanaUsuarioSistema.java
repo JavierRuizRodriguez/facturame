@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -92,9 +93,9 @@ public class VentanaUsuarioSistema extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					crearUsuarioSistema();
-				} catch (SQLException sqle) {
+				} catch (SQLException | NoSuchAlgorithmException sqle) {
 					// TODO Auto-generated catch block
-					sqle.printStackTrace();
+ 					sqle.printStackTrace();
 				}
 			}
 		});
@@ -118,7 +119,7 @@ public class VentanaUsuarioSistema extends JFrame {
 		principal.setVisible(true);
 	}
 
-	private void crearUsuarioSistema() throws SQLException {
+	private void crearUsuarioSistema() throws SQLException, NoSuchAlgorithmException {
 		Boolean camposObligatorios = true;
 		for (JTextField texto : textos) {
 			camposObligatorios = texto.getText().equals("") ? false : camposObligatorios;
@@ -132,9 +133,11 @@ public class VentanaUsuarioSistema extends JFrame {
 			usuarioSistema.setFechaAltaUsuario(fechaAlta);
 			usuarioSistema.setNickname(textNombre.getText());
 			usuarioSistema.setAdmin(checkBoxAdministrador.isSelected());
-			usuarioSistema.setHashContraseña("hash");
+			usuarioSistema.setHashContrasena("hash");
 
 			cus.insertarActualizar(usuarioSistema, true);
+
+			JOptionPane.showMessageDialog(null, "Nuevo usuario del sistema creado.");
 		} else {
 			JOptionPane.showMessageDialog(null, "Faltan campos por rellenar");
 		}
