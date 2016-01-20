@@ -1,6 +1,7 @@
 package operacionesCRUD;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -15,12 +16,12 @@ public abstract class CRUDesquema {
 		this.cc = new ProxyConexion();
 	}
 
-	public abstract ArrayList<Object> buscarTodo() throws SQLException;
+	public abstract ArrayList<Object> buscarTodo() throws SQLException, NoSuchAlgorithmException;
 
 	public abstract int borrar(Object entrada) throws SQLException;
 
 	public abstract int insertarActualizar(Object entrada, boolean esInsert) throws SQLException;
 
-	public abstract Object buscarUno(Object entrada) throws SQLException;
+	public abstract Object buscarUno(Object entrada) throws SQLException, NoSuchAlgorithmException;
 
 }

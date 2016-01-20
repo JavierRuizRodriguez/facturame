@@ -7,6 +7,9 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 
 import composite.AccesoEmpleados;
+import interfacesGraficas.VentanaLogin;
+import interfacesGraficas.VentanaUsuarioSistema;
+import interfacesGraficas.VentanaVisualizacionComposite;
 
 public class Main {
 
@@ -84,9 +87,13 @@ public class Main {
 			System.out.println(mapa.containsKey((entry.getKey())));
 		}*/
 			
-		AccesoEmpleados ae = new AccesoEmpleados("1");
-		System.out.println("Sueldos --> " + ae.getSueldos());
-		System.out.println("Sueldos --> " + ae.getDescripciones());
+		
+		/*VentanaVisualizacionComposite v = new VentanaVisualizacionComposite();
+		v.setVisible(true);*/
+		
+		//VentanaLogin login = VentanaLogin.getLogin();
+		
+		VentanaUsuarioSistema v = new VentanaUsuarioSistema(principal)
 	}
 
 }

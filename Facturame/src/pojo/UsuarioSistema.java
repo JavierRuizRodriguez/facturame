@@ -1,6 +1,9 @@
 package pojo;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
+
+import util.CreadorHashes;
 
 public class UsuarioSistema {
 	
@@ -9,12 +12,14 @@ public class UsuarioSistema {
 	private String hashContrasena;
 	private boolean admin;
 	private Date fechaAltaUsuario;
+	private CreadorHashes ch;
 	
-	public UsuarioSistema(String dni, String nickname, String hashContrasena, boolean admin, Date fechaAltaUsuario) {
+	public UsuarioSistema(String dni, String nickname, String pass, boolean admin, Date fechaAltaUsuario) throws NoSuchAlgorithmException {
 		super();
+		this.ch = CreadorHashes.getCreadorHashes();
 		this.dni = dni;
 		this.nickname = nickname;
-		this.hashContrasena = hashContrasena;
+		this.hashContrasena = ch.generarHash(pass);
 		this.admin = admin;
 		this.fechaAltaUsuario = fechaAltaUsuario;
 	}
@@ -43,8 +48,8 @@ public class UsuarioSistema {
 		return hashContrasena;
 	}
 
-	public void setHashContraseña(String hashContrasena) {
-		this.hashContrasena = hashContrasena;
+	public void setHashContraseña(String pass) {
+		this.hashContrasena = ch.generarHash(pass);
 	}
 
 	public boolean isAdmin() {
