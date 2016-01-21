@@ -30,13 +30,6 @@ import util.UtilVentanas;
 
 public class VentanaEmpleado extends JFrame {
 
-	public static void main(String[] args) throws SQLException {		
-	VentanaPrincipal principal = new VentanaPrincipal();
-	principal.setVisible(false);
-	VentanaEmpleado ventEmpl = new VentanaEmpleado(principal);
-	ventEmpl.setVisible(true);	
-}
-	
 	private JPanel contentPane;
 	private JTextField textDniNif;
 	private JTextField textNombre;
@@ -51,11 +44,11 @@ public class VentanaEmpleado extends JFrame {
 	private ArrayList<JTextField> textos = new ArrayList<JTextField>();
 	
 
-	public VentanaEmpleado(VentanaPrincipal principal) {
+	public VentanaEmpleado(VentanaGestion gestion) {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				formWindowClosing(e, principal);
+				formWindowClosing(gestion);
 			}
 		});
 		setTitle("Facturame --- Empleado");
@@ -156,9 +149,9 @@ public class VentanaEmpleado extends JFrame {
 				try {
 					crearEmpleado();
 				} catch (SQLException sqle) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				} catch (IOException ioe) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
 				}
 			}
 		});
@@ -203,9 +196,9 @@ public class VentanaEmpleado extends JFrame {
 		this.fc = new FactoriaCRUD();	
 	}
 	
-	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
+	private void formWindowClosing(VentanaGestion gestion) {
         this.setVisible(false);
-        principal.setVisible(true);
+        gestion.setVisible(true);
     }
 	
 	private void crearEmpleado() throws SQLException, IOException{

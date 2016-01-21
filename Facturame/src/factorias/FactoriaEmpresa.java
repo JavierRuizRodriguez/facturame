@@ -8,4 +8,5 @@ public class FactoriaEmpresa {
 		return new Empresa();
 	}
 
+
 }

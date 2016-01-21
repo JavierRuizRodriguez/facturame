@@ -94,7 +94,7 @@ public class VentanaUsuarioSistema extends JFrame {
 				try {
 					crearUsuarioSistema();
 				} catch (SQLException sqle) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				}
 			}
 		});

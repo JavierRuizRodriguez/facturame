@@ -1,8 +1,9 @@
 package interfacesGraficas;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -22,11 +23,17 @@ public class VentanaVisualizacionComposite extends JFrame {
 	private String jefe;
 	private JTextPane tResultado;
 
-	public VentanaVisualizacionComposite() throws SQLException, IOException {
+	public VentanaVisualizacionComposite(VentanaPrincipal principal) throws SQLException, IOException {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+		        formWindowClosing(principal);
+			}
+		});
 		this.jefe = "1";
 		this.ae = new AccesoEmpleados(jefe);
 		setTitle("ESTAD\u00CDSTICAS GENERALES EMPLEADOS");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 486, 458);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -81,4 +88,10 @@ public class VentanaVisualizacionComposite extends JFrame {
 		tResultado.setText(ae.getDescripciones());
 
 	}
+	
+	private void formWindowClosing(VentanaPrincipal principal) {
+	    this.setVisible(false);
+	    principal.setVisible(true);
+	}
+
 }

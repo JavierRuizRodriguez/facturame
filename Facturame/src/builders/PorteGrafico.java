@@ -9,6 +9,7 @@ import interfacesGraficas.VentanaPorteDatos;
 import interfacesGraficas.VentanaPorteEmpresa;
 import interfacesGraficas.VentanaPorteTransportista;
 import interfacesGraficas.VentanaPorteViaje;
+import interfacesGraficas.VentanaPrincipal;
 import pojo.Porte;
 
 public class PorteGrafico extends PorteBuilder {
@@ -27,7 +28,7 @@ public class PorteGrafico extends PorteBuilder {
 	}
 
 	@Override
-	void getDatosPrincipales() throws InterruptedException {
+	void getDatosPrincipales(VentanaPrincipal ventanaPrincipal) throws InterruptedException {
 		v1 = new VentanaPorteDatos(this);
 		v1.setVisible(true);
 		while (espera) {
@@ -39,7 +40,7 @@ public class PorteGrafico extends PorteBuilder {
 	}
 
 	@Override
-	void getDatosEmpresa() throws InterruptedException, SQLException, IOException {
+	void getDatosEmpresa(VentanaPrincipal ventanaPrincipal) throws InterruptedException, SQLException, IOException {
 		v2 = new VentanaPorteEmpresa(this);
 		v2.setVisible(true);
 		while (espera) {
@@ -51,7 +52,7 @@ public class PorteGrafico extends PorteBuilder {
 	}
 
 	@Override
-	void getDatosTransportista() throws InterruptedException, SQLException, IOException {
+	void getDatosTransportista(VentanaPrincipal ventanaPrincipal) throws InterruptedException, SQLException, IOException {
 		v3 = new VentanaPorteTransportista(this);
 		v3.setVisible(true);
 		while (espera) {
@@ -63,7 +64,7 @@ public class PorteGrafico extends PorteBuilder {
 	}
 
 	@Override
-	void getDatosCamion() throws InterruptedException, SQLException, IOException {
+	void getDatosCamion(VentanaPrincipal ventanaPrincipal) throws InterruptedException, SQLException, IOException {
 		v4 = new VentanaPorteCamion(this);
 		v4.setVisible(true);
 		while (espera) {
@@ -75,7 +76,7 @@ public class PorteGrafico extends PorteBuilder {
 	}
 
 	@Override
-	void getDatosViajes() throws InterruptedException {
+	void getDatosViajes(VentanaPrincipal ventanaPrincipal) throws InterruptedException {
 		v5 = new VentanaPorteViaje(this);
 		v5.setVisible(true);
 		while (espera) {

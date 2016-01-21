@@ -27,13 +27,6 @@ import util.UtilVentanas;
 
 public class VentanaEmpresa extends JFrame {
 
-	public static void main(String[] args) throws SQLException, ParseException {		
-		VentanaPrincipal principal = new VentanaPrincipal();
-		principal.setVisible(false);
-		VentanaEmpresa ventEmpr = new VentanaEmpresa(principal);
-		ventEmpr.setVisible(true);	
-	}	
-	
 	private JPanel contentPane;
 	private JTextField textNombre;
 	private JTextField textNif;
@@ -48,11 +41,11 @@ public class VentanaEmpresa extends JFrame {
 	private FactoriaCRUD fc;
 	private ArrayList<JTextField> textos = new ArrayList<JTextField>();
 	
-	public VentanaEmpresa(VentanaPrincipal principal) {
+	public VentanaEmpresa(VentanaGestion gestion) {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				formWindowClosing(e, principal);
+				formWindowClosing(gestion);
 			}
 		});
 		setTitle("Facturame --- Empresa");
@@ -114,9 +107,9 @@ public class VentanaEmpresa extends JFrame {
 				try {
 					crearEmpresa();
 				} catch (SQLException sqle) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				} catch (IOException ioe) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
 				}
 			}
 		});
@@ -155,9 +148,9 @@ public class VentanaEmpresa extends JFrame {
 		this.fc = new FactoriaCRUD();
 	}
 	
-	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
+	private void formWindowClosing(VentanaGestion gestion) {
         this.setVisible(false);
-        principal.setVisible(true);
+        gestion.setVisible(true);
     }
 	
 	private void crearEmpresa() throws SQLException, IOException{
@@ -171,8 +164,8 @@ public class VentanaEmpresa extends JFrame {
 			
 			fc.crearCRUD(FactoriaCRUD.TIPO_EMPRESA).insertarActualizar(empresa, true);
 		} else {
-			JOptionPane.showMessageDialog(null, "Faltan campos por rellenar");
-		}		
+			UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_CAMPOS_INCOMPLETOS,"");
+		}
 	}
 
 }
