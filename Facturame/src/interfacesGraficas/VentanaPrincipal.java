@@ -31,7 +31,11 @@ public class VentanaPrincipal extends JFrame {
 		JButton buttonPorte = new JButton("PORTE");
 		buttonPorte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				buttonRegistrarCamionActionPerformed(e);
+				try {
+					clickVentanaPorte();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+				}
 			}
 		});
 		buttonPorte.setBounds(120, 49, 179, 25);
@@ -40,7 +44,13 @@ public class VentanaPrincipal extends JFrame {
 		JButton buttonFactura = new JButton("FACTURA");
 		buttonFactura.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				buttonRegistrarEmpleadoActionPerformed(e);
+				try {
+					clickVentanaFactura();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+				} catch (IOException ioe) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
+				}
 			}
 		});
 		buttonFactura.setBounds(120, 85, 179, 25);
@@ -49,7 +59,13 @@ public class VentanaPrincipal extends JFrame {
 		JButton buttonJerarquia = new JButton("JERARQU\u00CDA");
 		buttonJerarquia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				buttonRegistrarPorteActionPerformed(e);
+				try {
+					clickVentanaJerarquia();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+				} catch (IOException ioe) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
+				}
 			}
 		});
 		buttonJerarquia.setBounds(120, 121, 179, 25);
@@ -58,13 +74,13 @@ public class VentanaPrincipal extends JFrame {
 		JButton buttonGestion = new JButton("GESTI\u00D3N");
 		buttonGestion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				try {
-//					buttonRegistrarUsuarioSistemaActionPerformed(e);
-//				} catch (SQLException sqle) {
-//					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
-//				} catch (IOException ioe) {
-//					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
-//				}
+				try {
+					clickVentanaGestion();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+				} catch (IOException ioe) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
+				}
 			}
 		});
 		buttonGestion.setBounds(120, 157, 179, 25);
@@ -73,6 +89,13 @@ public class VentanaPrincipal extends JFrame {
 		JButton buttonVerDatos = new JButton("VER DATOS");
 		buttonVerDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					clickVentanaConsulta();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+				} catch (IOException ioe) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
+				}
 			}
 		});
 		buttonVerDatos.setBounds(120, 193, 179, 25);
@@ -107,11 +130,13 @@ public class VentanaPrincipal extends JFrame {
 	
 	private void clickVentanaJerarquia() throws SQLException, IOException {
 		VentanaVisualizacionComposite ventanaVisualizacionComposite = new VentanaVisualizacionComposite(this);
+		ventanaVisualizacionComposite.setVisible(true);
+        this.setVisible(false);
     }
 	
 	private void clickVentanaGestion() throws SQLException, IOException {
-		VentanaUsuarioSistema formUsuarioSistema = new VentanaUsuarioSistema(this);
-		formUsuarioSistema.setVisible(true);
+		VentanaGestion ventanaGestion = new VentanaGestion(this);
+		ventanaGestion.setVisible(true);
         this.setVisible(false);
     }
 	

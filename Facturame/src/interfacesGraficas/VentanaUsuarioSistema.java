@@ -40,21 +40,14 @@ public class VentanaUsuarioSistema extends JFrame {
 	private FactoriaUsuarioSistema fus;
 	private JTextField tPass;
 
-	public static void main(String[] args) throws SQLException, ParseException, IOException {
-		VentanaPrincipal principal = new VentanaPrincipal();
-		principal.setVisible(false);
-		VentanaUsuarioSistema ventUserSistema = new VentanaUsuarioSistema(principal);
-		ventUserSistema.setVisible(true);
-	}
-
-	public VentanaUsuarioSistema(VentanaPrincipal principal) throws SQLException, IOException {
+	public VentanaUsuarioSistema(VentanaGestion gestion) throws SQLException, IOException {
 		this.fus = new FactoriaUsuarioSistema();
 		this.fc = new FactoriaCRUD();
 		this.cus = (CRUDusuariosSistema) fc.crearCRUD(FactoriaCRUD.TIPO_US_SISTEMA);
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				formWindowClosing(e, principal);
+				formWindowClosing(gestion);
 			}
 		});
 		setTitle("Facturame --- Usuario de Sistema");
@@ -130,9 +123,9 @@ public class VentanaUsuarioSistema extends JFrame {
 		textos.add(tPass);
 	}
 
-	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
+	private void formWindowClosing(VentanaGestion gestion) {
 		this.setVisible(false);
-		principal.setVisible(true);
+		gestion.setVisible(true);
 	}
 
 	private void crearUsuarioSistema(ActionEvent evt) throws SQLException, NoSuchAlgorithmException {
