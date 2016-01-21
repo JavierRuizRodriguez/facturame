@@ -3,7 +3,9 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.ParseException;
 
-import interfacesGraficas.VentanaGenerarFactura;
+import javax.swing.JFrame;
+
+import interfacesGraficas.VentanaEmpleado;
 
 public class Main {
 
@@ -87,8 +89,11 @@ public class Main {
 		
 		//VentanaLogin login = VentanaLogin.getLogin();
 		
-		VentanaGenerarFactura v = new VentanaGenerarFactura();
-		v.setVisible(true);
+		/*VentanaGenerarFactura v = new VentanaGenerarFactura();
+		v.setVisible(true);*/
+		
+		VentanaEmpleado c = new VentanaEmpleado(null); 
+		c.setVisible(true);
 	}
 
 }

@@ -4,7 +4,7 @@
 
 CREATE TABLE "Persona"
 (
-  dni character(10) NOT NULL,
+  dni character varying(10) NOT NULL,
   nombre character varying(20) NOT NULL,
   apellidos character varying(60) NOT NULL,
   "fechaNacimiento" date NOT NULL,
@@ -17,6 +17,7 @@ WITH (
 ALTER TABLE "Persona"
   OWNER TO postgres;
 
+
 ---------------------------------------------------------------
 
 -- Table: "Empleado"
@@ -25,11 +26,6 @@ ALTER TABLE "Persona"
 
 CREATE TABLE "Empleado"
 (
--- Inherited from table "Persona":  dni character(10) NOT NULL,
--- Inherited from table "Persona":  nombre character varying(20) NOT NULL,
--- Inherited from table "Persona":  apellidos character varying(60) NOT NULL,
--- Inherited from table "Persona":  "fechaNacimiento" date NOT NULL,
--- Inherited from table "Persona":  sexo character varying(20) NOT NULL,
   "fechaAltaEmpleado" date NOT NULL,
   sueldo double precision NOT NULL,
   rango character varying(20) NOT NULL,
@@ -41,6 +37,7 @@ WITH (
 );
 ALTER TABLE "Empleado"
   OWNER TO postgres;
+
 
 ---------------------------------------------------------------
 
@@ -62,6 +59,7 @@ WITH (
 );
 ALTER TABLE "Empresa"
   OWNER TO postgres;
+
 
 ---------------------------------------------------------------
 
@@ -96,6 +94,7 @@ WITH (
 );
 ALTER TABLE "Camion"
   OWNER TO postgres;
+
 
 ---------------------------------------------------------------
 
@@ -181,7 +180,7 @@ CREATE TABLE "UsuarioSistema"
 (
   dni character varying(20) NOT NULL,
   nickname character varying(20) NOT NULL,
-  "hashContrasena" character varying(20) NOT NULL,
+  "hashContrasena" character varying(50) NOT NULL,
   admin boolean NOT NULL,
   "fechaAltaUsuario" date NOT NULL,
   CONSTRAINT "usSisPK" PRIMARY KEY (dni),
@@ -204,6 +203,7 @@ CREATE INDEX "dniUsSisFK"
   USING btree
   (dni COLLATE pg_catalog."default");
 
+
 ---------------------------------------------------------------
 
 -- Table: "Viaje"
@@ -217,7 +217,7 @@ CREATE TABLE "Viaje"
   "lugarDestino" character varying(40) NOT NULL,
   "horaInico" time with time zone NOT NULL,
   "horaLlegada" time with time zone NOT NULL,
-  "fechaInico" date NOT NULL,
+  "fechaInicio" date NOT NULL,
   "fechaLlegada" date NOT NULL,
   "kmViaje" bigint NOT NULL,
   "idPorte" integer NOT NULL,
@@ -240,6 +240,7 @@ CREATE INDEX "porteFK"
   ON "Viaje"
   USING btree
   ("idPorte");
+
 
 ---------------------------------------------------------------
 
@@ -264,4 +265,5 @@ WITH (
 );
 ALTER TABLE "Subordinado"
   OWNER TO postgres;
+
 

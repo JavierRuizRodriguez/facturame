@@ -5,12 +5,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import javax.rmi.CORBA.Util;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -36,6 +38,7 @@ public class VentanaUsuarioSistema extends JFrame {
 	private ArrayList<JTextField> textos = new ArrayList<JTextField>();
 	private JCheckBox checkBoxAdministrador;
 	private FactoriaUsuarioSistema fus;
+	private JTextField tPass;
 
 	public static void main(String[] args) throws SQLException, ParseException, IOException {
 		VentanaPrincipal principal = new VentanaPrincipal();
@@ -56,7 +59,7 @@ public class VentanaUsuarioSistema extends JFrame {
 		});
 		setTitle("Facturame --- Usuario de Sistema");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 320, 180);
+		setBounds(100, 100, 320, 199);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -81,36 +84,50 @@ public class VentanaUsuarioSistema extends JFrame {
 		contentPane.add(textDni);
 
 		JLabel labelAdministrador = new JLabel("Administrador:");
-		labelAdministrador.setBounds(50, 69, 82, 20);
+		labelAdministrador.setBounds(50, 97, 82, 20);
 		contentPane.add(labelAdministrador);
 
 		checkBoxAdministrador = new JCheckBox("");
-		checkBoxAdministrador.setBounds(129, 64, 25, 25);
+		checkBoxAdministrador.setBounds(129, 92, 25, 25);
 		contentPane.add(checkBoxAdministrador);
 
 		JButton buttonAceptar = new JButton("ACEPTAR");
 		buttonAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					crearUsuarioSistema();
+					crearUsuarioSistema(e);
 				} catch (SQLException sqle) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+				} catch (NoSuchAlgorithmException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		});
-		buttonAceptar.setBounds(10, 100, 120, 25);
+		buttonAceptar.setBounds(50, 128, 153, 25);
 		contentPane.add(buttonAceptar);
 
-		JButton buttonVerListado = new JButton("VER LISTADO");
-		buttonVerListado.setBounds(140, 100, 120, 25);
-		contentPane.add(buttonVerListado);
-
 		JButton buttonBorrar = new JButton("");
-		buttonBorrar.setBounds(270, 100, 25, 25);
+		buttonBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				bBorrarActionPerformed(e);
+			}
+		});
+		buttonBorrar.setBounds(224, 128, 25, 25);
 		contentPane.add(buttonBorrar);
 
 		textos.add(textNombre);
 		textos.add(textDni);
+		
+		JLabel lblNewLabel = new JLabel("Contrase\u00F1a");
+		lblNewLabel.setBounds(50, 65, 69, 20);
+		contentPane.add(lblNewLabel);
+		
+		tPass = new JTextField();
+		tPass.setBounds(129, 65, 120, 20);
+		contentPane.add(tPass);
+		tPass.setColumns(10);
+		textos.add(tPass);
 	}
 
 	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
@@ -118,12 +135,8 @@ public class VentanaUsuarioSistema extends JFrame {
 		principal.setVisible(true);
 	}
 
-	private void crearUsuarioSistema() throws SQLException {
-		Boolean camposObligatorios = true;
-		for (JTextField texto : textos) {
-			camposObligatorios = texto.getText().equals("") ? false : camposObligatorios;
-		}
-		if (camposObligatorios) {
+	private void crearUsuarioSistema(ActionEvent evt) throws SQLException, NoSuchAlgorithmException {
+		if (UtilVentanas.textosIncompletos(textos)) {
 			Calendar calendario = Calendar.getInstance();
 			java.util.Date fechaAltaAux = calendario.getTime();
 			Date fechaAlta = new Date(fechaAltaAux.getTime());
@@ -132,12 +145,18 @@ public class VentanaUsuarioSistema extends JFrame {
 			usuarioSistema.setFechaAltaUsuario(fechaAlta);
 			usuarioSistema.setNickname(textNombre.getText());
 			usuarioSistema.setAdmin(checkBoxAdministrador.isSelected());
-			usuarioSistema.setHashContraseña("hash");
+			usuarioSistema.setHashContrasena(tPass.getText());
 
 			cus.insertarActualizar(usuarioSistema, true);
+			UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.EXITO_INSERT, " (Usuario sistema)");
+			UtilVentanas.borrarTextos(textos);
 		} else {
-			JOptionPane.showMessageDialog(null, "Faltan campos por rellenar");
+			UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_CAMPOS_INCOMPLETOS,"");
 		}
 	}
 
+	private void bBorrarActionPerformed(ActionEvent e) {
+		UtilVentanas.borrarTextos(textos); 
+		
+	}
 }

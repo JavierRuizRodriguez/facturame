@@ -71,7 +71,7 @@ public class VentanaPorteTransportista extends JFrame {
 				try {
 					buttonBuscarActionPerformed(e);
 				} catch (SQLException sqle) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				}
 			}
 		});
@@ -92,7 +92,7 @@ public class VentanaPorteTransportista extends JFrame {
 				iterador.siguiente();
 			}
 		} catch (IndexOutOfBoundsException iobe) {
-			UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
+			UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
 		}
 
 		comboBoxDni.addActionListener(new ActionListener() {
@@ -100,7 +100,7 @@ public class VentanaPorteTransportista extends JFrame {
 				try {
 					comboActionPerformed(e);
 				} catch (SQLException sqle) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				}
 			}
 		});

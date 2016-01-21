@@ -16,6 +16,9 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import adaptadorFecha.AdaptadorFechaPostgres;
+import adaptadorFecha.Fecha;
+import adaptadorFecha.FechaEs;
 import factorias.FactoriaCRUD;
 import iterador.Agregado;
 import iterador.AgregadoConcreto;
@@ -187,7 +190,12 @@ public class VentanaGenerarFactura extends JFrame {
 
 	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, IOException {
 		this.setVisible(false);
-		VentanaTabla2PDF ventanaPDF = new VentanaTabla2PDF(tFechaInicio.getText(), tFechaFinal.getText(), empresa.getNif());
+		Fecha fechaInicio = new AdaptadorFechaPostgres(new FechaEs(tFechaInicio.getText()));
+		Fecha fechaFinal = new AdaptadorFechaPostgres(new FechaEs(tFechaFinal.getText()));
+		String fechaIniForm = fechaInicio.toString();
+		String fechaFinForm = fechaFinal.toString();
+		
+		VentanaTabla2PDF ventanaPDF = new VentanaTabla2PDF(fechaIniForm, fechaFinForm, empresa.getNif());
 		ventanaPDF.setVisible(true);
 	}
 

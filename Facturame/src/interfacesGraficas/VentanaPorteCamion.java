@@ -92,7 +92,7 @@ public class VentanaPorteCamion extends JFrame {
 				iterador.siguiente();
 			}
 		} catch (IndexOutOfBoundsException iobe) {
-			UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
+			UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
 		}
 
 		comboBoxMatricula.addActionListener(new ActionListener() {
@@ -100,7 +100,7 @@ public class VentanaPorteCamion extends JFrame {
 				try {
 					comboActionPerformed(e);
 				} catch (SQLException sqle) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				}
 			}
 		});
@@ -128,7 +128,7 @@ public class VentanaPorteCamion extends JFrame {
 				try {
 					button1ActionPerformed(e);
 				} catch (SQLException sqle) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				}
 			}
 		});

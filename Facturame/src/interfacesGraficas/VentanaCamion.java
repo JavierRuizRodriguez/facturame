@@ -234,9 +234,9 @@ public class VentanaCamion extends JFrame {
 				try {
 					crearCamion();
 				} catch (SQLException sqle) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				} catch (IOException ioe) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
 				}
 			}
 		});
@@ -308,7 +308,7 @@ public class VentanaCamion extends JFrame {
 	
 	public void calcularVolumen(){
 		if(textLargoCaja.getText().isEmpty() || textAnchoCaja.getText().isEmpty() || textAltoCaja.getText().isEmpty()){
-			UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_CAMPOS_INCOMPLETOS,"");
+			UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_CAMPOS_INCOMPLETOS,"");
 		} else {
 			int largoCaja = Integer.parseInt(textLargoCaja.getText());
 			int anchoCaja = Integer.parseInt(textAnchoCaja.getText());

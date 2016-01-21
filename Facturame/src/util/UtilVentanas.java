@@ -28,12 +28,8 @@ public class UtilVentanas {
 		public static String ERROR_IOB = "Error IOB: ";
 		public static String EXITO_INSERT = "Exito Insert";
 		
-		public static void mostrarError(String tipo, String error){
+		public static void mostrar(String tipo, String error){
 			JOptionPane.showMessageDialog(null, tipo+error);
-		}
-		
-		public static void mostrarExito(String tipo){
-			JOptionPane.showConfirmDialog(null, tipo);
 		}
 		
 	}

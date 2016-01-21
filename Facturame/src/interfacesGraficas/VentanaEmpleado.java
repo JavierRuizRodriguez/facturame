@@ -21,22 +21,18 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import adaptadorFecha.AdaptadorFechaPostgres;
+import adaptadorFecha.Fecha;
+import adaptadorFecha.FechaEs;
 import factorias.FactoriaCRUD;
 import factorias.FactoriaTrabajador;
-import factorias.FactoriaVehiculo;
-import operacionesCRUD.CRUDempleados;
 import pojo.Trabajador;
 import util.UtilVentanas;
 
 public class VentanaEmpleado extends JFrame {
 
-	public static void main(String[] args) throws SQLException {		
-	VentanaPrincipal principal = new VentanaPrincipal();
-	principal.setVisible(false);
-	VentanaEmpleado ventEmpl = new VentanaEmpleado(principal);
-	ventEmpl.setVisible(true);	
-}
-	
+	private Fecha fechaAlta;	
+	private Fecha fechaNacimiento;
 	private JPanel contentPane;
 	private JTextField textDniNif;
 	private JTextField textNombre;
@@ -156,9 +152,9 @@ public class VentanaEmpleado extends JFrame {
 				try {
 					crearEmpleado();
 				} catch (SQLException sqle) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				} catch (IOException ioe) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
 				}
 			}
 		});
@@ -209,12 +205,16 @@ public class VentanaEmpleado extends JFrame {
     }
 	
 	private void crearEmpleado() throws SQLException, IOException{
+		fechaAlta = new AdaptadorFechaPostgres(new FechaEs(textFechaAltaEmpleado.getText()));
+		fechaNacimiento = new AdaptadorFechaPostgres(new FechaEs(textFechaAltaEmpleado.getText()));
+		String fechaAltaFormateada = fechaAlta.toString();
+		String fechaNacimientoFormateada = fechaNacimiento.toString();
 		if(UtilVentanas.textosIncompletos(textos)){
 			Trabajador trabajador = ft.crearTrabajador();
 			trabajador.setApellidos(textApellidos.getText());
 			trabajador.setDni(textDniNif.getText());
-			trabajador.setFechaAltaEmpleado(Date.valueOf(textFechaAltaEmpleado.getText()));
-			trabajador.setFechaNacimiento(Date.valueOf(textFechaNacimiento.getText()));
+			trabajador.setFechaAltaEmpleado(Date.valueOf(fechaAltaFormateada));
+			trabajador.setFechaNacimiento(Date.valueOf(fechaNacimientoFormateada));
 			trabajador.setNombre(textNombre.getText());
 			trabajador.setRango(textRango.getText());		
 			trabajador.setSexo(comboBoxSexo.getSelectedItem().toString());

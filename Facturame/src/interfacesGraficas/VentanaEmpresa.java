@@ -114,9 +114,9 @@ public class VentanaEmpresa extends JFrame {
 				try {
 					crearEmpresa();
 				} catch (SQLException sqle) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				} catch (IOException ioe) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
 				}
 			}
 		});

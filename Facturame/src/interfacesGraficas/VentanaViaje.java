@@ -12,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import adaptadorFecha.AdaptadorFechaPostgres;
+import adaptadorFecha.Fecha;
+import adaptadorFecha.FechaEs;
 import builders.PorteBuilder;
 import pojo.Viaje;
 
@@ -136,8 +139,12 @@ public class VentanaViaje extends JFrame {
 
 	//ultimo campo = this.pb.getPorte().getIdPorte()
 	private void butonAceptarActionPerformed(java.awt.event.ActionEvent e) {
+		Fecha fechaInicio = new AdaptadorFechaPostgres(new FechaEs(tFechaSalida.getText()));
+		Fecha fechaFinal = new AdaptadorFechaPostgres(new FechaEs(tFechaLegada.getText()));
+		String fechaIniForm = fechaInicio.toString();
+		String fechaFinForm = fechaFinal.toString();
 		this.ventanaAnterior.anadirViaje(new Viaje(0, tOrigen.getText(), tDestino.getText(), new Timestamp(1000),
-				new Timestamp(1000), Date.valueOf(tFechaSalida.getText()), Date.valueOf(tFechaLegada.getText()),
+				new Timestamp(1000), Date.valueOf(fechaIniForm), Date.valueOf(fechaFinForm),
 				Integer.valueOf(tKmViaje.getText()), 0));
 		this.setVisible(false);
 

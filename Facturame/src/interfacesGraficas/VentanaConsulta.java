@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -93,7 +94,7 @@ public class VentanaConsulta extends JFrame {
 					try {
 						comboBoxTipoCambiarSeleccion(e, comboBoxTipo.getSelectedItem().toString());
 					} catch (SQLException sqle) {
-						UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+						UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 					}
 		    }
 		});
@@ -217,7 +218,7 @@ public class VentanaConsulta extends JFrame {
 				try {
 					buttonSiguienteActionPerformed(e, tipo);
 				} catch (SQLException sqle) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				}
 			}
 		});
@@ -231,9 +232,12 @@ public class VentanaConsulta extends JFrame {
 				try {
 					buttonBuscarPorCampoActionPerformed(e, tipo, textClave.getText());
 				} catch (SQLException sqle) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				} catch (IOException ioe) {
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
+				} catch (NoSuchAlgorithmException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -247,11 +251,11 @@ public class VentanaConsulta extends JFrame {
 				try {
 					buttonBorrarActionPerformed(e, tipo);
 				} catch (IndexOutOfBoundsException iobe){
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
 				} catch (SQLException sqle){
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				} catch (IOException ioe){
-					UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
 				}
 			}
 		});
@@ -302,7 +306,7 @@ public class VentanaConsulta extends JFrame {
 		principal.setVisible(true);
 	}
 
-	private void buttonBuscarPorCampoActionPerformed(java.awt.event.ActionEvent evt, String tipo, String clave) throws SQLException, IOException{
+	private void buttonBuscarPorCampoActionPerformed(java.awt.event.ActionEvent evt, String tipo, String clave) throws SQLException, IOException, NoSuchAlgorithmException{
 		switch (tipo) {
 			case "Empresa": {
 				Empresa empresaAux = (Empresa) fc.crearCRUD(FactoriaCRUD.TIPO_EMPRESA).buscarUno(clave);
@@ -343,7 +347,7 @@ public class VentanaConsulta extends JFrame {
 							iterador.siguiente();
 						}
 					} catch (IndexOutOfBoundsException iobe) {
-						UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
+						UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
 					}
 				}
 				break;
@@ -358,7 +362,7 @@ public class VentanaConsulta extends JFrame {
 							iterador.siguiente();
 						} 
 					} catch (IndexOutOfBoundsException iobe) {
-						UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
+						UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
 					}
 				}
 				break;
@@ -376,7 +380,7 @@ public class VentanaConsulta extends JFrame {
 							iterador.siguiente();
 						}
 					} catch (IndexOutOfBoundsException iobe) {
-						UtilVentanas.Alertas.mostrarError(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
+						UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
 					}
 				}
 				break;
