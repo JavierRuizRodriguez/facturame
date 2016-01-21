@@ -179,7 +179,7 @@ ALTER TABLE "LibroGastos"
 CREATE TABLE "UsuarioSistema"
 (
   dni character varying(20) NOT NULL,
-  nickname character varying(20) NOT NULL,
+  nickname character varying(20) NOT NULL UNIQUE,
   "hashContrasena" character varying(50) NOT NULL,
   admin boolean NOT NULL,
   "fechaAltaUsuario" date NOT NULL,

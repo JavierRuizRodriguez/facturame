@@ -47,11 +47,11 @@ public class VentanaEmpleado extends JFrame {
 	private ArrayList<JTextField> textos = new ArrayList<JTextField>();
 	
 
-	public VentanaEmpleado(VentanaPrincipal principal) {
+	public VentanaEmpleado(VentanaGestion ventanaGestion) {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				formWindowClosing(e, principal);
+				formWindowClosing(e, ventanaGestion);
 			}
 		});
 		setTitle("Facturame --- Empleado");
@@ -199,9 +199,9 @@ public class VentanaEmpleado extends JFrame {
 		this.fc = new FactoriaCRUD();	
 	}
 	
-	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
+	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaGestion ventanaGestion) {
         this.setVisible(false);
-        principal.setVisible(true);
+        ventanaGestion.setVisible(true);
     }
 	
 	private void crearEmpleado() throws SQLException, IOException{

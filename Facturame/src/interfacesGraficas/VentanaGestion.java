@@ -91,9 +91,9 @@ public class VentanaGestion extends JFrame {
 //	    this.setVisible(false);
 //	}
 	
-	private void clickVentanaSubordinado() throws SQLException, IOException {
+	/*private void clickVentanaSubordinado() throws SQLException, IOException {
 		VentanaSubordinado ventanaSubordinado = new VentanaSubordinado(this);
 		ventanaSubordinado.setVisible(true);
 	    this.setVisible(false);
-	}
+	}*/
 }

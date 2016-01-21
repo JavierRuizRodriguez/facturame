@@ -24,13 +24,19 @@ public class UsuarioAutenticacion {
 		this.cu = (CRUDusuariosSistema) fc.crearCRUD(FactoriaCRUD.TIPO_US_SISTEMA);
 		UsuarioSistema u = (UsuarioSistema) cu.buscarUno(nickname);
 		this.hashContrasena = ch.generarHash(pass);
-		if (u.getHashContrasena().equalsIgnoreCase(hashContrasena)) {
-			this.nickname = u.getNickname();
-			this.admin = u.isAdmin();
+		if (u != null) {
+			if (u.getHashContrasena().equalsIgnoreCase(hashContrasena)) {
+				this.nickname = u.getNickname();
+				this.admin = u.isAdmin();
+			} else {
+				this.nickname = null;
+				this.admin = false;
+			}
 		} else {
 			this.nickname = null;
 			this.admin = false;
 		}
+
 	}
 
 	public String getNickname() {
@@ -41,7 +47,7 @@ public class UsuarioAutenticacion {
 		return hashContrasena;
 	}
 
-	public Boolean isAdmin(){
+	public Boolean isAdmin() {
 		return admin;
 	}
 }

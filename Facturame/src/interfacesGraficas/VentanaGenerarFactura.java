@@ -201,7 +201,7 @@ public class VentanaGenerarFactura extends JFrame {
 		String fechaIniForm = fechaInicio.toString();
 		String fechaFinForm = fechaFinal.toString();
 		
-		VentanaTabla2PDF ventanaPDF = new VentanaTabla2PDF(fechaIniForm, fechaFinForm, empresa.getNif());
+		VentanaTabla2PDF ventanaPDF = new VentanaTabla2PDF(fechaIniForm, fechaFinForm, empresa.getNif(),principal);
 		ventanaPDF.setVisible(true);
 	}
 
