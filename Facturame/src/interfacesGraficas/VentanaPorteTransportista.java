@@ -38,8 +38,8 @@ public class VentanaPorteTransportista extends JFrame {
 	private JComboBox comboBoxDni;
 
 	public VentanaPorteTransportista(PorteGrafico pb) throws SQLException, IOException {
-		this.p = pb.getPorte();
 		this.pb = pb;
+		this.p = pb.getPorte();
 		this.fc = new FactoriaCRUD();
 		this.ce = (CRUDempleados) fc.crearCRUD(FactoriaCRUD.TIPO_EMPLEADO);
 		setTitle("Facturame --- Porte --- Transportista");

@@ -21,7 +21,6 @@ import pojo.Viaje;
 public class VentanaPorteViaje extends JFrame {
 
 	private Porte p;
-	private ArrayList<Viaje> viajes;
 	private PorteGrafico pb;
 	private JPanel contentPane;
 	private JTextField textoNumeroBastidor;
@@ -36,13 +35,12 @@ public class VentanaPorteViaje extends JFrame {
 	private JTextPane tViajes;
 
 	public VentanaPorteViaje(PorteGrafico pb) {
-		this.p = pb.getPorte();
 		this.pb = pb;
-		this.viajes = new ArrayList<Viaje>();
+		this.p = pb.getPorte();
 		setTitle("Facturame --- Porte");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 862, 450);
-		contentPane = new JPanel();
+		this.contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -51,7 +49,7 @@ public class VentanaPorteViaje extends JFrame {
 		labelNumeroBastidor.setBounds(10, 20, 131, 15);
 		contentPane.add(labelNumeroBastidor);
 
-		textoNumeroBastidor = new JTextField();
+		this.textoNumeroBastidor = new JTextField();
 		textoNumeroBastidor.setEditable(false);
 		textoNumeroBastidor.setBounds(130, 15, 90, 20);
 		contentPane.add(textoNumeroBastidor);
@@ -61,7 +59,7 @@ public class VentanaPorteViaje extends JFrame {
 		labelDni.setBounds(255, 20, 40, 15);
 		contentPane.add(labelDni);
 
-		textDni = new JTextField();
+		this.textDni = new JTextField();
 		textDni.setEditable(false);
 		textDni.setColumns(10);
 		textDni.setBounds(300, 15, 90, 20);
@@ -71,7 +69,7 @@ public class VentanaPorteViaje extends JFrame {
 		labelEmpresa.setBounds(10, 50, 120, 15);
 		contentPane.add(labelEmpresa);
 
-		textEmpresa = new JTextField();
+		this.textEmpresa = new JTextField();
 		textEmpresa.setEditable(false);
 		textEmpresa.setColumns(10);
 		textEmpresa.setBounds(70, 45, 320, 20);
@@ -81,7 +79,7 @@ public class VentanaPorteViaje extends JFrame {
 		labelKgCarga.setBounds(10, 80, 120, 15);
 		contentPane.add(labelKgCarga);
 
-		textKgCarga = new JTextField();
+		this.textKgCarga = new JTextField();
 		textKgCarga.setEditable(false);
 		textKgCarga.setColumns(10);
 		textKgCarga.setBounds(70, 77, 90, 20);

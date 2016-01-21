@@ -32,6 +32,10 @@ import pojo.Porte;
 import pojo.Viaje;
 
 public class VentanaTabla2PDF extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static Color color = Color.CYAN;
 	private ArrayList<Object> viajes;
 	private JTable table;
@@ -65,11 +69,6 @@ public class VentanaTabla2PDF extends JFrame {
 		crearTablaCuerpo();
 		crearTablaResumen();
 
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				System.exit(0);
-			}
-		});
 	}
 
 	private void formWindowClosing(VentanaPrincipal principal) {
@@ -174,21 +173,21 @@ public class VentanaTabla2PDF extends JFrame {
 			}
 			doc.add(pdfTable);
 
-			PdfPTable pdfTable1 = new PdfPTable(table1.getColumnCount());
-			manejarDocumento(0);
-
-			for (int i = 0; i < table.getColumnCount(); i++) {
-				PdfPCell celda = new PdfPCell(new Phrase(table.getColumnName(i)));
-				celda.setBackgroundColor(VentanaTabla2PDF.color);
-				pdfTable1.addCell(celda);
-			}
-
-			for (int fil = 0; fil < table.getRowCount(); fil++) {
-				for (int col = 0; col < table.getColumnCount(); col++) {
-					pdfTable1.addCell(table.getModel().getValueAt(fil, col).toString());
-				}
-			}
-			pdfTable1.setTotalWidth(doc.right(doc.rightMargin()) - doc.left(doc.leftMargin()));
+//			PdfPTable pdfTable1 = new PdfPTable(table1.getColumnCount());
+//			manejarDocumento(0);
+//
+//			for (int i = 0; i < table.getColumnCount(); i++) {
+//				PdfPCell celda = new PdfPCell(new Phrase(table.getColumnName(i)));
+//				celda.setBackgroundColor(VentanaTabla2PDF.color);
+//				pdfTable1.addCell(celda);
+//			}
+//
+//			for (int fil = 0; fil < table.getRowCount(); fil++) {
+//				for (int col = 0; col < table.getColumnCount(); col++) {
+//					pdfTable1.addCell(table.getModel().getValueAt(fil, col).toString());
+//				}
+//			}
+//			pdfTable1.setTotalWidth(doc.right(doc.rightMargin()) - doc.left(doc.leftMargin()));
 
 			manejarDocumento(1);
 			System.out.println("Impreso");

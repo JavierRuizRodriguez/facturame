@@ -21,6 +21,7 @@ public class CreadorPortes {
 	private Porte p;
 	private ArrayList<Viaje> viajes;
 	private int idViaje, idPorte;
+	boolean b;
 
 	public CreadorPortes(VentanaPrincipal principal) throws SQLException, IOException {
 		this.idViaje = 0;
@@ -36,12 +37,16 @@ public class CreadorPortes {
 	}
 
 	public void hacerPorte() throws InterruptedException, SQLException, IOException {
+		
 		pb.getDatosPrincipales(ventanaPrincipal);
 		pb.getDatosEmpresa(ventanaPrincipal);
 		pb.getDatosTransportista(ventanaPrincipal);
-		pb.getDatosCamion(ventanaPrincipal);
-		pb.getDatosViajes(ventanaPrincipal);
-
+//		pb.getDatosCamion(ventanaPrincipal);
+//		pb.getDatosViajes(ventanaPrincipal);
+		b=true;
+		while(b){
+			
+		}
 		idPorte = cp.getUltimoId();
 		p = pb.getPorte();
 		p.setIdPorte(idPorte + 1);

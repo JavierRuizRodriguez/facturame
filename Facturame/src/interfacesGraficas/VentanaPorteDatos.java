@@ -2,6 +2,8 @@ package interfacesGraficas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,6 +21,7 @@ import pojo.Porte;
 public class VentanaPorteDatos extends JFrame {
 
 	private Porte p;
+	private JLabel labelVolumenCarga;
 	private PorteGrafico pb;
 	private JCheckBox checkBoxGrupaje;
 	private JPanel contentPane;
@@ -28,13 +31,19 @@ public class VentanaPorteDatos extends JFrame {
 	private JTextField textPrecio;
 	private JTextField textDescripcion;
 
-	public VentanaPorteDatos(PorteGrafico pb) {
-		this.p = pb.getPorte();
+	public VentanaPorteDatos(PorteGrafico pb, VentanaPrincipal principal) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				formWindowClosing(principal);
+			}
+		});
 		this.pb = pb;
+		this.p = pb.getPorte();
 		setTitle("Facturame --- Porte --- Datos");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 417, 383);
-		contentPane = new JPanel();
+		this.contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -43,16 +52,16 @@ public class VentanaPorteDatos extends JFrame {
 		labelKgCarga.setBounds(10, 16, 120, 15);
 		contentPane.add(labelKgCarga);
 
-		textKgCarga = new JTextField();
+		this.textKgCarga = new JTextField();
 		textKgCarga.setColumns(10);
 		textKgCarga.setBounds(70, 13, 90, 20);
 		contentPane.add(textKgCarga);
 
-		JLabel labelVolumenCarga = new JLabel("Volumen carga:");
+		this.labelVolumenCarga = new JLabel("Volumen carga:");
 		labelVolumenCarga.setBounds(200, 16, 120, 15);
 		contentPane.add(labelVolumenCarga);
 
-		textVolumenCarga = new JTextField();
+		this.textVolumenCarga = new JTextField();
 		textVolumenCarga.setColumns(10);
 		textVolumenCarga.setBounds(300, 11, 90, 20);
 		contentPane.add(textVolumenCarga);
@@ -63,7 +72,7 @@ public class VentanaPorteDatos extends JFrame {
 		panelConcepto.setBounds(10, 41, 380, 85);
 		contentPane.add(panelConcepto);
 
-		textConcepto = new JTextField();
+		this.textConcepto = new JTextField();
 		textConcepto.setColumns(10);
 		textConcepto.setBounds(10, 21, 360, 53);
 		panelConcepto.add(textConcepto);
@@ -72,7 +81,7 @@ public class VentanaPorteDatos extends JFrame {
 		labelPrecio.setBounds(10, 136, 120, 15);
 		contentPane.add(labelPrecio);
 
-		textPrecio = new JTextField();
+		this.textPrecio = new JTextField();
 		textPrecio.setColumns(10);
 		textPrecio.setBounds(70, 131, 90, 20);
 		contentPane.add(textPrecio);
@@ -81,7 +90,7 @@ public class VentanaPorteDatos extends JFrame {
 		labelGrupaje.setBounds(200, 136, 55, 15);
 		contentPane.add(labelGrupaje);
 
-		checkBoxGrupaje = new JCheckBox("");
+		this.checkBoxGrupaje = new JCheckBox("");
 		checkBoxGrupaje.setBounds(250, 131, 25, 25);
 		contentPane.add(checkBoxGrupaje);
 
@@ -92,7 +101,7 @@ public class VentanaPorteDatos extends JFrame {
 		panelDescripcion.setBounds(10, 162, 380, 139);
 		contentPane.add(panelDescripcion);
 
-		textDescripcion = new JTextField();
+		this.textDescripcion = new JTextField();
 		textDescripcion.setColumns(10);
 		textDescripcion.setBounds(10, 22, 360, 106);
 		panelDescripcion.add(textDescripcion);
@@ -108,7 +117,7 @@ public class VentanaPorteDatos extends JFrame {
 		contentPane.add(button);
 	}
 
-	private void formWindowClosing(java.awt.event.WindowEvent evt) {
+	private void formWindowClosing(VentanaPrincipal principal) {
 		this.setVisible(false);
 	}
 
