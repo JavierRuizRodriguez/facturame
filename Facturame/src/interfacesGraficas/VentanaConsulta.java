@@ -66,12 +66,12 @@ public class VentanaConsulta extends JFrame {
 	private Iterador iterador;
 	private JTextField textClave;
 
-	public static void main(String[] args) throws SQLException, IOException {
-		VentanaPrincipal principal = new VentanaPrincipal();
-		principal.setVisible(false);
-		VentanaConsulta ventCons = new VentanaConsulta(principal);
-		ventCons.setVisible(true);
-	}
+//	public static void main(String[] args) throws SQLException, IOException {
+//		VentanaPrincipal principal = new VentanaPrincipal();
+//		principal.setVisible(false);
+//		VentanaConsulta ventCons = new VentanaConsulta(principal);
+//		ventCons.setVisible(true);
+//	}
 
 	public VentanaConsulta(VentanaPrincipal principal) throws SQLException, IOException {
 		addWindowListener(new WindowAdapter() {
@@ -80,7 +80,7 @@ public class VentanaConsulta extends JFrame {
 				formWindowClosing(e, principal);
 			}
 		});
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

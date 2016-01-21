@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -23,20 +24,11 @@ import javax.swing.border.TitledBorder;
 
 import factorias.FactoriaCRUD;
 import factorias.FactoriaVehiculo;
-import operacionesCRUD.CRUDcamiones;
 import pojo.Camion;
 import util.UtilVentanas;
-import javax.swing.DefaultComboBoxModel;
 
 public class VentanaCamion extends JFrame {
-	
-	public static void main(String[] args) throws SQLException {		
-		VentanaPrincipal principal = new VentanaPrincipal();
-		principal.setVisible(false);
-		VentanaCamion ventCami = new VentanaCamion(principal);
-		ventCami.setVisible(true);	
-	}
-	
+		
 	private JPanel contentPane;
 	private JTextField textNumeroBastidor;
 	private JTextField textMatricula;
@@ -60,11 +52,11 @@ public class VentanaCamion extends JFrame {
 	private FactoriaVehiculo fv;
 	private FactoriaCRUD fc;
 	
-	public VentanaCamion(VentanaPrincipal principal) {
+	public VentanaCamion(VentanaGestion gestion) {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-                formWindowClosing(e, principal);
+                formWindowClosing(gestion);
 			}
 		});		
 		setTitle("Facturame --- Camion");
@@ -345,9 +337,9 @@ public class VentanaCamion extends JFrame {
 		}		
 	}
 	
-	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
+	private void formWindowClosing(VentanaGestion gestion) {
         this.setVisible(false);
-        principal.setVisible(true);
+        gestion.setVisible(true);
     }
 
 }

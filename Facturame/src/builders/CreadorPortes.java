@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import factorias.FactoriaCRUD;
+import interfacesGraficas.VentanaPrincipal;
 import operacionesCRUD.CRUDportes;
 import operacionesCRUD.CRUDviajes;
 import pojo.Porte;
@@ -12,20 +13,22 @@ import pojo.Viaje;
 
 public class CreadorPortes {
 
-	PorteBuilder pb;
-	FactoriaCRUD fc;
-	CRUDportes cp;
-	CRUDviajes cv;
-	Porte p;
-	ArrayList<Viaje> viajes;
-	int idViaje, idPorte;
+	private PorteBuilder pb;
+	private FactoriaCRUD fc;
+	private CRUDportes cp;
+	private CRUDviajes cv;
+	private VentanaPrincipal ventanaPrincipal;
+	private Porte p;
+	private ArrayList<Viaje> viajes;
+	private int idViaje, idPorte;
 
-	public CreadorPortes() throws SQLException, IOException {
+	public CreadorPortes(VentanaPrincipal principal) throws SQLException, IOException {
 		this.idViaje = 0;
 		this.idPorte = 0;
 		this.fc = new FactoriaCRUD();
 		this.cp = (CRUDportes) fc.crearCRUD(FactoriaCRUD.TIPO_PORTE);
 		this.cv = (CRUDviajes) fc.crearCRUD(FactoriaCRUD.TIPO_VIAJE);
+		this.ventanaPrincipal = principal;
 	}
 
 	public void setPb(PorteBuilder pb) {
@@ -33,11 +36,11 @@ public class CreadorPortes {
 	}
 
 	public void hacerPorte() throws InterruptedException, SQLException, IOException {
-		pb.getDatosPrincipales();
-		pb.getDatosEmpresa();
-		pb.getDatosTransportista();
-		pb.getDatosCamion();
-		pb.getDatosViajes();
+		pb.getDatosPrincipales(ventanaPrincipal);
+		pb.getDatosEmpresa(ventanaPrincipal);
+		pb.getDatosTransportista(ventanaPrincipal);
+		pb.getDatosCamion(ventanaPrincipal);
+		pb.getDatosViajes(ventanaPrincipal);
 
 		idPorte = cp.getUltimoId();
 		p = pb.getPorte();

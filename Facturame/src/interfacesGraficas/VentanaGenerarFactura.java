@@ -2,6 +2,8 @@ package interfacesGraficas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import iterador.AgregadoConcreto;
 import iterador.Iterador;
 import operacionesCRUD.CRUDempresa;
 import pojo.Empresa;
+import util.UtilVentanas;
 
 public class VentanaGenerarFactura extends JFrame {
 
@@ -39,7 +42,13 @@ public class VentanaGenerarFactura extends JFrame {
 	private JTextField tFechaInicio;
 	private JTextField tFechaFinal;
 
-	public VentanaGenerarFactura() throws SQLException, IOException {
+	public VentanaGenerarFactura(VentanaPrincipal principal) throws SQLException, IOException {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+		        formWindowClosing(principal);
+			}
+		});
 		this.fc = new FactoriaCRUD();
 		this.ce = (CRUDempresa) fc.crearCRUD(FactoriaCRUD.TIPO_EMPRESA);
 		setTitle("Facturame --- Porte --- Empresa");
@@ -70,10 +79,7 @@ public class VentanaGenerarFactura extends JFrame {
 				}
 			}
 		});
-		buttonBuscar.setIcon(new ImageIcon(
-				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\lupa_16.png"));
-		buttonBuscar.setSelectedIcon(new ImageIcon(
-				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\lupa_24.png"));
+		buttonBuscar.setIcon(new ImageIcon("images\\lupa_16.png"));
 		buttonBuscar.setBounds(270, 8, 25, 25);
 		contentPane.add(buttonBuscar);
 
@@ -97,9 +103,8 @@ public class VentanaGenerarFactura extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					comboActionPerformed(e);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL, sqle.toString());
 				}
 			}
 		});
@@ -140,7 +145,7 @@ public class VentanaGenerarFactura extends JFrame {
 		bGenerarFactura.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					buttonSiguienteActionPerformed(e);
+					buttonSiguienteActionPerformed(principal);
 				} catch (SQLException | IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -173,8 +178,9 @@ public class VentanaGenerarFactura extends JFrame {
 		tFechaFinal.setColumns(10);
 	}
 
-	private void formWindowClosing(java.awt.event.WindowEvent evt) {
-		this.setVisible(false);
+	private void formWindowClosing(VentanaPrincipal principal) {
+	    this.setVisible(false);
+	    principal.setVisible(true);
 	}
 
 	private void comboActionPerformed(ActionEvent evt) throws SQLException {
@@ -188,7 +194,7 @@ public class VentanaGenerarFactura extends JFrame {
 
 	}
 
-	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, IOException {
+	private void buttonSiguienteActionPerformed(VentanaPrincipal principal) throws SQLException, IOException {
 		this.setVisible(false);
 		Fecha fechaInicio = new AdaptadorFechaPostgres(new FechaEs(tFechaInicio.getText()));
 		Fecha fechaFinal = new AdaptadorFechaPostgres(new FechaEs(tFechaFinal.getText()));

@@ -44,7 +44,13 @@ public class VentanaTabla2PDF extends JFrame {
 	private Empresa empresa;
 	private CRUDempresa ce;
 
-	public VentanaTabla2PDF(String fInicio, String fFinal, String empresa) throws SQLException, IOException {
+	public VentanaTabla2PDF(String fInicio, String fFinal, String empresa, VentanaPrincipal principal) throws SQLException, IOException {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+		        formWindowClosing(principal);
+			}
+		});
 		this.table = new JTable();
 		this.table1 = new JTable();
 		this.table.setPreferredSize(getPreferredSize());
@@ -66,6 +72,11 @@ public class VentanaTabla2PDF extends JFrame {
 		});
 	}
 
+	private void formWindowClosing(VentanaPrincipal principal) {
+	    this.setVisible(false);
+	    principal.setVisible(true);
+	}
+	
 	private void crearTablaResumen() {
 		double sumatorio = 0;
 		for (Object o : portes) {

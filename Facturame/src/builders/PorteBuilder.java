@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import factorias.FactoriaPorte;
+import interfacesGraficas.VentanaPrincipal;
 import pojo.Porte;
 import pojo.Viaje;
 
@@ -20,15 +21,15 @@ public abstract class PorteBuilder {
 		this.viajes = new ArrayList<Viaje>();
 	}
 
-	abstract void getDatosPrincipales() throws InterruptedException;
+	abstract void getDatosPrincipales(VentanaPrincipal ventanaPrincipal) throws InterruptedException;
 
-	abstract void getDatosEmpresa() throws InterruptedException, SQLException, IOException;
+	abstract void getDatosEmpresa(VentanaPrincipal ventanaPrincipal) throws InterruptedException, SQLException, IOException;
 
-	abstract void getDatosTransportista() throws InterruptedException, SQLException, IOException;
+	abstract void getDatosTransportista(VentanaPrincipal ventanaPrincipal) throws InterruptedException, SQLException, IOException;
 
-	abstract void getDatosCamion() throws InterruptedException, SQLException, IOException;
+	abstract void getDatosCamion(VentanaPrincipal ventanaPrincipal) throws InterruptedException, SQLException, IOException;
 
-	abstract void getDatosViajes() throws InterruptedException;
+	abstract void getDatosViajes(VentanaPrincipal ventanaPrincipal) throws InterruptedException;
 
 	public void anadirViaje(Viaje viaje) {
 		viajes.add(viaje);
