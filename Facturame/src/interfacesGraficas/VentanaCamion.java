@@ -232,16 +232,8 @@ public class VentanaCamion extends JFrame {
 				}
 			}
 		});
-		buttonAnadir.setBounds(20, 356, 120, 25);
+		buttonAnadir.setBounds(111, 356, 229, 25);
 		contentPane.add(buttonAnadir);
-		
-		JButton buttonVerListado = new JButton("VER LISTADO");
-		buttonVerListado.setBounds(150, 356, 120, 25);
-		contentPane.add(buttonVerListado);
-		
-		JButton buttonCancelar = new JButton("CANCELAR");
-		buttonCancelar.setBounds(280, 356, 120, 25);
-		contentPane.add(buttonCancelar);
 		
 		JButton buttonBorrar = new JButton("");
 		buttonBorrar.setIcon(new ImageIcon("images\\papelera_16.png"));		

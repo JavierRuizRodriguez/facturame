@@ -41,14 +41,16 @@ public class VentanaGenerarFactura extends JFrame {
 	private JTextField textMail;
 	private JTextField tFechaInicio;
 	private JTextField tFechaFinal;
+	private VentanaPrincipal principal;
 
 	public VentanaGenerarFactura(VentanaPrincipal principal) throws SQLException, IOException {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-		        formWindowClosing(principal);
+				formWindowClosing(principal);
 			}
 		});
+		this.principal = principal;
 		this.fc = new FactoriaCRUD();
 		this.ce = (CRUDempresa) fc.crearCRUD(FactoriaCRUD.TIPO_EMPRESA);
 		setTitle("Facturame --- Porte --- Empresa");
@@ -85,7 +87,7 @@ public class VentanaGenerarFactura extends JFrame {
 
 		JComboBox comboBoxEmpresa = new JComboBox();
 		comboBoxEmpresa.setBounds(120, 40, 140, 20);
-		
+
 		ArrayList<Object> empresasO = new ArrayList<Object>(ce.buscarTodo());
 		Agregado agregado = new AgregadoConcreto(empresasO);
 		Iterador iterador = agregado.crearIterador();
@@ -145,7 +147,7 @@ public class VentanaGenerarFactura extends JFrame {
 		bGenerarFactura.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					buttonSiguienteActionPerformed(principal);
+					buttonSiguienteActionPerformed();
 				} catch (SQLException | IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -179,8 +181,8 @@ public class VentanaGenerarFactura extends JFrame {
 	}
 
 	private void formWindowClosing(VentanaPrincipal principal) {
-	    this.setVisible(false);
-	    principal.setVisible(true);
+		this.setVisible(false);
+		principal.setVisible(true);
 	}
 
 	private void comboActionPerformed(ActionEvent evt) throws SQLException {
@@ -194,15 +196,20 @@ public class VentanaGenerarFactura extends JFrame {
 
 	}
 
-	private void buttonSiguienteActionPerformed(VentanaPrincipal principal) throws SQLException, IOException {
-		this.setVisible(false);
+	private void buttonSiguienteActionPerformed() throws SQLException, IOException {		
 		Fecha fechaInicio = new AdaptadorFechaPostgres(new FechaEs(tFechaInicio.getText()));
 		Fecha fechaFinal = new AdaptadorFechaPostgres(new FechaEs(tFechaFinal.getText()));
 		String fechaIniForm = fechaInicio.toString();
 		String fechaFinForm = fechaFinal.toString();
-		
-		VentanaTabla2PDF ventanaPDF = new VentanaTabla2PDF(fechaIniForm, fechaFinForm, empresa.getNif(),principal);
-		ventanaPDF.setVisible(true);
+
+		if (!fechaIniForm.equalsIgnoreCase("0-0-0") || !fechaFinForm.equalsIgnoreCase("0-0-0")) {
+			this.setVisible(false);
+			VentanaTabla2PDF ventanaPDF = new VentanaTabla2PDF(fechaIniForm, fechaFinForm, empresa.getNif(), principal);
+			ventanaPDF.setVisible(true);
+		} else {
+			tFechaInicio.setText("");
+			tFechaFinal.setText("");
+		}
 	}
 
 	private void buttonBuscarActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {

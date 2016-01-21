@@ -4,5 +4,5 @@ import java.util.ArrayList;
 
 public interface Estrategia{
 
-	void ordena(ArrayList<?> lista, int nCampo);
+	void ordena(ArrayList<?> lista, String campo);
 }

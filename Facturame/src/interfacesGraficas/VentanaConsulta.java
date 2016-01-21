@@ -17,6 +17,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -28,6 +30,11 @@ import iterador.Iterador;
 import operacionesCRUD.CRUDcamiones;
 import operacionesCRUD.CRUDempleados;
 import operacionesCRUD.CRUDempresa;
+import ordenacionObjetos.ContextoOrdenacion;
+import ordenacionObjetos.Estrategia;
+import ordenacionObjetos.EstrategiaCamion;
+import ordenacionObjetos.EstrategiaEmpleado;
+import ordenacionObjetos.EstrategiaEmpresa;
 import pojo.Camion;
 import pojo.Empresa;
 import pojo.Trabajador;
@@ -35,6 +42,10 @@ import util.UtilVentanas;
 
 public class VentanaConsulta extends JFrame {
 
+	private ContextoOrdenacion co;
+	private EstrategiaCamion esC;
+	private EstrategiaEmpleado esT;
+	private EstrategiaEmpresa esE;
 	private JPanel contentPane;
 	private JPanel panelCamion;
 	private JPanel panelEmpleado;
@@ -49,7 +60,7 @@ public class VentanaConsulta extends JFrame {
 	private JTextField textDniNifEmpleado;
 	private JTextField textNombreEmpleado;
 	private JTextField textSueldoEmpleado;
-	private JComboBox comboBoxTipo;
+	private JComboBox<?> comboBoxTipo;
 	private ArrayList<JTextField> textos = new ArrayList<JTextField>();
 	private ArrayList<JTextField> textosCamiones = new ArrayList<JTextField>();
 	private ArrayList<JTextField> textosEmpresas = new ArrayList<JTextField>();
@@ -65,13 +76,15 @@ public class VentanaConsulta extends JFrame {
 	private Agregado agregado;
 	private Iterador iterador;
 	private JTextField textClave;
+	private JTextArea tDatos;
+	private JComboBox<?> comboOrdenacion;
 
-//	public static void main(String[] args) throws SQLException, IOException {
-//		VentanaPrincipal principal = new VentanaPrincipal();
-//		principal.setVisible(false);
-//		VentanaConsulta ventCons = new VentanaConsulta(principal);
-//		ventCons.setVisible(true);
-//	}
+	// public static void main(String[] args) throws SQLException, IOException {
+	// VentanaPrincipal principal = new VentanaPrincipal();
+	// principal.setVisible(false);
+	// VentanaConsulta ventCons = new VentanaConsulta(principal);
+	// ventCons.setVisible(true);
+	// }
 
 	public VentanaConsulta(VentanaPrincipal principal) throws SQLException, IOException {
 		addWindowListener(new WindowAdapter() {
@@ -80,23 +93,53 @@ public class VentanaConsulta extends JFrame {
 				formWindowClosing(e, principal);
 			}
 		});
+		this.fc = new FactoriaCRUD();
+		this.tipo = "Empresa";
+		this.ce = (CRUDempresa) fc.crearCRUD(FactoriaCRUD.TIPO_EMPRESA);
+		this.cc = (CRUDcamiones) fc.crearCRUD(FactoriaCRUD.TIPO_CAMION);
+		this.ct = (CRUDempleados) fc.crearCRUD(FactoriaCRUD.TIPO_EMPLEADO);
+		this.esC = new EstrategiaCamion();
+		this.esT = new EstrategiaEmpleado();
+		this.esE = new EstrategiaEmpresa();
+		this.co = new ContextoOrdenacion(ce.buscarTodo(), esE);
+		this.empresas = new ArrayList<Object>(co.ejecutarEstrategia("NIF"));
+		this.co = new ContextoOrdenacion(cc.buscarTodo(), esC);
+		this.camiones = new ArrayList<Object>(co.ejecutarEstrategia("bastidor"));
+		this.co = new ContextoOrdenacion(ct.buscarTodo(), esT);
+		this.empleados = new ArrayList<Object>(co.ejecutarEstrategia("nombre"));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 771, 275);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		comboOrdenacion = new JComboBox();
+		comboOrdenacion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					comboOrdenacionActionPerformed();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		comboOrdenacion.setModel(new DefaultComboBoxModel(new String[] { "NIF", "direccion", "telefono" }));
+		comboOrdenacion.setBounds(259, 200, 165, 20);
+
 		comboBoxTipo = new JComboBox();
-		comboBoxTipo.addActionListener (new ActionListener () {
-		    public void actionPerformed(ActionEvent e) {
-		    	tipo = comboBoxTipo.getSelectedItem().toString();
-					try {
-						comboBoxTipoCambiarSeleccion(e, comboBoxTipo.getSelectedItem().toString());
-					} catch (SQLException sqle) {
-						UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
-					}
-		    }
+		comboBoxTipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tipo = comboBoxTipo.getSelectedItem().toString();
+				try {
+					comboBoxTipoCambiarSeleccion(e, comboBoxTipo.getSelectedItem().toString());
+					cambiarEtiquetasComboOrd();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL, sqle.toString());
+				}
+			}
 		});
 		comboBoxTipo.setModel(new DefaultComboBoxModel(new String[] { "Empresa", "Cami\u00F3n", "Empleado" }));
 		comboBoxTipo.setBounds(10, 11, 120, 20);
@@ -105,7 +148,7 @@ public class VentanaConsulta extends JFrame {
 		panelCamion = new JPanel();
 		panelCamion
 				.setBorder(new TitledBorder(null, "Cami\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelCamion.setBounds(10, 42, 414, 120);
+		panelCamion.setBounds(10, 42, 414, 137);
 		contentPane.add(panelCamion);
 		panelCamion.setLayout(null);
 
@@ -212,29 +255,15 @@ public class VentanaConsulta extends JFrame {
 		textSueldoEmpleado.setBounds(140, 80, 264, 20);
 		panelEmpleado.add(textSueldoEmpleado);
 
-		JButton buttonSiguiente = new JButton("");
-		buttonSiguiente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
-				try {
-					buttonSiguienteActionPerformed(e, tipo);
-				} catch (SQLException sqle) {
-					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
-				}
-			}
-		});
-		buttonSiguiente.setIcon(new ImageIcon("images\\flecha_16.png"));
-		buttonSiguiente.setBounds(159, 190, 25, 25);
-		contentPane.add(buttonSiguiente);
-
 		JButton buttonCambiarBusqueda = new JButton("");
 		buttonCambiarBusqueda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					buttonBuscarPorCampoActionPerformed(e, tipo, textClave.getText());
 				} catch (SQLException sqle) {
-					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL, sqle.toString());
 				} catch (IOException ioe) {
-					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE, ioe.toString());
 				} catch (NoSuchAlgorithmException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -242,36 +271,26 @@ public class VentanaConsulta extends JFrame {
 			}
 		});
 		buttonCambiarBusqueda.setIcon(new ImageIcon("images\\lupa_16.png"));
-		buttonCambiarBusqueda.setBounds(394, 8, 25, 25);
+		buttonCambiarBusqueda.setBounds(376, 11, 25, 25);
 		contentPane.add(buttonCambiarBusqueda);
 
 		JButton buttonBorrar = new JButton("");
 		buttonBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					buttonBorrarActionPerformed(e, tipo);
-				} catch (IndexOutOfBoundsException iobe){
-					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
-				} catch (SQLException sqle){
-					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
-				} catch (IOException ioe){
-					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
+					buttonBorrarActionPerformed(tipo);
+				} catch (IndexOutOfBoundsException iobe) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOB, iobe.toString());
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL, sqle.toString());
+				} catch (IOException ioe) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE, ioe.toString());
 				}
 			}
 		});
 		buttonBorrar.setIcon(new ImageIcon("images\\papelera_16.png"));
-		buttonBorrar.setBounds(229, 190, 25, 25);
+		buttonBorrar.setBounds(20, 200, 25, 25);
 		contentPane.add(buttonBorrar);
-
-		JButton buttonModificar = new JButton("");
-		buttonModificar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-		buttonModificar.setIcon(new ImageIcon("images\\modificar_16.png"));
-		buttonModificar.setBounds(194, 190, 25, 25);
-		contentPane.add(buttonModificar);
 
 		panelCamion.setVisible(false);
 		panelEmpleado.setVisible(false);
@@ -285,20 +304,50 @@ public class VentanaConsulta extends JFrame {
 		textosEmpleados.add(textDniNifEmpleado);
 		textosEmpleados.add(textNombreEmpleado);
 		textosEmpleados.add(textSueldoEmpleado);
-		
-		labelClave = new JLabel("Nif:");
-		labelClave.setBounds(140, 14, 74, 14);
+
+		labelClave = new JLabel("NIF:");
+		labelClave.setBounds(140, 14, 98, 14);
 		contentPane.add(labelClave);
-		
+
 		textClave = new JTextField();
-		textClave.setBounds(229, 11, 155, 20);
+		textClave.setBounds(211, 14, 155, 20);
 		contentPane.add(textClave);
 		textClave.setColumns(10);
-		this.fc = new FactoriaCRUD();
-		this.ce = (CRUDempresa) fc.crearCRUD(FactoriaCRUD.TIPO_EMPRESA);
-		this.cc = (CRUDcamiones) fc.crearCRUD(FactoriaCRUD.TIPO_CAMION);
-		this.ct = (CRUDempleados) fc.crearCRUD(FactoriaCRUD.TIPO_EMPLEADO);
 		comboBoxTipo.setSelectedIndex(0);
+
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Datos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBounds(429, 11, 321, 204);
+		contentPane.add(panel);
+		panel.setLayout(null);
+
+		this.tDatos = new JTextArea();
+		tDatos.setEditable(false);
+		tDatos.setBounds(10, 21, 300, 172);
+		JScrollPane sp = new JScrollPane(tDatos);
+		sp.setBounds(10, 21, 300, 172);
+		panel.add(sp);
+
+		JButton bVerTodo = new JButton("Ver todos");
+		bVerTodo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					bverTodoActionPerformed(tipo);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		bVerTodo.setBounds(55, 200, 183, 23);
+		contentPane.add(bVerTodo);
+
+		co = new ContextoOrdenacion(empresas, esE);
+		contentPane.add(comboOrdenacion);
+
+		JLabel lblParmetroOrdenacin = new JLabel("Par\u00E1metro ordenaci\u00F3n:");
+		lblParmetroOrdenacin.setBounds(259, 185, 165, 14);
+		contentPane.add(lblParmetroOrdenacin);
 	}
 
 	private void formWindowClosing(java.awt.event.WindowEvent evt, VentanaPrincipal principal) {
@@ -306,169 +355,266 @@ public class VentanaConsulta extends JFrame {
 		principal.setVisible(true);
 	}
 
-	private void buttonBuscarPorCampoActionPerformed(java.awt.event.ActionEvent evt, String tipo, String clave) throws SQLException, IOException, NoSuchAlgorithmException{
+	private void cambiarEtiquetasComboOrd() {
+		switch (comboBoxTipo.getSelectedItem().toString()) {
+		case "Empresa": {
+			co = new ContextoOrdenacion(empresas, esE);
+			comboOrdenacion.setModel(new DefaultComboBoxModel(new String[] { "NIF", "direccion", "telefono" }));
+			break;
+		}
+		case "Cami\u00F3n": {
+			co = new ContextoOrdenacion(camiones, esC);
+			comboOrdenacion.setModel(new DefaultComboBoxModel(new String[] { "bastidor", "matricula", "km" }));
+			break;
+		}
+		case "Empleado": {
+			co = new ContextoOrdenacion(empleados, esT);
+			comboOrdenacion.setModel(new DefaultComboBoxModel(new String[] { "nombre", "apellidos", "DNI" }));
+		}
+		default: {
+
+			co = new ContextoOrdenacion(empleados, esT);
+			comboOrdenacion.setModel(new DefaultComboBoxModel(new String[] { "nombre", "apellidos", "DNI" }));
+
+			break;
+		}
+		}
+
+	}
+
+	private void bverTodoActionPerformed(String tipo) throws SQLException {
 		switch (tipo) {
+		case "Empresa": {
+			agregado = new AgregadoConcreto(empresas);
+			iterador = agregado.crearIterador();
+			String datos = "";
+			while (iterador.hayMas()) {
+				Empresa e = (Empresa) iterador.elementoActual();
+				datos += " NIF empresa: " + e.getNif() + "\n N. empresa: " + e.getEmpresa() + "\n ················\n";
+				iterador.siguiente();
+			}
+			tDatos.setText(datos);
+			break;
+		}
+		case "Cami\u00F3n": {
+			agregado = new AgregadoConcreto(camiones);
+			iterador = agregado.crearIterador();
+			String datos = "";
+			while (iterador.hayMas()) {
+				Camion c = (Camion) iterador.elementoActual();
+				datos += " Nº bastidor: " + c.getnBastidor() + "\n Matrícula: " + c.getMatricula()
+						+ "\n ················\n";
+				iterador.siguiente();
+			}
+			tDatos.setText(datos);
+			break;
+		}
+		case "Empleado": {
+			agregado = new AgregadoConcreto(empleados);
+			iterador = agregado.crearIterador();
+			String datos = "";
+			while (iterador.hayMas()) {
+				Trabajador t = (Trabajador) iterador.elementoActual();
+				datos += " DNI empleado: " + t.getDni() + "\n N. empleado: "
+						+ t.getNombre().concat(" " + t.getApellidos()) + "\n ················\n";
+				iterador.siguiente();
+			}
+			tDatos.setText(datos);
+			break;
+		}
+		default: {
+			agregado = new AgregadoConcreto(empleados);
+			iterador = agregado.crearIterador();
+			String datos = "";
+			while (iterador.hayMas()) {
+				Trabajador t = (Trabajador) iterador.elementoActual();
+				datos += "DNI empleado: " + t.getDni() + "\nN. empleado: "
+						+ t.getNombre().concat(" " + t.getApellidos()) + "\n ················\n";
+				iterador.siguiente();
+			}
+			tDatos.setText(datos);
+			break;
+		}
+		}
+
+	}
+
+	private void comboOrdenacionActionPerformed() throws SQLException {
+		switch (comboBoxTipo.getSelectedItem().toString()) {
+		case "Cami\u00F3n": {
+			if (comboOrdenacion.getSelectedItem().toString().equalsIgnoreCase("bastidor"))
+				camiones = new ArrayList<Object>(co.ejecutarEstrategia("bastidor"));
+			else if (comboOrdenacion.getSelectedItem().toString().equalsIgnoreCase("matricula"))
+				camiones = new ArrayList<Object>(co.ejecutarEstrategia("matricula"));
+			else
+				camiones = new ArrayList<Object>(co.ejecutarEstrategia("km"));
+
+			break;
+		}
+		case "Empresa": {
+			if (comboOrdenacion.getSelectedItem().toString().equalsIgnoreCase("NIF"))
+				empresas = new ArrayList<Object>(co.ejecutarEstrategia("NIF"));
+			else if (comboOrdenacion.getSelectedItem().toString().equalsIgnoreCase("direccion"))
+				empresas = new ArrayList<Object>(co.ejecutarEstrategia("direccion"));
+			else
+				empresas = new ArrayList<Object>(co.ejecutarEstrategia("telefono"));
+			break;
+		}
+		case "Empleado": {
+			if (comboOrdenacion.getSelectedItem().toString().equalsIgnoreCase("nombre"))
+				empleados = new ArrayList<Object>(co.ejecutarEstrategia("nombre"));
+			else if (comboOrdenacion.getSelectedItem().toString().equalsIgnoreCase("apellidos"))
+				empleados = new ArrayList<Object>(co.ejecutarEstrategia("apellidos"));
+			else
+				empleados = new ArrayList<Object>(co.ejecutarEstrategia("DNI"));
+			break;
+		}
+		default: {
+			if (comboOrdenacion.getSelectedItem().toString().equalsIgnoreCase("bastidor"))
+				camiones = new ArrayList<Object>(co.ejecutarEstrategia("bastidor"));
+			else if (comboOrdenacion.getSelectedItem().toString().equalsIgnoreCase("matricula"))
+				camiones = new ArrayList<Object>(co.ejecutarEstrategia("matricula"));
+			else
+				camiones = new ArrayList<Object>(co.ejecutarEstrategia("km"));
+
+			break;
+		}
+		}
+
+	}
+
+	private void buttonBuscarPorCampoActionPerformed(java.awt.event.ActionEvent evt, String tipo, String clave)
+			throws SQLException, IOException, NoSuchAlgorithmException {
+		if (!textClave.getText().isEmpty()) {
+			switch (tipo) {
 			case "Empresa": {
 				Empresa empresaAux = (Empresa) fc.crearCRUD(FactoriaCRUD.TIPO_EMPRESA).buscarUno(clave);
-				textNifEmpresa.setText(empresaAux.getNif());
-				textNombreEmpresa.setText(empresaAux.getEmpresa());
-				textTelefonoEmpresa.setText(String.valueOf(empresaAux.getnTelefono()));
+				if (empresaAux != null) {
+					textNifEmpresa.setText(empresaAux.getNif());
+					textNombreEmpresa.setText(empresaAux.getEmpresa());
+					textTelefonoEmpresa.setText(String.valueOf(empresaAux.getnTelefono()));
+				} else
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL, "No existe en la base de datos.");
 				break;
+
 			}
-			case "Camión": {
+			case "Cami\u00F3n": {
+
 				Camion camionAux = (Camion) fc.crearCRUD(FactoriaCRUD.TIPO_CAMION).buscarUno(clave);
-				textMatriculaCamion.setText(camionAux.getMatricula());
-				textNumeroBastidorCamion.setText(camionAux.getnBastidor());
-				textVolumenCajaCamion.setText(String.valueOf(camionAux.getVolumenCaja()));
+				if (camionAux != null) {
+					textMatriculaCamion.setText(camionAux.getMatricula());
+					textNumeroBastidorCamion.setText(camionAux.getnBastidor());
+					textVolumenCajaCamion.setText(String.valueOf(camionAux.getVolumenCaja()));
+				} else
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL, "No existe en la base de datos.");
 				break;
 			}
 			case "Empleado": {
 				Trabajador empleadoAux = (Trabajador) fc.crearCRUD(FactoriaCRUD.TIPO_EMPLEADO).buscarUno(clave);
-				textDniNifEmpleado.setText(empleadoAux.getDni());
-				textNombreEmpleado.setText(empleadoAux.getNombre()+" "+empleadoAux.getApellidos());
-				textSueldoEmpleado.setText(String.valueOf(empleadoAux.getSueldo()));
+				if (empleadoAux != null) {
+					textDniNifEmpleado.setText(empleadoAux.getDni());
+					textNombreEmpleado.setText(empleadoAux.getNombre() + " " + empleadoAux.getApellidos());
+					textSueldoEmpleado.setText(String.valueOf(empleadoAux.getSueldo()));
+				} else
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL, "No existe en la base de datos.");
 				break;
 			}
-		}
-	}
-	
-	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt, String tipo) throws SQLException {
-		switch (tipo) {
-			case "Empresa": {
-				if(!empresas.isEmpty()){
-					try {
-						if(iterador.primero().equals(iterador.elementoActual())){
-							iterador.siguiente();
-						}
-						if (iterador.hayMas()) {
-							textNifEmpresa.setText(((Empresa) iterador.elementoActual()).getNif());
-							textNombreEmpresa.setText(((Empresa) iterador.elementoActual()).getEmpresa());
-							textTelefonoEmpresa.setText(String.valueOf(((Empresa) iterador.elementoActual()).getnTelefono()));
-							iterador.siguiente();
-						}
-					} catch (IndexOutOfBoundsException iobe) {
-						UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
-					}
-				}
-				break;
 			}
-			case "Camión": {
-				if(!camiones.isEmpty()){
-					try {
-						if (iterador.hayMas()) {
-							textMatriculaCamion.setText(((Camion) iterador.elementoActual()).getMatricula());
-							textNumeroBastidorCamion.setText(((Camion) iterador.elementoActual()).getnBastidor());
-							textVolumenCajaCamion.setText(String.valueOf(((Camion) iterador.elementoActual()).getVolumenCaja()));
-							iterador.siguiente();
-						} 
-					} catch (IndexOutOfBoundsException iobe) {
-						UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
-					}
-				}
-				break;
-			}
-			case "Empleado": {
-				if(!empleados.isEmpty()){
-					try {						
-						if (iterador.hayMas()) {
-							if(iterador.primero().equals(iterador.elementoActual())){
-								iterador.siguiente();
-							}
-							textDniNifEmpleado.setText(((Trabajador) iterador.elementoActual()).getDni());
-							textNombreEmpleado.setText(((Trabajador) iterador.elementoActual()).getNombre()+" "+((Trabajador) iterador.elementoActual()).getApellidos());
-							textSueldoEmpleado.setText(String.valueOf(((Trabajador) iterador.elementoActual()).getSueldo()));
-							iterador.siguiente();
-						}
-					} catch (IndexOutOfBoundsException iobe) {
-						UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOB,iobe.toString());
-					}
-				}
-				break;
-			}
+		} else {
+			UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_CAMPOS_INCOMPLETOS, "");
 		}
 	}
 
 	private void comboBoxTipoCambiarSeleccion(java.awt.event.ActionEvent evt, String tipo) throws SQLException {
-
 		switch (tipo) {
 		case "Empresa": {
 			labelClave.setText("Nif:");
-			empresas = new ArrayList<Object>(ce.buscarTodo());
 			if (empresas.isEmpty()) {
-				UtilVentanas.borrarTextos(textos);				
-			} else {
-				agregado = new AgregadoConcreto(empresas);
-				iterador = agregado.crearIterador();
-				textNifEmpresa.setText(((Empresa) iterador.elementoActual()).getNif());
-				textNombreEmpresa.setText(((Empresa) iterador.elementoActual()).getEmpresa());
-				textTelefonoEmpresa.setText(String.valueOf(((Empresa) iterador.elementoActual()).getnTelefono()));
+				UtilVentanas.borrarTextos(textos);
 			}
-			panelCamion.setVisible(false); panelEmpleado.setVisible(false);	panelEmpresa.setVisible(true); break;
+			panelCamion.setVisible(false);
+			panelEmpleado.setVisible(false);
+			panelEmpresa.setVisible(true);
+			break;
 		}
 		case "Camión": {
 			labelClave.setText("Nº Bastidor:");
-			camiones = new ArrayList<Object>(cc.buscarTodo());
 			if (camiones.isEmpty()) {
 				UtilVentanas.borrarTextos(textos);
-			} else {
-				agregado = new AgregadoConcreto(camiones);
-				iterador = agregado.crearIterador();
-				textMatriculaCamion.setText(((Camion) iterador.elementoActual()).getMatricula());
-				textNumeroBastidorCamion.setText(((Camion) iterador.elementoActual()).getnBastidor());
-				textVolumenCajaCamion.setText(String.valueOf(((Camion) iterador.elementoActual()).getVolumenCaja()));
 			}
-			panelEmpleado.setVisible(false); panelEmpresa.setVisible(false); panelCamion.setVisible(true); break;
+			panelEmpleado.setVisible(false);
+			panelEmpresa.setVisible(false);
+			panelCamion.setVisible(true);
+			break;
 		}
 		case "Empleado": {
 			labelClave.setText("DNI:");
-			empleados = new ArrayList<Object>(ct.buscarTodo());
 			if (empleados.isEmpty()) {
 				UtilVentanas.borrarTextos(textos);
-			} else {
-				agregado = new AgregadoConcreto(empleados);
-				iterador = agregado.crearIterador();
-				textDniNifEmpleado.setText(((Trabajador) iterador.elementoActual()).getDni());
-				textNombreEmpleado.setText(((Trabajador) iterador.elementoActual()).getNombre() + " "
-						+ ((Trabajador) iterador.elementoActual()).getApellidos());
-				textSueldoEmpleado.setText(String.valueOf(((Trabajador) iterador.elementoActual()).getSueldo()));
 			}
-			panelCamion.setVisible(false); panelEmpresa.setVisible(false);	panelEmpleado.setVisible(true);	break;
+			panelCamion.setVisible(false);
+			panelEmpresa.setVisible(false);
+			panelEmpleado.setVisible(true);
+			break;
 		}
 		}
 	}
 
-	private void buttonBorrarActionPerformed(java.awt.event.ActionEvent evt, String tipo)
-			throws SQLException, IndexOutOfBoundsException, IOException {
+	private void buttonBorrarActionPerformed(String tipo) throws SQLException, IndexOutOfBoundsException, IOException {
 
 		switch (tipo) {
 		case "Empresa": {
 			if (UtilVentanas.textosIncompletos(textosEmpresas)) {
-				fc.crearCRUD(FactoriaCRUD.TIPO_EMPRESA).borrar(((Empresa) iterador.elementoActual()).getNif());
-				JOptionPane.showMessageDialog(null, "Empresa con Nif " + ((Empresa) iterador.elementoActual()).getNif() + " ha sido borrada.");
+				fc.crearCRUD(FactoriaCRUD.TIPO_EMPRESA).borrar(textNifEmpresa.getText());
+
+				JOptionPane.showMessageDialog(null,
+						"Empresa con Nif " + textNifEmpresa.getText() + " ha sido borrada.");
+
 			} else {
 				JOptionPane.showMessageDialog(null, "No hay elementos para borrar");
 			}
+			UtilVentanas.borrarTextos(textosEmpresas);
+			tDatos.setText("");
+			textClave.setText("");
+			co = new ContextoOrdenacion(ce.buscarTodo(), esE);
+			empresas = new ArrayList<Object>(co.ejecutarEstrategia("NIF"));
 			break;
 		}
-		case "Camión": {
+		case "Cami\u00F3n": {
 			if (UtilVentanas.textosIncompletos(textosCamiones)) {
-				fc.crearCRUD(FactoriaCRUD.TIPO_CAMION).borrar(((Camion) iterador.elementoActual()).getnBastidor());
-				JOptionPane.showMessageDialog(null, "Camión con número de bastidor "+ ((Camion) iterador.elementoActual()).getnBastidor() + " ha sido borrada.");
+				fc.crearCRUD(FactoriaCRUD.TIPO_CAMION).borrar(textMatriculaCamion.getText());
+
+				JOptionPane.showMessageDialog(null,
+						"Camión con número de bastidor " + textMatriculaCamion.getText() + " ha sido borrada.");
+
 			} else {
 				JOptionPane.showMessageDialog(null, "No hay elementos para borrar");
 			}
+			UtilVentanas.borrarTextos(textosCamiones);
+			tDatos.setText("");
+			textClave.setText("");
+			co = new ContextoOrdenacion(cc.buscarTodo(), esC);
+			camiones = new ArrayList<Object>(co.ejecutarEstrategia("bastidor"));
 			break;
 		}
 		case "Empleado": {
 			if (UtilVentanas.textosIncompletos(textosEmpleados)) {
-				fc.crearCRUD(FactoriaCRUD.TIPO_EMPLEADO).borrar(((Trabajador) iterador.elementoActual()).getDni());
+				fc.crearCRUD(FactoriaCRUD.TIPO_EMPLEADO).borrar(textDniNifEmpleado.getText());
+
 				JOptionPane.showMessageDialog(null,
-						"Empleado con Dni " + ((Trabajador) iterador.elementoActual()).getDni() +" ha sido borrada.");
+						"Empleado con Dni " + textDniNifEmpleado.getText() + " ha sido borrada.");
+
 			} else {
 				JOptionPane.showMessageDialog(null, "No hay elementos para borrar");
 			}
+			UtilVentanas.borrarTextos(textosEmpleados);
+			textClave.setText("");
+			tDatos.setText("");
+			co = new ContextoOrdenacion(ct.buscarTodo(), esT);
+			empleados = new ArrayList<Object>(co.ejecutarEstrategia("nombre"));
 			break;
 		}
 		}
 	}
+
 }

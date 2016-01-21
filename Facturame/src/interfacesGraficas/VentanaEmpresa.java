@@ -34,8 +34,6 @@ public class VentanaEmpresa extends JFrame {
 	private JTextField textTelefono;
 	private JTextField textMail;	
 	private JButton buttonAceptar;
-	private JButton buttonVerListado;
-	private JButton buttonCancelar;
 	private JButton buttonBorrar;
 	private FactoriaEmpresa fe;
 	private FactoriaCRUD fc;
@@ -49,7 +47,7 @@ public class VentanaEmpresa extends JFrame {
 			}
 		});
 		setTitle("Facturame --- Empresa");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 482, 185);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -113,20 +111,8 @@ public class VentanaEmpresa extends JFrame {
 				}
 			}
 		});
-		buttonAceptar.setBounds(10, 108, 120, 25);
+		buttonAceptar.setBounds(70, 108, 201, 25);
 		contentPane.add(buttonAceptar);
-		
-		buttonVerListado = new JButton("VER LISTADO");
-		buttonVerListado.setBounds(150, 108, 120, 25);
-		contentPane.add(buttonVerListado);
-		
-		buttonCancelar = new JButton("CANCELAR");
-		buttonCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		buttonCancelar.setBounds(290, 108, 120, 25);
-		contentPane.add(buttonCancelar);
 		
 		buttonBorrar = new JButton("");
 		buttonBorrar.addActionListener(new ActionListener() {
@@ -135,7 +121,7 @@ public class VentanaEmpresa extends JFrame {
 			}
 		});
 		buttonBorrar.setIcon(new ImageIcon("images\\papelera_16.png"));
-		buttonBorrar.setBounds(430, 108, 25, 25);
+		buttonBorrar.setBounds(314, 108, 25, 25);
 		contentPane.add(buttonBorrar);
 		
 

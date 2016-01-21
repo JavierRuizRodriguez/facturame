@@ -58,8 +58,8 @@ public class VentanaPorteCamion extends JFrame {
 	private JCheckBox checkBoxTrampilla;
 
 	public VentanaPorteCamion(PorteGrafico pb) throws SQLException, IOException {
-		this.p = pb.getPorte();
 		this.pb = pb;
+		this.p = pb.getPorte();
 		this.fc = new FactoriaCRUD();
 		this.cc = (CRUDcamiones) fc.crearCRUD(FactoriaCRUD.TIPO_CAMION);
 		setTitle("Facturame --- Porte --- Cami\u00F3n");
@@ -225,10 +225,6 @@ public class VentanaPorteCamion extends JFrame {
 		checkBoxTrampilla.setEnabled(false);
 		checkBoxTrampilla.setBounds(95, 206, 21, 23);
 		contentPane.add(checkBoxTrampilla);
-	}
-
-	private void formWindowClosing(java.awt.event.WindowEvent evt) {
-		this.setVisible(false);
 	}
 
 	private void buttonActionPerformed(java.awt.event.ActionEvent evt) {

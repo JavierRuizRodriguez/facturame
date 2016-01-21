@@ -11,9 +11,9 @@ import pojo.Viaje;
 
 public abstract class PorteBuilder {
 
-	Porte porte;
-	FactoriaPorte fp;
-	ArrayList<Viaje> viajes;
+	protected Porte porte;
+	private FactoriaPorte fp;
+	private ArrayList<Viaje> viajes;
 
 	public PorteBuilder() {
 		this.fp = new FactoriaPorte();
