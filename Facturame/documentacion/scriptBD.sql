@@ -117,13 +117,13 @@ CREATE TABLE "Porte"
   CONSTRAINT "portePK" PRIMARY KEY ("idPorte"),
   CONSTRAINT conduce FOREIGN KEY (dni)
       REFERENCES "Empleado" (dni) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE NO ACTION,
+      ON UPDATE CASCADE ON DELETE SET NULL,
   CONSTRAINT portepara FOREIGN KEY ("NIF")
       REFERENCES "Empresa" ("NIF") MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE NO ACTION,
+      ON UPDATE CASCADE ON DELETE SET NULL,
   CONSTRAINT realizado FOREIGN KEY ("nBastidor")
       REFERENCES "Camion" ("nBastidor") MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE NO ACTION
+      ON UPDATE CASCADE ON DELETE SET NULL
 )
 WITH (
   OIDS=FALSE
@@ -151,27 +151,6 @@ CREATE INDEX "nBastidorFK"
 
 ---------------------------------------------------------------
 
--- Table: "LibroGastos"
-
--- DROP TABLE "LibroGastos";
-
-CREATE TABLE "LibroGastos"
-(
-  "idEntrada" integer NOT NULL,
-  concepto character varying(50) NOT NULL,
-  dinero double precision NOT NULL,
-  "fechaAsiento" date NOT NULL,
-  descripcion character varying(50),
-  CONSTRAINT "libroCuentasPortesPK" PRIMARY KEY ("idEntrada")
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE "LibroGastos"
-  OWNER TO postgres;
-
----------------------------------------------------------------
-
 -- Table: "UsuarioSistema"
 
 -- DROP TABLE "UsuarioSistema";
@@ -186,7 +165,7 @@ CREATE TABLE "UsuarioSistema"
   CONSTRAINT "usSisPK" PRIMARY KEY (dni),
   CONSTRAINT esde FOREIGN KEY (dni)
       REFERENCES "Empleado" (dni) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE NO ACTION
+      ON UPDATE CASCADE ON DELETE SET NULL
 )
 WITH (
   OIDS=FALSE
@@ -224,7 +203,7 @@ CREATE TABLE "Viaje"
   CONSTRAINT "viajePK" PRIMARY KEY ("idViaje"),
   CONSTRAINT "incluyeDatos" FOREIGN KEY ("idPorte")
       REFERENCES "Porte" ("idPorte") MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE NO ACTION
+      ON UPDATE CASCADE ON DELETE SET NULL
 )
 WITH (
   OIDS=FALSE
@@ -258,7 +237,7 @@ CREATE TABLE "Subordinado"
       ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT "dniSubFK" FOREIGN KEY ("dniSubordinado")
       REFERENCES "Empleado" (dni) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE
+      ON UPDATE CASCADE ON DELETE SET NULL
 )
 WITH (
   OIDS=FALSE
