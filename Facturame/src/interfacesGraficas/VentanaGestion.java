@@ -31,7 +31,7 @@ public class VentanaGestion extends JFrame {
 			}
 		});
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 445, 136);
+		setBounds(100, 100, 542, 136);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -100,6 +100,11 @@ public class VentanaGestion extends JFrame {
 		});
 		buttonUsuarioSistema.setBounds(333, 22, 50, 50);
 		contentPane.add(buttonUsuarioSistema);
+		
+		JButton buttonSubordinado = new JButton("");
+		buttonSubordinado.setIcon(new ImageIcon("images\\jefesubordinado_32.png"));
+		buttonSubordinado.setBounds(432, 22, 50, 50);
+		contentPane.add(buttonSubordinado);
 	}
 	
 	private void formWindowClosing(VentanaPrincipal principal) {
@@ -131,9 +136,9 @@ public class VentanaGestion extends JFrame {
 	    this.setVisible(false);
 	}
 	
-	/*private void clickVentanaSubordinado() throws SQLException, IOException {
+	private void clickVentanaSubordinado() throws SQLException, IOException {
 		VentanaSubordinado ventanaSubordinado = new VentanaSubordinado(this);
 		ventanaSubordinado.setVisible(true);
 	    this.setVisible(false);
-	}*/
+	}
 }

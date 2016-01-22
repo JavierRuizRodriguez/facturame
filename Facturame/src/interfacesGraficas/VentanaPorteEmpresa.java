@@ -139,8 +139,7 @@ public class VentanaPorteEmpresa extends JFrame {
 				buttonSiguienteActionPerformed(e);
 			}
 		});
-		buttonSiguiente.setIcon(new ImageIcon(
-				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\flecha_16.png"));
+		buttonSiguiente.setIcon(new ImageIcon("images\\flecha_16.png"));
 		buttonSiguiente.setBounds(120, 188, 89, 23);
 		contentPane.add(buttonSiguiente);
 

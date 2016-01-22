@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
+import javax.swing.border.EmptyBorder;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Phrase;
@@ -36,6 +37,8 @@ public class VentanaTabla2PDF extends JFrame {
 	private ArrayList<Object> viajes;
 	private JTable table;
 	private JTable table1;
+
+	private JPanel contentPane;
 	private Document doc;
 	private ArrayList<Object> portes;
 	private FactoriaCRUD fc;
@@ -45,6 +48,7 @@ public class VentanaTabla2PDF extends JFrame {
 	private CRUDempresa ce;
 
 	public VentanaTabla2PDF(String fInicio, String fFinal, String empresa, VentanaPrincipal principal) throws SQLException, IOException {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -60,7 +64,10 @@ public class VentanaTabla2PDF extends JFrame {
 		this.cp = (CRUDportes) fc.crearCRUD(FactoriaCRUD.TIPO_PORTE);
 		this.cv = (CRUDviajes) fc.crearCRUD(FactoriaCRUD.TIPO_VIAJE);
 		this.portes = new ArrayList<Object>(cp.buscarPorFechas(fInicio, fFinal, empresa));
-		getContentPane().setLayout(new BorderLayout());
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		crearBarraHerramientas();
 		crearTablaCuerpo();
 		crearTablaResumen();

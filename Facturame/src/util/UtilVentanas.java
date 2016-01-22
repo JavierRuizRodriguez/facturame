@@ -23,6 +23,7 @@ public class UtilVentanas {
 
 	public static class Alertas {
 		public static String ERROR_CAMPOS_INCOMPLETOS = "Faltan campos por rellenar";
+		public static String ERROR_JEFE_EMPLEADO_IGUAL = "No pueden ser la misma persona";
 		public static String ERROR_SQL = "Error SQL: ";
 		public static String ERROR_IOE = "Error IOE: ";
 		public static String ERROR_IOB = "Error IOB: ";
