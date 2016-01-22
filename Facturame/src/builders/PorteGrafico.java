@@ -3,16 +3,12 @@ package builders;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.swing.Timer;
-
-import factorias.FactoriaPorte;
 import interfacesGraficas.VentanaPorteCamion;
 import interfacesGraficas.VentanaPorteDatos;
 import interfacesGraficas.VentanaPorteEmpresa;
 import interfacesGraficas.VentanaPorteTransportista;
 import interfacesGraficas.VentanaPorteViaje;
 import interfacesGraficas.VentanaPrincipal;
-import pojo.Porte;
 
 public class PorteGrafico extends PorteBuilder {
 
@@ -22,20 +18,17 @@ public class PorteGrafico extends PorteBuilder {
 	private VentanaPorteTransportista v3;
 	private VentanaPorteCamion v4;
 	private VentanaPorteViaje v5;
-	private Timer timer;
 
-	public PorteGrafico(Timer timer) throws SQLException, IOException {
+	public PorteGrafico() throws SQLException, IOException {
 		super();
-		this.timer = timer;
 		this.espera = true;
 	}
 
 	@Override
 	void getDatosPrincipales(VentanaPrincipal ventanaPrincipal) throws InterruptedException {
 		v1 = new VentanaPorteDatos(this, ventanaPrincipal);
-		v1.setVisible(true);
 		while (espera) {
-			Thread.sleep(500);
+			Thread.sleep(1500);
 		}
 		espera = true;
 		porte = v1.getPorte();
@@ -47,7 +40,7 @@ public class PorteGrafico extends PorteBuilder {
 		v2 = new VentanaPorteEmpresa(this, ventanaPrincipal);
 		v2.setVisible(true);
 		while (espera) {
-			Thread.sleep(500);
+			Thread.sleep(1500);
 		}
 		espera = true;
 		porte = v2.getPorte();
@@ -58,39 +51,39 @@ public class PorteGrafico extends PorteBuilder {
 	void getDatosTransportista(VentanaPrincipal ventanaPrincipal)
 			throws InterruptedException, SQLException, IOException {
 
-//		this.v3 = new VentanaPorteTransportista(this, ventanaPrincipal);
-//		v3.setVisible(true);
-//		while (espera) {
-//			Thread.sleep(500);
-//		}
-//		espera = true;
-//		porte = v3.getPorte();
-//		v3 = null;
+		this.v3 = new VentanaPorteTransportista(this, ventanaPrincipal);
+		v3.setVisible(true);
+		while (espera) {
+			Thread.sleep(1500);
+		}
+		espera = true;
+		porte = v3.getPorte();
+		v3 = null;
 	}
 
 	@Override
 	void getDatosCamion(VentanaPrincipal ventanaPrincipal) throws InterruptedException, SQLException, IOException {
-//		v4 = new VentanaPorteCamion(this, ventanaPrincipal);
-//		v4.setVisible(true);
-//		while (espera) {
-//			Thread.sleep(500);
-//		}
-//		espera = true;
-//		porte = v4.getPorte();
-//		v4 = null;
+		v4 = new VentanaPorteCamion(this, ventanaPrincipal);
+		v4.setVisible(true);
+		while (espera) {
+			Thread.sleep(1500);
+		}
+		espera = true;
+		porte = v4.getPorte();
+		v4 = null;
 	}
 
 	@Override
 	void getDatosViajes(VentanaPrincipal ventanaPrincipal) throws InterruptedException {
-//		v5 = new VentanaPorteViaje(this, ventanaPrincipal);
-//		v5.setVisible(true);
-//		while (espera) {
-//			Thread.sleep(500);
-//		}
-//		espera = true;
-//		porte = v5.getPorte();
-//		porte.setIdPorte(1);
-//		v5 = null;
+		v5 = new VentanaPorteViaje(this, ventanaPrincipal);
+		v5.setVisible(true);
+		while (espera) {
+			Thread.sleep(1500);
+		}
+		espera = true;
+		porte = v5.getPorte();
+		porte.setIdPorte(1);
+		v5 = null;
 	}
 
 	public void setEspera(boolean espera) {

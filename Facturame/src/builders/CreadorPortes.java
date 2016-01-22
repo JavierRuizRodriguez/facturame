@@ -21,7 +21,6 @@ public class CreadorPortes {
 	private Porte p;
 	private ArrayList<Viaje> viajes;
 	private int idViaje, idPorte;
-	boolean b;
 
 	public CreadorPortes(VentanaPrincipal principal) throws SQLException, IOException {
 		this.idViaje = 0;
@@ -30,6 +29,7 @@ public class CreadorPortes {
 		this.cp = (CRUDportes) fc.crearCRUD(FactoriaCRUD.TIPO_PORTE);
 		this.cv = (CRUDviajes) fc.crearCRUD(FactoriaCRUD.TIPO_VIAJE);
 		this.ventanaPrincipal = principal;
+		this.pb = null;
 	}
 
 	public void setPb(PorteBuilder pb) {
@@ -37,16 +37,12 @@ public class CreadorPortes {
 	}
 
 	public void hacerPorte() throws InterruptedException, SQLException, IOException {
-		
 		pb.getDatosPrincipales(ventanaPrincipal);
 		pb.getDatosEmpresa(ventanaPrincipal);
 		pb.getDatosTransportista(ventanaPrincipal);
-//		pb.getDatosCamion(ventanaPrincipal);
-//		pb.getDatosViajes(ventanaPrincipal);
-		b=true;
-		while(b){
-			
-		}
+		pb.getDatosCamion(ventanaPrincipal);
+		pb.getDatosViajes(ventanaPrincipal);
+		
 		idPorte = cp.getUltimoId();
 		p = pb.getPorte();
 		p.setIdPorte(idPorte + 1);

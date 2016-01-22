@@ -2,6 +2,8 @@ package interfacesGraficas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -34,7 +36,13 @@ public class VentanaPorteViaje extends JFrame {
 	private JTextField textDescripcion;
 	private JTextPane tViajes;
 
-	public VentanaPorteViaje(PorteGrafico pb) {
+	public VentanaPorteViaje(PorteGrafico pb, VentanaPrincipal ventanaPrincipal) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				formWindowClosing(ventanaPrincipal);
+			}
+		});
 		this.pb = pb;
 		this.p = pb.getPorte();
 		setTitle("Facturame --- Porte");
@@ -189,8 +197,9 @@ public class VentanaPorteViaje extends JFrame {
 		formViaje.setVisible(true);
 	}
 
-	private void formWindowClosing(java.awt.event.WindowEvent evt) {
+	private void formWindowClosing(VentanaPrincipal ventanaPrincipal) {
 		this.setVisible(false);
+		ventanaPrincipal.setVisible(true);
 	}
 
 	private void buttonAnadirPorteActionPerformed(java.awt.event.ActionEvent evt) {
