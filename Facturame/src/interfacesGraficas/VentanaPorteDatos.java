@@ -115,10 +115,13 @@ public class VentanaPorteDatos extends JFrame {
 		button.setIcon(new ImageIcon("\\images\\flecha_16.png"));
 		button.setBounds(146, 312, 89, 23);
 		contentPane.add(button);
+		setVisible(true);
+		
 	}
 
-	private void formWindowClosing(VentanaPrincipal principal) {
+	private void formWindowClosing(VentanaPrincipal ventanaPrincipal) {
 		this.setVisible(false);
+		ventanaPrincipal.setVisible(true);
 	}
 
 	private void buttonSiguienteActionPerformed(java.awt.event.ActionEvent evt) {

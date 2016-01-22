@@ -38,7 +38,10 @@ public class AccesoEmpleados {
 		this.subordinados = ArrayListMultimap.create();
 		this.trabajadoresComp = new HashMap<String, TrabajadorC>();
 		this.cargarTrabajadores();
-		this.jefe = (Jefe) trabajadoresComp.get(dniJefe);
+		if (!subordinados.isEmpty())
+			this.jefe = (Jefe) trabajadoresComp.get(dniJefe);
+		else
+			this.jefe = null;
 	}
 
 	private void cargarTrabajadores() {
@@ -88,10 +91,16 @@ public class AccesoEmpleados {
 	}
 
 	public Double getSueldos() {
-		return jefe.getSalarios();
+		if (jefe != null)
+			return jefe.getSalarios();
+		else
+			return 0.0;
 	}
 
 	public String getDescripciones() {
-		return jefe.getDescripcion();
+		if (jefe != null)
+			return jefe.getDescripcion();
+		else
+			return "No existen subordinados en la BD.";
 	}
 }

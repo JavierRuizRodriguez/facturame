@@ -3,12 +3,12 @@ package interfacesGraficas;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 import builders.CreadorPortes;
@@ -19,8 +19,13 @@ import util.UtilVentanas;
 public class VentanaPrincipal extends JFrame {
 
 	private JPanel contentPane;
+	private PorteGrafico pg;
+	private CreadorPortes cp;
 
 	public VentanaPrincipal(UsuarioAutenticacion ua) throws SQLException, IOException {
+		this.pg = new PorteGrafico();
+		this.cp = new CreadorPortes(this);
+		this.cp.setPb(pg);
 		setTitle("Facturame");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -32,10 +37,12 @@ public class VentanaPrincipal extends JFrame {
 		JButton buttonPorte = new JButton("PORTE");
 		buttonPorte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					Timer timer = new Timer(1000, this);
 
-					clickVentanaPorte(timer);
+				try {
+					clickVentanaPorte();
+				} catch (NoSuchAlgorithmException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -46,6 +53,7 @@ public class VentanaPrincipal extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+
 			}
 		});
 		buttonPorte.setBounds(120, 49, 179, 25);
@@ -82,7 +90,7 @@ public class VentanaPrincipal extends JFrame {
 		buttonJerarquia.setBounds(120, 121, 179, 25);
 		contentPane.add(buttonJerarquia);
 
-		JButton buttonGestion = new JButton("GESTI\u00D3N");
+		JButton buttonGestion = new JButton("INSERCI\u00D3N DATOS");
 		buttonGestion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -116,13 +124,10 @@ public class VentanaPrincipal extends JFrame {
 		buttonVerDatos.setVisible(ua.isAdmin());
 	}
 
-	private void clickVentanaPorte(Timer timer) throws SQLException, IOException, InterruptedException {
+	private void clickVentanaPorte() throws NoSuchAlgorithmException, SQLException, IOException, InterruptedException {
 
-		PorteGrafico pg = new PorteGrafico(timer);
-		CreadorPortes cp = new CreadorPortes(this);
-
-		cp.setPb(pg);
 		cp.hacerPorte();
+
 	}
 
 	private void clickVentanaFactura() throws SQLException, IOException {

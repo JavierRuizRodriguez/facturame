@@ -2,6 +2,8 @@ package interfacesGraficas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -57,7 +59,13 @@ public class VentanaPorteCamion extends JFrame {
 	private JLabel labelTrampilla;
 	private JCheckBox checkBoxTrampilla;
 
-	public VentanaPorteCamion(PorteGrafico pb) throws SQLException, IOException {
+	public VentanaPorteCamion(PorteGrafico pb, VentanaPrincipal ventanaPrincipal) throws SQLException, IOException {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				formWindowClosing(ventanaPrincipal);
+			}
+		});
 		this.pb = pb;
 		this.p = pb.getPorte();
 		this.fc = new FactoriaCRUD();
@@ -270,6 +278,12 @@ public class VentanaPorteCamion extends JFrame {
 			checkBoxTrampilla.setSelected((camion.isTrampilla()));
 			p.setnBastidor(camion.getnBastidor());
 		}
+	}
+
+	private void formWindowClosing(VentanaPrincipal ventanaPrincipal) {
+		this.setVisible(false);
+		ventanaPrincipal.setVisible(true);
+		
 	}
 
 }
