@@ -37,25 +37,30 @@ public class VentanaPrincipal extends JFrame {
 		JButton buttonPorte = new JButton("PORTE");
 		buttonPorte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				try {
-					clickVentanaPorte();
-				} catch (NoSuchAlgorithmException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
+				Thread hiloNuevo = new Thread() {
+					public void run() {
+						try {
+							clickVentanaPorte();
+						} catch (NoSuchAlgorithmException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				};
+				hiloNuevo.start();
 			}
-		});
+		}
+
+		);
 		buttonPorte.setBounds(120, 49, 179, 25);
 		contentPane.add(buttonPorte);
 
