@@ -21,6 +21,8 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel contentPane;
 	private PorteGrafico pg;
 	private CreadorPortes cp;
+	private JButton buttonJerarquia;
+	private JButton buttonGestion;
 
 	public VentanaPrincipal(UsuarioAutenticacion ua) throws SQLException, IOException {
 		this.pg = new PorteGrafico();
@@ -41,17 +43,7 @@ public class VentanaPrincipal extends JFrame {
 					public void run() {
 						try {
 							clickVentanaPorte();
-						} catch (NoSuchAlgorithmException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+						} catch (NoSuchAlgorithmException | SQLException | IOException | InterruptedException e) {
 							e.printStackTrace();
 						}
 					}
@@ -80,7 +72,7 @@ public class VentanaPrincipal extends JFrame {
 		buttonFactura.setBounds(120, 85, 179, 25);
 		contentPane.add(buttonFactura);
 
-		JButton buttonJerarquia = new JButton("JERARQU\u00CDA");
+		buttonJerarquia = new JButton("JERARQU\u00CDA");
 		buttonJerarquia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -95,7 +87,7 @@ public class VentanaPrincipal extends JFrame {
 		buttonJerarquia.setBounds(120, 121, 179, 25);
 		contentPane.add(buttonJerarquia);
 
-		JButton buttonGestion = new JButton("INSERCI\u00D3N DATOS");
+		buttonGestion = new JButton("INSERCI\u00D3N DATOS");
 		buttonGestion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -124,15 +116,10 @@ public class VentanaPrincipal extends JFrame {
 		});
 		buttonVerDatos.setBounds(120, 193, 179, 25);
 		contentPane.add(buttonVerDatos);
-
-		buttonGestion.setVisible(ua.isAdmin());
-		buttonVerDatos.setVisible(ua.isAdmin());
 	}
 
 	private void clickVentanaPorte() throws NoSuchAlgorithmException, SQLException, IOException, InterruptedException {
-
 		cp.hacerPorte();
-
 	}
 
 	private void clickVentanaFactura() throws SQLException, IOException {
@@ -157,5 +144,11 @@ public class VentanaPrincipal extends JFrame {
 		VentanaConsulta ventanaConsulta = new VentanaConsulta(this);
 		ventanaConsulta.setVisible(true);
 		this.setVisible(false);
+	}
+
+	public void mostrarNoAdmin() {
+		buttonGestion.setEnabled(false);
+		buttonJerarquia.setEnabled(false);
+		this.setVisible(true);
 	}
 }
