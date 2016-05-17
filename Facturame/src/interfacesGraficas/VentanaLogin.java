@@ -119,5 +119,5 @@ public class VentanaLogin extends JFrame {
 	public void setEstadoActual(Estado estado) {
 		estadoActual = estado;		
 	}
-
+	
 }

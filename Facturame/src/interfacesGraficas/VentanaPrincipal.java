@@ -148,7 +148,9 @@ public class VentanaPrincipal extends JFrame {
 
 	public void mostrarNoAdmin() {
 		buttonGestion.setEnabled(false);
+		buttonGestion.setVisible(true);
 		buttonJerarquia.setEnabled(false);
+		buttonJerarquia.setVisible(true);
 		this.setVisible(true);
 	}
 }
