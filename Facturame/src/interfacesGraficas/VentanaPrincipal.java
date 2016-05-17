@@ -25,9 +25,7 @@ public class VentanaPrincipal extends JFrame {
 	private JButton buttonGestion;
 
 	public VentanaPrincipal(UsuarioAutenticacion ua) throws SQLException, IOException {
-		this.pg = new PorteGrafico();
-		this.cp = new CreadorPortes(this);
-		this.cp.setPb(pg);
+		
 		setTitle("Facturame");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -119,6 +117,9 @@ public class VentanaPrincipal extends JFrame {
 	}
 
 	private void clickVentanaPorte() throws NoSuchAlgorithmException, SQLException, IOException, InterruptedException {
+		pg = new PorteGrafico();
+		cp = new CreadorPortes(this);
+		cp.setPb(pg);
 		cp.hacerPorte();
 	}
 

@@ -18,6 +18,7 @@ public class CRUDempresa extends CRUDesquema {
 	private static String borrarEmpresa = "delete from \"Empresa\" where \"NIF\" = ?";
 	private static String insertEmpresa = "INSERT INTO \"Empresa\"(\"NIF\", \"nEmpresa\", \"Dirección\", email, telefono)VALUES (?, ?, ?, ?, ?)";
 	private static String selectEmpresa = "select * from \"Empresa\" where \"NIF\" = ?";
+	private static String selectEmpresaNombre = "select * from \"Empresa\" where \"nEmpresa\" = ?";
 
 	private Conexion c;
 
@@ -87,6 +88,38 @@ public class CRUDempresa extends CRUDesquema {
 		return (Object) respuesta;
 
 	}
+	
+	public Object buscarUnoNombre(Object entrada) throws SQLException {
+		c = cc.crearConexion();
+		String nifBuscado = String.valueOf(entrada);
+		Empresa respuesta = null;
+
+		c.setPst(c.getCon().prepareStatement(CRUDempresa.selectEmpresaNombre));
+		c.prepararPst(1, nifBuscado);
+		c.setRs(c.getPst().executeQuery());
+
+		String nif, empresa, direccion, mail;
+		int nTelefono;
+		ResultSet rs = c.getRs();
+
+		while (rs.next()) {
+			nif = rs.getString(1);
+			empresa = rs.getString(2);
+			direccion = rs.getString(3);
+			mail = rs.getString(4);
+			nTelefono = rs.getInt(5);
+
+			respuesta = new Empresa(nif, empresa, direccion, nTelefono, mail);
+		}
+
+		c.cerrarObjCon();
+		c.cerrarObjPst();
+		c.cerrarObjRs();
+		rs.close();
+
+		return (Object) respuesta;
+
+	}
 
 	// mode 0 --> insert
 	// mode 1 --> update
@@ -124,8 +157,6 @@ public class CRUDempresa extends CRUDesquema {
 		c = cc.crearConexion();
 		String nif = String.valueOf(entrada);
 		int respuesta = 0;
-		Connection con;
-		PreparedStatement pst;
 
 		c.setPst(c.getCon().prepareStatement(CRUDempresa.borrarEmpresa));
 		c.prepararPst(1, nif);

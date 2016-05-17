@@ -71,11 +71,11 @@ public class VentanaTabla2PDF extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 		crearBarraHerramientas();
 		crearTablaCuerpo();
 		crearTablaResumen();
-
+		setSize(table.getSize());
+		pack();
 	}
 
 	private void formWindowClosing(VentanaPrincipal principal) {
