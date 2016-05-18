@@ -6,11 +6,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.print.PrintService;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,8 +23,14 @@ import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+
+import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
+import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
@@ -33,14 +44,12 @@ import pojo.Porte;
 import pojo.Viaje;
 
 public class VentanaTabla2PDF extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private static Color color = Color.CYAN;
 	private ArrayList<Object> viajes;
-	private JTable table;
-	private JTable table1;
+	private JTable tablaCuerpoFactura;
+	private JTable tablaInfoEmpresa;
 
 	private JPanel contentPane;
 	private Document doc;
@@ -59,9 +68,10 @@ public class VentanaTabla2PDF extends JFrame {
 		        formWindowClosing(principal);
 			}
 		});
-		this.table = new JTable();
-		this.table1 = new JTable();
-		this.table.setPreferredSize(getPreferredSize());
+		this.tablaCuerpoFactura = new JTable();
+		this.tablaInfoEmpresa = new JTable();
+		this.tablaCuerpoFactura.setPreferredSize(getPreferredSize());
+		this.tablaInfoEmpresa.setPreferredSize(getPreferredSize());
 		this.fc = new FactoriaCRUD();
 		this.ce = (CRUDempresa) fc.crearCRUD(FactoriaCRUD.TIPO_EMPRESA);
 		this.empresa = (Empresa) ce.buscarUno(empresa);
@@ -74,7 +84,7 @@ public class VentanaTabla2PDF extends JFrame {
 		crearBarraHerramientas();
 		crearTablaCuerpo();
 		crearTablaResumen();
-		setSize(table.getSize());
+		setSize(tablaCuerpoFactura.getSize());
 		pack();
 	}
 
@@ -93,7 +103,7 @@ public class VentanaTabla2PDF extends JFrame {
 		String[] columnNames = { "Nombre empresa", "NIF", "Teléfono", "Precio" };
 		Object[][] datos = { { empresa.getEmpresa(), empresa.getNif(), empresa.getnTelefono(),
 				String.valueOf(sumatorio).concat(" €") } };
-		table = new JTable(datos, columnNames);
+		tablaInfoEmpresa = new JTable(datos, columnNames);
 
 	}
 
@@ -136,11 +146,11 @@ public class VentanaTabla2PDF extends JFrame {
 		String[] columnNames = { "ID porte", "NIF", "Origen", "Destino", "F. inicio", "Kg carga", "Precio",
 				"Grupaje?" };
 
-		table = new JTable(datosO, columnNames);
+		tablaCuerpoFactura = new JTable(datosO, columnNames);
 
 		JPanel tPanel = new JPanel(new BorderLayout());
-		tPanel.add(table.getTableHeader(), BorderLayout.NORTH);
-		tPanel.add(table, BorderLayout.CENTER);
+		tPanel.add(tablaCuerpoFactura.getTableHeader(), BorderLayout.NORTH);
+		tPanel.add(tablaCuerpoFactura, BorderLayout.CENTER);
 
 		getContentPane().add(tPanel, BorderLayout.CENTER);
 	}
@@ -164,46 +174,61 @@ public class VentanaTabla2PDF extends JFrame {
 		try {
 			doc = new Document();
 			PdfWriter.getInstance(doc, new FileOutputStream("documentacion\\table.pdf"));
-			PdfPTable pdfTable = new PdfPTable(table.getColumnCount());
 			manejarDocumento(0);
-
-			for (int i = 0; i < table.getColumnCount(); i++) {
-				PdfPCell celda = new PdfPCell(new Phrase(table.getColumnName(i)));
-				celda.setBackgroundColor(VentanaTabla2PDF.color);
-				pdfTable.addCell(celda);
-			}
-
-			for (int fil = 0; fil < table.getRowCount(); fil++) {
-				for (int col = 0; col < table.getColumnCount(); col++) {
-					pdfTable.addCell(table.getModel().getValueAt(fil, col).toString());
-				}
-			}
-			doc.add(pdfTable);
-
-//			PdfPTable pdfTable1 = new PdfPTable(table1.getColumnCount());
-//			manejarDocumento(0);
-//
-//			for (int i = 0; i < table.getColumnCount(); i++) {
-//				PdfPCell celda = new PdfPCell(new Phrase(table.getColumnName(i)));
-//				celda.setBackgroundColor(VentanaTabla2PDF.color);
-//				pdfTable1.addCell(celda);
-//			}
-//
-//			for (int fil = 0; fil < table.getRowCount(); fil++) {
-//				for (int col = 0; col < table.getColumnCount(); col++) {
-//					pdfTable1.addCell(table.getModel().getValueAt(fil, col).toString());
-//				}
-//			}
-//			pdfTable1.setTotalWidth(doc.right(doc.rightMargin()) - doc.left(doc.leftMargin()));
-
-			manejarDocumento(1);
-			System.out.println("Impreso");
-
+			pintarTablaEnDoc(tablaInfoEmpresa);
+			pintarTablaEnDoc(tablaCuerpoFactura);
+			manejarDocumento(1);			
+			printPDF("documentacion\\table.pdf",choosePrinter());
+			File tmpFile = new File("documentacion\\table.pdf");
+			tmpFile.delete();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getMessage());
 		}
+	}
+	
+	private void pintarTablaEnDoc(JTable tabla) throws FileNotFoundException, DocumentException{
+		PdfPTable pdfTable = new PdfPTable(tabla.getColumnCount());		
 
+		for (int i = 0; i < tabla.getColumnCount(); i++) {
+			PdfPCell celda = new PdfPCell(new Phrase(tabla.getColumnName(i)));
+			celda.setBackgroundColor(VentanaTabla2PDF.color);
+			pdfTable.addCell(celda);
+		}
+
+		for (int fil = 0; fil < tabla.getRowCount(); fil++) {
+			for (int col = 0; col < tabla.getColumnCount(); col++) {
+				pdfTable.addCell(tabla.getModel().getValueAt(fil, col).toString());
+			}
+		}
+		añadirLineaBlanca(pdfTable,tabla.getColumnCount());
+
+		doc.add(pdfTable);
+	}
+
+	private void añadirLineaBlanca(PdfPTable pdfTable, int columnas) {
+		for(int x = 0; x <= columnas - 1;x++){
+			PdfPCell celda = new PdfPCell(new Phrase(""));
+			celda.setBorder(Rectangle.NO_BORDER);
+			pdfTable.addCell(celda);
+		}
+		
+	}
+	
+	public static PrintService choosePrinter() {
+	    PrinterJob printJob = PrinterJob.getPrinterJob();
+	    if(printJob.printDialog())
+	        return printJob.getPrintService();   
+	    else
+	        return null;
+	}
+
+	public static void printPDF(String fileName, PrintService printer)
+	        throws IOException, PrinterException {
+	    PrinterJob job = PrinterJob.getPrinterJob();
+	    job.setPrintService(printer);
+	    PDDocument pdfDoc = PDDocument.load(new File("documentacion\\table.pdf"));
+	    pdfDoc.silentPrint(job);
 	}
 
 	private void manejarDocumento(int i) {
