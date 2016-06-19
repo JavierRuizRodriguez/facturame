@@ -164,7 +164,7 @@ public class VentanaPorteEmpresa extends JFrame {
 	private void comboActionPerformed(ActionEvent evt) throws SQLException {
 		JComboBox comboBox = (JComboBox) evt.getSource();
 		Object selected = comboBox.getSelectedItem();
-		Empresa empresa = (Empresa) ce.buscarUno(selected);
+		Empresa empresa = (Empresa) ce.buscarUnoNombre(selected);
 
 		textNombre.setText(empresa.getEmpresa());
 		textMail.setText(empresa.getEmail());

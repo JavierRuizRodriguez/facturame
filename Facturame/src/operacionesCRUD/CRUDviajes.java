@@ -18,9 +18,9 @@ import pojo.Viaje;
 public class CRUDviajes extends CRUDesquema {
 
 	private static String selectAllViaje = "select * from \"Viaje\"";
-	private static String updateViaje = "UPDATE \"Viaje\" SET \"idViaje\"=?, \"lugarInicio\"=?, \"lugarDestino\"=?, \"horaInico\"=?, \"horaLlegada\"=?, \"fechaInico\"=?, \"fechaLlegada\"=?, \"kmViaje\"=?, \"idPorte\"=? WHERE \"idViaje\" = ?";
+	private static String updateViaje = "UPDATE \"Viaje\" SET \"idViaje\"=?, \"lugarInicio\"=?, \"lugarDestino\"=?, \"horaInico\"=?, \"horaLlegada\"=?, \"fechaInicio\"=?, \"fechaLlegada\"=?, \"kmViaje\"=?, \"idPorte\"=? WHERE \"idViaje\" = ?";
 	private static String borrarViaje = "delete from \"Vieje\" where \"idViaje\"=?";
-	private static String insertViaje = "INSERT INTO \"Viaje\"(\"idViaje\", \"lugarInicio\", \"lugarDestino\", \"horaInico\", \"horaLlegada\", \"fechaInico\", \"fechaLlegada\", \"kmViaje\", \"idPorte\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static String insertViaje = "INSERT INTO \"Viaje\"(\"idViaje\", \"lugarInicio\", \"lugarDestino\", \"horaInico\", \"horaLlegada\", \"fechaInicio\", \"fechaLlegada\", \"kmViaje\", \"idPorte\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static String selectViaje = "select * from \"Viaje\" where \"idViaje\" = ?";
 	private static String getUltimoSerial = "SELECT last_value FROM \"Viaje_idViaje_seq\"";
 	private static String setUltimoSerial = "ALTER SEQUENCE \"Viaje_idViaje_seq\" RESTART WITH ";

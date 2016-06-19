@@ -17,6 +17,9 @@ import javax.swing.border.EmptyBorder;
 
 import factorias.FactoriaUsuarioActual;
 import pojo.UsuarioAutenticacion;
+import state.Estado;
+import state.EstadoAdmin;
+import state.EstadoLogin;
 
 public class VentanaLogin extends JFrame {
 
@@ -25,6 +28,8 @@ public class VentanaLogin extends JFrame {
 	private JPanel contentPane;
 	private JTextField tNombre;
 	private JTextField tPass;
+	private Estado estadoActual;
+	private UsuarioAutenticacion ua;
 
 	private VentanaLogin() {
 		setTitle("Facturame --- Login");
@@ -84,25 +89,35 @@ public class VentanaLogin extends JFrame {
 
 	private void bAceptarActionPerformed(ActionEvent evt) throws NoSuchAlgorithmException, SQLException, IOException {
 		FactoriaUsuarioActual fua = new FactoriaUsuarioActual();
-		UsuarioAutenticacion ua = fua.crearUserAct(tNombre.getText(), tPass.getText());
+		ua = fua.crearUserAct(tNombre.getText(), tPass.getText());
 		
 		if(ua.getNickname() == null)
 			mostrarAlerta(ua);			
 		else{
 			this.setVisible(false);
 			JOptionPane.showMessageDialog(null, "Bienvenido al sistema " + ua.getNickname() +".");
-			VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(ua);
-			ventanaPrincipal.setVisible(true);
-		}
-			
-		
+			estadoActual = new EstadoLogin();
+			estadoActual.ejecutar(this);
+			resultado();
+		}		
+	}
+
+	private void resultado() throws SQLException, IOException {
+		estadoActual.ejecutar(this);		
 	}
 
 	private void mostrarAlerta(UsuarioAutenticacion ua) {
 		JOptionPane.showMessageDialog(null, "El usuario '" + ua.getNickname() +"' no está registrado en el sistema.");
 		tNombre.setText("");
-		tPass.setText("");
-		
+		tPass.setText("");		
+	}
+	
+	public UsuarioAutenticacion getAuthUser(){
+		return ua;
 	}
 
+	public void setEstadoActual(Estado estado) {
+		estadoActual = estado;		
+	}
+	
 }
