@@ -23,6 +23,7 @@ public class VentanaPrincipal extends JFrame {
 	private CreadorPortes cp;
 	private JButton buttonJerarquia;
 	private JButton buttonGestion;
+	private JButton buttonVerDatos;
 
 	public VentanaPrincipal(UsuarioAutenticacion ua) throws SQLException, IOException {
 		
@@ -100,7 +101,7 @@ public class VentanaPrincipal extends JFrame {
 		buttonGestion.setBounds(120, 157, 179, 25);
 		contentPane.add(buttonGestion);
 
-		JButton buttonVerDatos = new JButton("VER DATOS");
+		buttonVerDatos = new JButton("VER DATOS");
 		buttonVerDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -152,6 +153,8 @@ public class VentanaPrincipal extends JFrame {
 		buttonGestion.setVisible(true);
 		buttonJerarquia.setEnabled(false);
 		buttonJerarquia.setVisible(true);
+		buttonVerDatos.setEnabled(false);
+		buttonVerDatos.setVisible(true);
 		this.setVisible(true);
 	}
 }
