@@ -1,7 +1,12 @@
 package adaptadorFecha;
 
-/**
+/*
  * Interface para manejar fechas en formato de EspaÃ±a (ES): DD/MM/AAAA. 
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
  */
 public interface Fecha {
 

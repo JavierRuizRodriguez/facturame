@@ -1,11 +1,15 @@
 package adaptadorFecha;
 
-//
 import java.util.StringTokenizer;
 
 /**
  * Clase para adaptar fechas en formato de USA (MM,DD,AAAA) a fechas en formato
  * de EspaÃ±a (DD/MM/AAAA)
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
  */
 public class AdaptadorFechaPostgres implements Fecha {
 

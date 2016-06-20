@@ -5,6 +5,11 @@ import java.util.ArrayList;
 /**
  * Compuesto. Jefe con subordinados.
  */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class Jefe extends TrabajadorC {
 
 	/**

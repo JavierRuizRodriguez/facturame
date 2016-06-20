@@ -3,6 +3,11 @@ package composite;
 /**
  * Componente. Trabajador genÃ©rico de una empresa.
  */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public abstract class TrabajadorC {
 
 	/**
