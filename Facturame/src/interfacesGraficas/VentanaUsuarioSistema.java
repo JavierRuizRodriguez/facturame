@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.rmi.CORBA.Util;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -101,6 +102,7 @@ public class VentanaUsuarioSistema extends JFrame {
 		contentPane.add(buttonAceptar);
 
 		JButton buttonBorrar = new JButton("");
+		buttonBorrar.setIcon(new ImageIcon("images\\papelera_16.png"));
 		buttonBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				bBorrarActionPerformed(e);

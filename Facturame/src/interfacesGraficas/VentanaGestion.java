@@ -17,6 +17,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class VentanaGestion extends JFrame {
 
@@ -31,7 +33,7 @@ public class VentanaGestion extends JFrame {
 			}
 		});
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 542, 136);
+		setBounds(100, 100, 542, 160);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -116,6 +118,36 @@ public class VentanaGestion extends JFrame {
 		buttonSubordinado.setIcon(new ImageIcon("images\\jefesubordinado_32.png"));
 		buttonSubordinado.setBounds(432, 22, 50, 50);
 		contentPane.add(buttonSubordinado);
+		
+		JLabel labelCamion = new JLabel("Camiones");
+		labelCamion.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		labelCamion.setBounds(36, 73, 50, 14);
+		contentPane.add(labelCamion);
+		
+		JLabel lblEmpleados = new JLabel("Empleados");
+		lblEmpleados.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		lblEmpleados.setBounds(134, 73, 56, 14);
+		contentPane.add(lblEmpleados);
+		
+		JLabel lblEmpresas = new JLabel("Empresas");
+		lblEmpresas.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		lblEmpresas.setBounds(234, 73, 56, 14);
+		contentPane.add(lblEmpresas);
+		
+		JLabel lblUsuarionsistema = new JLabel("Usuario\r\n");
+		lblUsuarionsistema.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		lblUsuarionsistema.setBounds(333, 73, 56, 14);
+		contentPane.add(lblUsuarionsistema);
+		
+		JLabel lblSistema = new JLabel("\r\nSistema");
+		lblSistema.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		lblSistema.setBounds(333, 83, 56, 14);
+		contentPane.add(lblSistema);
+		
+		JLabel lblSubordinado = new JLabel("Subordinado");
+		lblSubordinado.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		lblSubordinado.setBounds(432, 73, 60, 14);
+		contentPane.add(lblSubordinado);
 	}
 	
 	private void formWindowClosing(VentanaPrincipal principal) {

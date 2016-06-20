@@ -15,6 +15,7 @@ public class CRUDportes extends CRUDesquema {
 	private static String borrarPorte = "delete from \"Porte\" where \"idPorte\"=?";
 	private static String insertPorte = "INSERT INTO \"Porte\"(\"idPorte\", \"nBastidor\", dni, \"kgCarga\", \"volumenCarga\", concepto, precio, \"esGrupaje\", descripcion, \"NIF\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static String selectPorte = "select * from \"Porte\" where \"idPorte\" = ?";
+	private static String selectPortePorNif = "select * from \"Porte\" where \"NIF\" = ?";
 	private static String getUltimoSerial = "SELECT last_value FROM \"Porte_idPorte_seq\"";
 	private static String setUltimoSerial = "ALTER SEQUENCE \"Porte_idPorte_seq\" RESTART WITH ";
 	private static String getPorFecha = "SELECT DISTINCT \"Porte\".* FROM \"Porte\" INNER JOIN \"Viaje\" ON \"Porte\".\"idPorte\" = \"Viaje\".\"idPorte\" WHERE ((\"Viaje\".\"fechaInicio\", \"Viaje\".\"fechaInicio\") OVERLAPS (?::DATE, ?::DATE) AND (\"Porte\".\"NIF\" = ?))";
@@ -188,6 +189,46 @@ public class CRUDportes extends CRUDesquema {
 
 	}
 
+	public ArrayList<Object> buscarPorNif(Object entrada) throws SQLException {
+		c = cc.crearConexion();
+		String nifPorteBuscado = String.valueOf(entrada);
+		ArrayList<Object> respuesta = new ArrayList<Object>();
+
+		c.setPst(c.getCon().prepareStatement(CRUDportes.selectPortePorNif));
+		c.prepararPst(1, nifPorteBuscado);
+		c.setRs(c.getPst().executeQuery());
+
+		String nBastidor, dni, concepto, descripcion, nif;
+		int idPorte, kgCarga, volCarga;
+		double precio;
+		boolean esGrupaje;
+		ResultSet rs = c.getRs();
+
+		while (rs.next()) {
+			idPorte = rs.getInt(1);
+			nBastidor = rs.getString(2);
+			dni = rs.getString(3);
+			kgCarga = rs.getInt(4);
+			volCarga = rs.getInt(5);
+			concepto = rs.getString(6);
+			precio = rs.getDouble(7);
+			esGrupaje = rs.getBoolean(8);
+			descripcion = rs.getString(9);
+			nif = rs.getString(10);
+
+			respuesta.add(new Porte(idPorte, nBastidor, dni, kgCarga, volCarga, concepto, precio, esGrupaje, descripcion,
+					nif));
+		}
+
+		c.cerrarObjCon();
+		c.cerrarObjPst();
+		c.cerrarObjRs();
+		rs.close();
+
+		return respuesta;
+
+	}
+	
 	public ArrayList<Object> buscarPorFechas(String fIncio, String fFinal, String empresa) throws SQLException {
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 		c = cc.crearConexion();

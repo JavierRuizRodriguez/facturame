@@ -106,13 +106,13 @@ public class VentanaPorteDatos extends JFrame {
 		textDescripcion.setBounds(10, 22, 360, 106);
 		panelDescripcion.add(textDescripcion);
 
-		JButton button = new JButton("");
+		JButton button = new JButton("");		
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttonSiguienteActionPerformed(e);
 			}
 		});
-		button.setIcon(new ImageIcon("\\images\\flecha_16.png"));
+		button.setIcon(new ImageIcon("images\\flecha_16.png"));
 		button.setBounds(146, 312, 89, 23);
 		contentPane.add(button);
 		setVisible(true);

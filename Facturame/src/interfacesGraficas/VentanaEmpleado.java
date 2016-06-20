@@ -207,6 +207,7 @@ public class VentanaEmpleado extends JFrame {
 				trabajador.setSueldo(Integer.parseInt(textSueldo.getText()));
 
 				fc.crearCRUD(FactoriaCRUD.TIPO_EMPLEADO).insertarActualizar(trabajador, true);
+				UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.EXITO_INSERT, "empleado");
 			} else 
 				UtilVentanas.borrarTextos(textos);
 		} else {

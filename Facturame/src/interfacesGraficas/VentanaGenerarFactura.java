@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -26,14 +27,20 @@ import iterador.Agregado;
 import iterador.AgregadoConcreto;
 import iterador.Iterador;
 import operacionesCRUD.CRUDempresa;
+import operacionesCRUD.CRUDportes;
 import pojo.Empresa;
+import pojo.Porte;
+import pojo.Subordinado;
+import pojo.UsuarioAutenticacion;
 import util.UtilVentanas;
 
 public class VentanaGenerarFactura extends JFrame {
 
 	private FactoriaCRUD fc;
 	private Empresa empresa;
+	private Porte porte;
 	private CRUDempresa ce;
+	private CRUDportes cp;
 	private JPanel contentPane;
 	private JTextField textEmpresa;
 	private JTextField textNombre;
@@ -42,6 +49,7 @@ public class VentanaGenerarFactura extends JFrame {
 	private JTextField tFechaInicio;
 	private JTextField tFechaFinal;
 	private VentanaPrincipal principal;
+	private ArrayList<Object> portes;
 
 	public VentanaGenerarFactura(VentanaPrincipal principal) throws SQLException, IOException {
 		addWindowListener(new WindowAdapter() {
@@ -148,9 +156,10 @@ public class VentanaGenerarFactura extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					buttonSiguienteActionPerformed();
-				} catch (SQLException | IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL, sqle.toString());
+				} catch (IOException ioe) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE, ioe.toString());
 				}
 			}
 		});
@@ -189,7 +198,7 @@ public class VentanaGenerarFactura extends JFrame {
 		JComboBox comboBox = (JComboBox) evt.getSource();
 		Object selected = comboBox.getSelectedItem();
 		empresa = (Empresa) ce.buscarUnoNombre(selected);
-
+		
 		textNombre.setText(empresa.getEmpresa());
 		textMail.setText(empresa.getEmail());
 		textTelefono.setText(String.valueOf(empresa.getnTelefono()));
@@ -201,17 +210,30 @@ public class VentanaGenerarFactura extends JFrame {
 		Fecha fechaFinal = new AdaptadorFechaPostgres(new FechaEs(tFechaFinal.getText()));
 		String fechaIniForm = fechaInicio.toString();
 		String fechaFinForm = fechaFinal.toString();
-
-		if (!fechaIniForm.equalsIgnoreCase("0-0-0") || !fechaFinForm.equalsIgnoreCase("0-0-0")) {
-			this.setVisible(false);
-			VentanaTabla2PDF ventanaPDF = new VentanaTabla2PDF(fechaIniForm, fechaFinForm, empresa.getNif(), principal);
-			ventanaPDF.setVisible(true);
-		} else {
-			tFechaInicio.setText("");
-			tFechaFinal.setText("");
+		Boolean tienePortes = false;
+		this.fc = new FactoriaCRUD();
+		this.cp = (CRUDportes) fc.crearCRUD(FactoriaCRUD.TIPO_PORTE);
+		portes = cp.buscarPorNif(empresa.getNif());
+		if(portes.size() != 0){
+			if (!fechaIniForm.equalsIgnoreCase("0-0-0") || !fechaFinForm.equalsIgnoreCase("0-0-0")) {
+				this.setVisible(false);
+				VentanaTabla2PDF ventanaPDF = new VentanaTabla2PDF(fechaIniForm, fechaFinForm, empresa.getNif(), principal);
+				ventanaPDF.setVisible(true);
+				UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.EXITO_FACTURA, "");
+			} else {
+				tFechaInicio.setText("");
+				tFechaFinal.setText("");
+			}
 		}
+		else{
+			mostrarAlerta();
+		}
+		
 	}
 
+	private void mostrarAlerta() {
+		JOptionPane.showMessageDialog(null, "No hay ningún Porte asociado a esta Empresa.");
+	}
 	private void buttonBuscarActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
 		Object selected = textEmpresa.getText();
 		empresa = (Empresa) ce.buscarUno(selected);
