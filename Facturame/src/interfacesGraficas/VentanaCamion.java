@@ -224,7 +224,10 @@ public class VentanaCamion extends JFrame {
 		buttonAnadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					crearCamion();
+					int resultado = crearCamion();
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.EXITO_INSERT,String.valueOf(resultado));
+					//System.out.println(resultado);
+					//UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				} catch (SQLException sqle) {
 					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
 				} catch (IOException ioe) {
@@ -302,7 +305,7 @@ public class VentanaCamion extends JFrame {
 		}				
 	}
 	
-	private void crearCamion() throws SQLException, IOException{
+	private int crearCamion() throws SQLException, IOException{
 		if(UtilVentanas.textosIncompletos(textos)){
 			Camion camion = (Camion) fv.crearCamion(1);
 			camion.setCombustible(comboBoxCombustible.getSelectedItem().toString());	
@@ -323,10 +326,11 @@ public class VentanaCamion extends JFrame {
 			camion.setPotenciaKWh(Integer.parseInt(textPotenciaKwh.getText()));
 			camion.setTrampilla(checkTrampilla.isSelected());
 			camion.setVolumenCaja(Integer.parseInt(textVolumenCaja.getText()));			
-			fc.crearCRUD(FactoriaCRUD.TIPO_CAMION).insertarActualizar(camion, true);
+			return fc.crearCRUD(FactoriaCRUD.TIPO_CAMION).insertarActualizar(camion, true);
 		} else {
 			JOptionPane.showMessageDialog(null, "Faltan campos por rellenar");
-		}		
+		}
+		return 100000000;		
 	}
 	
 	private void formWindowClosing(VentanaGestion gestion) {

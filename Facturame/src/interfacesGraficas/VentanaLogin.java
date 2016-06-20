@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,19 +18,17 @@ import javax.swing.border.EmptyBorder;
 
 import factorias.FactoriaUsuarioActual;
 import pojo.UsuarioAutenticacion;
-import state.Estado;
-import state.EstadoAdmin;
-import state.EstadoLogin;
+import util.UtilVentanas;
 
 public class VentanaLogin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static VentanaLogin ventana;
 	private JPanel contentPane;
-	private JTextField tNombre;
+	private JTextField tNombre; 
 	private JTextField tPass;
-	private Estado estadoActual;
-	private UsuarioAutenticacion ua;
+	
+	private ArrayList<JTextField> textos = new ArrayList<JTextField>();
 
 	private VentanaLogin() {
 		setTitle("Facturame --- Login");
@@ -37,7 +36,7 @@ public class VentanaLogin extends JFrame {
 		setBounds(100, 100, 320, 152);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		setContentPane(contentPane);		
 		contentPane.setLayout(null);
 
 		JLabel labelUsuario = new JLabel("Usuario:");
@@ -57,15 +56,21 @@ public class VentanaLogin extends JFrame {
 		tPass.setColumns(10);
 		tPass.setBounds(120, 46, 140, 20);
 		contentPane.add(tPass);
+		
+		textos.add(tNombre);
+		textos.add(tPass);
 
 		JButton buttonAceptar = new JButton("ACEPTAR");
 		buttonAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				try {
 					bAceptarActionPerformed(evt);
-				} catch (NoSuchAlgorithmException | SQLException | IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} catch (NoSuchAlgorithmException nsae){
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_NSAE,nsae.toString());
+				} catch (SQLException sqle){
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+				} catch(IOException ioe) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
 				}
 			}
 		});
@@ -73,12 +78,16 @@ public class VentanaLogin extends JFrame {
 		contentPane.add(buttonAceptar);
 
 		JButton buttonBorrar = new JButton("");
-		buttonBorrar.setIcon(new ImageIcon(
-				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\papelera_16.png"));
+		buttonBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				bBorrarActionPerformed(e);
+			}
+		});
+		buttonBorrar.setIcon(new ImageIcon("images\\papelera_16.png"));
 		buttonBorrar.setBounds(235, 77, 25, 25);
 		contentPane.add(buttonBorrar);
 
-		this.setVisible(true);
+		this.setVisible(true);		
 	}
 
 	public static VentanaLogin getLogin() {
@@ -89,35 +98,28 @@ public class VentanaLogin extends JFrame {
 
 	private void bAceptarActionPerformed(ActionEvent evt) throws NoSuchAlgorithmException, SQLException, IOException {
 		FactoriaUsuarioActual fua = new FactoriaUsuarioActual();
-		ua = fua.crearUserAct(tNombre.getText(), tPass.getText());
+		UsuarioAutenticacion ua = fua.crearUserAct(tNombre.getText(), tPass.getText());
 		
 		if(ua.getNickname() == null)
-			mostrarAlerta(ua);			
+			mostrarAlerta(tNombre.getText());
 		else{
 			this.setVisible(false);
 			JOptionPane.showMessageDialog(null, "Bienvenido al sistema " + ua.getNickname() +".");
-			estadoActual = new EstadoLogin();
-			estadoActual.ejecutar(this);
-			resultado();
-		}		
+			VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(ua);
+			ventanaPrincipal.setVisible(true);
+		}
 	}
-
-	private void resultado() throws SQLException, IOException {
-		estadoActual.ejecutar(this);		
+	
+	private void bBorrarActionPerformed(ActionEvent evt){
+		UtilVentanas.borrarTextos(textos);
 	}
-
-	private void mostrarAlerta(UsuarioAutenticacion ua) {
-		JOptionPane.showMessageDialog(null, "El usuario '" + ua.getNickname() +"' no está registrado en el sistema.");
+	
+	private void mostrarAlerta(String user) {
+		JOptionPane.showMessageDialog(null, "El usuario o la contraseña introducido no está registrado en el sistema.");
 		tNombre.setText("");
 		tPass.setText("");		
 	}
 	
-	public UsuarioAutenticacion getAuthUser(){
-		return ua;
-	}
 
-	public void setEstadoActual(Estado estado) {
-		estadoActual = estado;		
-	}
-	
+
 }

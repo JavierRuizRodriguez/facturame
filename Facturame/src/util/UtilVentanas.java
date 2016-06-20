@@ -27,6 +27,7 @@ public class UtilVentanas {
 		public static String ERROR_SQL = "Error SQL: ";
 		public static String ERROR_IOE = "Error IOE: ";
 		public static String ERROR_IOB = "Error IOB: ";
+		public static String ERROR_NSAE = "Error NSAE: ";
 		public static String EXITO_INSERT = "Exito Insert";
 
 		public static void mostrar(String tipo, String error) {

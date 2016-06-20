@@ -38,7 +38,7 @@ public class AccesoEmpleados {
 		this.subordinados = ArrayListMultimap.create();
 		this.trabajadoresComp = new HashMap<String, TrabajadorC>();
 		this.cargarTrabajadores();
-		if (!subordinados.isEmpty())
+		if (!subordinados.isEmpty())			
 			this.jefe = (Jefe) trabajadoresComp.get(dniJefe);
 		else
 			this.jefe = null;
