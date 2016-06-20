@@ -9,21 +9,52 @@ import interfacesGraficas.VentanaPorteEmpresa;
 import interfacesGraficas.VentanaPorteTransportista;
 import interfacesGraficas.VentanaPorteViaje;
 import interfacesGraficas.VentanaPrincipal;
-
+/**
+ * Implementación gráfica de la clase abstracta PorteBuilder.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class PorteGrafico extends PorteBuilder {
 
+	/**
+	 * Determina si se debe mostrar o no el siguiente formulario.
+	 */
 	private boolean espera;
+	/**
+	 * Formulario de datos genericos.
+	 */
 	private VentanaPorteDatos v1;
+	/**
+	 * Formulario de datos de empresa.
+	 */
 	private VentanaPorteEmpresa v2;
+	/**
+	 * Formulario de datos del transportista.
+	 */
 	private VentanaPorteTransportista v3;
+	/**
+	 * Formulario de datos del camión.
+	 */
 	private VentanaPorteCamion v4;
+	/**
+	 * Formulario de datos de los viajes.
+	 */
 	private VentanaPorteViaje v5;
 
+	/**
+	 * Constructor principal.
+	 * 
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	public PorteGrafico() throws SQLException, IOException {
 		super();
 		this.espera = true;
 	}
-
+	
 	@Override
 	void getDatosPrincipales(VentanaPrincipal ventanaPrincipal) throws InterruptedException {
 		v1 = new VentanaPorteDatos(this, ventanaPrincipal);

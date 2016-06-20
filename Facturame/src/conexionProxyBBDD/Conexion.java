@@ -9,17 +9,50 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 
+/**
+ * Objeto de conexión JDBC a la base de datos PostgreSQL. CAMBIAR ESTA CLASE PARA USAR OTRA AUTENTICACIÓN CONTRA LA BBDD.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class Conexion {
 
+	/**
+	 * Objeto para la conexión con la BBDD.
+	 */
 	private Connection con;
+	/**
+	 * Objeto para el almacenamiento de las consultas.
+	 */
 	private Statement st;
+	/**
+	 * Objeto enriquecido para el almacenamiento de las consultas.
+	 */
 	private PreparedStatement pst;
+	/**
+	 * Objeto para el almacenamiento de los resultados consultas.
+	 */
 	private ResultSet rs;
-
+	/**
+	 * URL para acceder al servidor.
+	 */
 	private String url;
+	/*
+	 * usuario de la BBDD.
+	 */
 	private String userBd;
+	/*
+	 * contraseña de la BBDD.
+	 */
 	private String passwordBd;
 
+	/**
+	 * Constructor principal.
+	 * 
+	 * @throws SQLException
+	 */
 	public Conexion() throws SQLException {
 		this.url = "jdbc:postgresql://localhost:5432/facturame";
 		this.userBd = "postgres";
@@ -93,7 +126,7 @@ public class Conexion {
 
 	public void prepararPst(int posicion, Date fecha) throws SQLException {
 		this.pst.setDate(posicion, fecha);
-		
+
 	}
 
 	public void prepararPst(int posicion, double decimal) throws SQLException {
@@ -102,7 +135,7 @@ public class Conexion {
 
 	public void prepararPst(int posicion, boolean booleano) throws SQLException {
 		this.pst.setBoolean(posicion, booleano);
-		
+
 	}
 
 	public void prepararPst(int posicion, Timestamp tiempo) throws SQLException {

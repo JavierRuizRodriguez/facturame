@@ -18,17 +18,55 @@ import operacionesCRUD.CRUDsubordinados;
 import pojo.Subordinado;
 import pojo.Trabajador;
 
+/**
+ * El compromiso de esta clase es el de leer de BBDD la estructura composite almacenada y recrearla para la correcta visualización de los datos.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class AccesoEmpleados {
 
+	/**
+	 * Array con empleados.
+	 */
 	private ArrayList<Object> empleados;
+	/**
+	 * Array con jefes.
+	 */
 	private ArrayList<Object> jefes;
+	/**
+	 * Factoría para la generación de objetos CRUD.
+	 */
 	private FactoriaCRUD fc;
+	/**
+	 * Objeto CRUD para los empleados.
+	 */
 	private CRUDempleados ce;
+	/**
+	 * Objetos CRUD para los subordinados.
+	 */
 	private CRUDsubordinados cs;
+	/**
+	 * Estructura que representa el la jerarquía de subordinados del sistema.
+	 */
 	private ListMultimap<String, String> subordinados;
+	/**
+	 * Estructura que almacena todos los jefes del sistema.
+	 */
 	private HashMap<String, TrabajadorC> trabajadoresComp;
+	/**
+	 * Objeto Jefe para la representación del patron Composite.
+	 */
 	private Jefe jefe;
 
+	/**
+	 * Constructor principal que crea la jerarquía leyendo de BBDD. Si no hay jefes muestra un error por pantalla.
+	 * @param dniJefe
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	public AccesoEmpleados(String dniJefe) throws SQLException, IOException {
 		this.fc = new FactoriaCRUD();
 		this.ce = (CRUDempleados) fc.crearCRUD(FactoriaCRUD.TIPO_EMPLEADO);

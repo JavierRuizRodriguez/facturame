@@ -1,5 +1,10 @@
 package composite;
 
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class Empleado extends TrabajadorC {
 
 	public Empleado(String puesto, double salario) {

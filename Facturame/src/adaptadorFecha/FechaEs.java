@@ -7,6 +7,11 @@ import util.UtilVentanas;
 /**
  * Clase para manejar fechas en formato de USA: MM,DD,AAAA.
  */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class FechaEs {
 	/**
 	 * Entero que representa el aÃ±o.
