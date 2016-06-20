@@ -102,6 +102,17 @@ public class VentanaGestion extends JFrame {
 		contentPane.add(buttonUsuarioSistema);
 		
 		JButton buttonSubordinado = new JButton("");
+		buttonSubordinado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					clickVentanaSubordinado();
+				} catch (SQLException sqle) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_SQL,sqle.toString());
+				} catch (IOException ioe) {
+					UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_IOE,ioe.toString());
+				}
+			}
+		});
 		buttonSubordinado.setIcon(new ImageIcon("images\\jefesubordinado_32.png"));
 		buttonSubordinado.setBounds(432, 22, 50, 50);
 		contentPane.add(buttonSubordinado);

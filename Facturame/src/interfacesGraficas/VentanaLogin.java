@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,6 +21,7 @@ import pojo.UsuarioAutenticacion;
 import state.Estado;
 import state.EstadoAdmin;
 import state.EstadoLogin;
+import util.UtilVentanas;
 
 public class VentanaLogin extends JFrame {
 
@@ -30,6 +32,8 @@ public class VentanaLogin extends JFrame {
 	private JTextField tPass;
 	private Estado estadoActual;
 	private UsuarioAutenticacion ua;
+	
+	private ArrayList<JTextField> textos = new ArrayList<JTextField>();
 
 	private VentanaLogin() {
 		setTitle("Facturame --- Login");
@@ -58,6 +62,9 @@ public class VentanaLogin extends JFrame {
 		tPass.setBounds(120, 46, 140, 20);
 		contentPane.add(tPass);
 
+		textos.add(tNombre);
+		textos.add(tPass);
+		
 		JButton buttonAceptar = new JButton("ACEPTAR");
 		buttonAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -74,8 +81,15 @@ public class VentanaLogin extends JFrame {
 
 		JButton buttonBorrar = new JButton("");
 		buttonBorrar.setIcon(new ImageIcon(
-				"D:\\Darako\\Universidad\\Patrones de Dise\u00F1o\\PS_Workspace\\FacturameGIT\\Facturame\\images\\papelera_16.png"));
+				"images\\papelera_16.png"));
 		buttonBorrar.setBounds(235, 77, 25, 25);
+		buttonBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				
+					UtilVentanas.borrarTextos(textos);
+				
+			}
+		});
 		contentPane.add(buttonBorrar);
 
 		this.setVisible(true);
@@ -107,7 +121,7 @@ public class VentanaLogin extends JFrame {
 	}
 
 	private void mostrarAlerta(UsuarioAutenticacion ua) {
-		JOptionPane.showMessageDialog(null, "El usuario '" + ua.getNickname() +"' no está registrado en el sistema.");
+		JOptionPane.showMessageDialog(null, "El usuario o la contraseña no está registrado en el sistema.");
 		tNombre.setText("");
 		tPass.setText("");		
 	}
