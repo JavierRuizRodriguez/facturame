@@ -6,6 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -157,6 +158,11 @@ public class VentanaPorteViaje extends JFrame {
 		});
 
 		JButton buttonBorrar = new JButton("");
+		buttonBorrar.setIcon(new ImageIcon("images\\papelera_16.png"));
+		buttonBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		buttonBorrar.setBounds(270, 375, 25, 25);
 		contentPane.add(buttonBorrar);
 

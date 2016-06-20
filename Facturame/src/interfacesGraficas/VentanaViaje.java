@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -113,6 +114,7 @@ public class VentanaViaje extends JFrame {
 		contentPane.add(buttonAceptar);
 
 		JButton buttonBorrar = new JButton("");
+		buttonBorrar.setIcon(new ImageIcon("images\\papelera_16.png"));
 		buttonBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				butonBorrarActionPerformed(e);

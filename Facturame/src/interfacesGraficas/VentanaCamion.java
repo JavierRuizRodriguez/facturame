@@ -324,6 +324,7 @@ public class VentanaCamion extends JFrame {
 			camion.setTrampilla(checkTrampilla.isSelected());
 			camion.setVolumenCaja(Integer.parseInt(textVolumenCaja.getText()));			
 			fc.crearCRUD(FactoriaCRUD.TIPO_CAMION).insertarActualizar(camion, true);
+			UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.EXITO_INSERT, "camión"); 
 		} else {
 			JOptionPane.showMessageDialog(null, "Faltan campos por rellenar");
 		}		

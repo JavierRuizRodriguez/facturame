@@ -149,6 +149,8 @@ public class VentanaEmpresa extends JFrame {
 			empresa.setEmail(textMail.getText());
 			
 			fc.crearCRUD(FactoriaCRUD.TIPO_EMPRESA).insertarActualizar(empresa, true);
+
+			UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.EXITO_INSERT, "empresa");
 		} else {
 			UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_CAMPOS_INCOMPLETOS,"");
 		}

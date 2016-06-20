@@ -126,6 +126,7 @@ public class VentanaSubordinado extends JFrame {
 			sub.setDniJefe(dniJefe);
 			sub.setDniSubordinado(dniSubordinado);
 			cs.insertarActualizar(sub, true);
+			UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.EXITO_INSERT, "subordinado");
 		} else {
 			UtilVentanas.Alertas.mostrar(UtilVentanas.Alertas.ERROR_JEFE_EMPLEADO_IGUAL, "");
 		}
