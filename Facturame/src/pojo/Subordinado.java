@@ -5,7 +5,7 @@ public class Subordinado {
 	private String dniJefe;
 	private String dniSubordinado;
 
-	public Subordinado(String dniJefe, String dniSubordinado) {
+	public Subordinado(String dniSubordinado, String dniJefe) {
 		this.dniJefe = dniJefe;
 		this.dniSubordinado = dniSubordinado;
 	}

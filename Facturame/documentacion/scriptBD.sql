@@ -245,4 +245,27 @@ WITH (
 ALTER TABLE "Subordinado"
   OWNER TO postgres;
 
+--inserciones en la BBDD para poder usar la aplicación.
+
+INSERT INTO public."Empleado"(
+            dni, nombre, apellidos, "fechaNacimiento", sexo, "fechaAltaEmpleado", 
+            sueldo, rango)
+    VALUES ('0000000000', 'usuario1', 'prueba', now(), 'Masculino', now(), 
+            1500, 'BECARIO');
+
+INSERT INTO public."Empleado"(
+            dni, nombre, apellidos, "fechaNacimiento", sexo, "fechaAltaEmpleado", 
+            sueldo, rango)
+    VALUES ('1111111111', 'usuario2', 'prueba', now(), 'Femenino', now(), 
+            1500, 'BECARIO');
+
+INSERT INTO public."UsuarioSistema"(
+            dni, nickname, "hashContrasena", admin, "fechaAltaUsuario")
+    VALUES ('0000000000', 'admin', '21232f297a57a5a743894a0e4a801fc3', true, now());
+
+INSERT INTO public."UsuarioSistema"(
+            dni, nickname, "hashContrasena", admin, "fechaAltaUsuario")
+    VALUES ('1111111111', 'noAdmin', '9ac729301a5194c1d7db12342d26dae1', false, now());
+
+
 
