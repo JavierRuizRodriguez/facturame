@@ -140,7 +140,7 @@ public class AccesoEmpleados {
 	}
 
 	/**
-	 * Método para la 
+	 * Método para la visualización de la jerarquía existente entre empleados dentro del sistema.
 	 * 
 	 * @return
 	 */
