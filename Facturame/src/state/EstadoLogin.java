@@ -2,6 +2,14 @@ package state;
 
 import interfacesGraficas.VentanaLogin;
 
+/**
+ * Clase que representa el estado NO logeado.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class EstadoLogin implements Estado{
 
 	@Override

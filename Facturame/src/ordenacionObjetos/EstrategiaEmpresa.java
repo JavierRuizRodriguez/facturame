@@ -5,7 +5,14 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import pojo.Empresa;
-
+/**
+ * Estrategia específica para la ordenación de las empresas.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class EstrategiaEmpresa implements Estrategia {
 
 	@Override
