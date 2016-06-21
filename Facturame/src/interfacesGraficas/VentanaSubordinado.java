@@ -29,7 +29,7 @@ import util.UtilVentanas;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 /**
- * Ventana formulario para el alta del Porte. Información sobre el camión.
+ * Ventana para la inserción de subordinados.
  */
 /**
  * 
