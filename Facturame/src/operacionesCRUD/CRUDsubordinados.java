@@ -11,7 +11,14 @@ import java.util.ArrayList;
 
 import conexionProxyBBDD.Conexion;
 import pojo.Subordinado;
-
+/**
+ * Operaciones CRUD de subordinados.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class CRUDsubordinados extends CRUDesquema {
 
 	private static String selectAllSubordinado = "select * from \"Subordinado\"";
@@ -19,9 +26,16 @@ public class CRUDsubordinados extends CRUDesquema {
 	private static String borrarSubordinado = "delete from \"Subordinado\" where \"dniJefe\" = ?";
 	private static String insertSubordinado = "INSERT INTO \"Subordinado\"(\"dniJefe\",\"dniSubordinado\") VALUES (?, ?)";
 	private static String selectSubordinado = "select * from \"Subordinado\" where \"dniJefe\" = ?";
-
+	/**
+	 * Objeto de conexion a la BBDD.
+	 */
 	private Conexion c;
-
+	/**
+	 * Constructor principal.
+	 * 
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	public CRUDsubordinados() throws SQLException, IOException {
 		super();
 	}

@@ -19,7 +19,14 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import java.awt.Font;
-
+/**
+ * Ventana que contiene el menu de insercción de datos.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaGestion extends JFrame {
 
 	private JPanel contentPane;

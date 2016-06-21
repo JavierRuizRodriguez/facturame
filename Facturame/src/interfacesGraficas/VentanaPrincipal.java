@@ -15,7 +15,14 @@ import builders.CreadorPortes;
 import builders.PorteGrafico;
 import pojo.UsuarioAutenticacion;
 import util.UtilVentanas;
-
+/**
+ * Ventana genérica del sistema. Menu principal. Se muestra depués de un login correcto.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaPrincipal extends JFrame {
 
 	private JPanel contentPane;

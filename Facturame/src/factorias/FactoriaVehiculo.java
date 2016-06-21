@@ -2,7 +2,11 @@ package factorias;
 
 import pojo.Camion;
 import pojo.Vehiculo;
-
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class FactoriaVehiculo {
 
 	static int tipoCamion = 1;

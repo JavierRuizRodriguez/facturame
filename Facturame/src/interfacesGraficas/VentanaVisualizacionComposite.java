@@ -30,7 +30,14 @@ import util.UtilVentanas;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
-
+/**
+ * Ventana para la visualización de la cuantía total de los sueldo y para la visualización del árbol de personal.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaVisualizacionComposite extends JFrame {
 
 	private JPanel contentPane;

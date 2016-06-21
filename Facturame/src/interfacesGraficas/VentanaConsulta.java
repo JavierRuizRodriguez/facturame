@@ -39,7 +39,14 @@ import pojo.Camion;
 import pojo.Empresa;
 import pojo.Trabajador;
 import util.UtilVentanas;
-
+/**
+ * Ventana para visualización de datos. Desde esta pantalla se pueden visualizar tanto empleados, como camiones, como empresas.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaConsulta extends JFrame {
 
 	private ContextoOrdenacion co;

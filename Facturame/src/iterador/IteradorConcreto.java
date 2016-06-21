@@ -1,10 +1,22 @@
 package iterador;
-
+/**
+ * Implementación de la interfaz Iterador.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class IteradorConcreto implements Iterador {
 
 	private AgregadoConcreto agregado;
 	private int indice = 0;
 
+	/**
+	 * Constructor principal.
+	 * 
+	 * @param agregado
+	 */
 	public IteradorConcreto(AgregadoConcreto agregado) {
 		this.agregado = agregado;
 	}

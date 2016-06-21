@@ -27,7 +27,14 @@ import operacionesCRUD.CRUDempleados;
 import pojo.Porte;
 import pojo.Trabajador;
 import util.UtilVentanas;
-
+/**
+ * Ventana formulario para el alta del Porte. Información sobre el transportista.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaPorteTransportista extends JFrame {
 
 	private Porte p;

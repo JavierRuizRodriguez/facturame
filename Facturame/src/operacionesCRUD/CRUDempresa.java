@@ -10,7 +10,14 @@ import java.util.ArrayList;
 
 import conexionProxyBBDD.Conexion;
 import pojo.Empresa;
-
+/**
+ * Operaciones CRUD de empresas.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class CRUDempresa extends CRUDesquema {
 
 	private static String selectAllEmpresa = "select * from \"Empresa\"";
@@ -19,9 +26,16 @@ public class CRUDempresa extends CRUDesquema {
 	private static String insertEmpresa = "INSERT INTO \"Empresa\"(\"NIF\", \"nEmpresa\", \"Dirección\", email, telefono)VALUES (?, ?, ?, ?, ?)";
 	private static String selectEmpresa = "select * from \"Empresa\" where \"NIF\" = ?";
 	private static String selectEmpresaNombre = "select * from \"Empresa\" where \"nEmpresa\" = ?";
-
+	/**
+	 * Objeto de conexion a la BBDD.
+	 */
 	private Conexion c;
-
+	/**
+	 * Constructor principal.
+	 * 
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	public CRUDempresa() throws SQLException, IOException {
 		super();
 	}
@@ -89,6 +103,13 @@ public class CRUDempresa extends CRUDesquema {
 
 	}
 	
+	/**
+	 * Método que devuelve una empresa buscándola por el nombre.
+	 * 
+	 * @param entrada
+	 * @return
+	 * @throws SQLException
+	 */
 	public Object buscarUnoNombre(Object entrada) throws SQLException {
 		c = cc.crearConexion();
 		String nifBuscado = String.valueOf(entrada);

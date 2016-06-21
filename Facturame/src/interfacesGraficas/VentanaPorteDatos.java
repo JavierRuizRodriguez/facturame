@@ -17,7 +17,14 @@ import javax.swing.border.TitledBorder;
 
 import builders.PorteGrafico;
 import pojo.Porte;
-
+/**
+ * Ventana formulario para el alta del Porte. Información sobre datos genéricos del porte.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaPorteDatos extends JFrame {
 
 	private Porte p;

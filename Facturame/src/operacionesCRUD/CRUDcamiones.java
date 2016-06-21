@@ -11,7 +11,14 @@ import java.util.ArrayList;
 
 import conexionProxyBBDD.Conexion;
 import pojo.Camion;
-
+/**
+ * Operaciones CRUD de camiones.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class CRUDcamiones extends CRUDesquema {
 
 	private static String selectAllCamion = "select * from \"Camion\"";
@@ -20,8 +27,17 @@ public class CRUDcamiones extends CRUDesquema {
 	private static String insertCamion = "INSERT INTO \"Camion\"(\"nBastidor\", matricula, combustible, \"nPasajeros\", \"potenciaCV\",\"potenciaKWh\", \"kmTotales\", peso, largo, ancho, \"longCaja\", \"anchoCaja\", \"pesoMaxCaja\", \"volumenCaja\", trampilla, descripcion, \"altoCaja\", galibo)VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static String selectCamion = "select * from \"Camion\" where matricula = ?";
 
+	/**
+	 * Objeto de conexion a la BBDD.
+	 */
 	private Conexion c;
 
+	/**
+	 * Constructor principal.
+	 * 
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	public CRUDcamiones() throws SQLException, IOException {
 		super();
 	}

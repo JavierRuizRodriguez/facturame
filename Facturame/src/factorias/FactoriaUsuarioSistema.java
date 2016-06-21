@@ -3,7 +3,11 @@ package factorias;
 import java.security.NoSuchAlgorithmException;
 
 import pojo.UsuarioSistema;
-
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class FactoriaUsuarioSistema {
 
 	public UsuarioSistema crearUsuarioSistema(boolean admin) throws NoSuchAlgorithmException {

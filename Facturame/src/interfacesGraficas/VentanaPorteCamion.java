@@ -28,7 +28,14 @@ import operacionesCRUD.CRUDcamiones;
 import pojo.Camion;
 import pojo.Porte;
 import util.UtilVentanas;
-
+/**
+ * Ventana formulario para el alta del Porte. Información sobre el camión.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaPorteCamion extends JFrame {
 
 	private Porte p;

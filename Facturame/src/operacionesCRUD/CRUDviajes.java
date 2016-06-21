@@ -14,7 +14,14 @@ import java.util.ArrayList;
 import conexionProxyBBDD.Conexion;
 import pojo.Porte;
 import pojo.Viaje;
-
+/**
+ * Operaciones CRUD de viajes.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class CRUDviajes extends CRUDesquema {
 
 	private static String selectAllViaje = "select * from \"Viaje\"";
@@ -25,15 +32,32 @@ public class CRUDviajes extends CRUDesquema {
 	private static String getUltimoSerial = "SELECT last_value FROM \"Viaje_idViaje_seq\"";
 	private static String setUltimoSerial = "ALTER SEQUENCE \"Viaje_idViaje_seq\" RESTART WITH ";
 	private static String selectViajePorPorte = "select * from \"Viaje\" where \"idPorte\" = ?";
-
+	/**
+	 * Secuencia actual del id del viaje.
+	 */
 	private int idViajePeticion;
+	/**
+	 * Objeto de conexion a la BBDD.
+	 */
 	private Conexion c;
-
+	/**
+	 * Constructor principal.
+	 * 
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	public CRUDviajes() throws SQLException, IOException {
 		super();
 		this.idViajePeticion = 0;
 	}
 
+	/**
+	 * Método para establecer en la base de datos la secuencia actual del id del viaje.
+	 * 
+	 * @param ultimoId
+	 * @return
+	 * @throws SQLException
+	 */
 	public int setUltimoId(int ultimoId) throws SQLException {
 		c = cc.crearConexion();
 		int respuesta = 0;
@@ -48,7 +72,13 @@ public class CRUDviajes extends CRUDesquema {
 
 	}
 
-	public int ultimoId() throws SQLException {
+	/**
+	 * Método para coger de la BBDD la secuencia actual del id del viaje.
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	public int getUltimoId() throws SQLException {
 		c = cc.crearConexion();
 		c.setSt(c.getCon().createStatement());
 		c.setRs(c.getSt().executeQuery(CRUDviajes.getUltimoSerial));

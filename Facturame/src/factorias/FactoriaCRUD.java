@@ -11,7 +11,11 @@ import operacionesCRUD.CRUDportes;
 import operacionesCRUD.CRUDsubordinados;
 import operacionesCRUD.CRUDusuariosSistema;
 import operacionesCRUD.CRUDviajes;
-
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class FactoriaCRUD {
 
 	public static int TIPO_CAMION = 1;

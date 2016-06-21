@@ -20,7 +20,14 @@ import javax.swing.border.TitledBorder;
 import builders.PorteGrafico;
 import pojo.Porte;
 import pojo.Viaje;
-
+/**
+ * Ventana formulario para el alta del Porte. Información sobre los viajes que componen el porte.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaPorteViaje extends JFrame {
 
 	private Porte p;
