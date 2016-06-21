@@ -58,6 +58,7 @@ public class VentanaPorteCamion extends JFrame {
 	private JTextField textGalibo;
 	private JLabel labelTrampilla;
 	private JCheckBox checkBoxTrampilla;
+	private JComboBox comboBoxMatricula;
 
 	public VentanaPorteCamion(PorteGrafico pb, VentanaPrincipal ventanaPrincipal) throws SQLException, IOException {
 		addWindowListener(new WindowAdapter() {
@@ -87,7 +88,7 @@ public class VentanaPorteCamion extends JFrame {
 		textMatricula.setBounds(120, 11, 140, 20);
 		contentPane.add(textMatricula);
 
-		JComboBox comboBoxMatricula = new JComboBox();
+		comboBoxMatricula = new JComboBox();
 		comboBoxMatricula.setBounds(120, 41, 140, 20);
 
 		ArrayList<Object> camionesO = new ArrayList<Object>(cc.buscarTodo());
@@ -233,6 +234,7 @@ public class VentanaPorteCamion extends JFrame {
 		checkBoxTrampilla.setEnabled(false);
 		checkBoxTrampilla.setBounds(95, 206, 21, 23);
 		contentPane.add(checkBoxTrampilla);
+		setDefaultCombo();
 	}
 
 	private void buttonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,6 +246,23 @@ public class VentanaPorteCamion extends JFrame {
 		return p;
 	}
 
+	private void setDefaultCombo() throws SQLException{
+		JComboBox comboBox = this.comboBoxMatricula;
+		Object selected = comboBox.getItemAt(0);
+		Camion camion = (Camion) cc.buscarUno(selected);
+
+		textAncho.setText((String.valueOf(camion.getAncho())));
+		textAnchoCaja.setText((String.valueOf(camion.getAncho())));
+		textAltoCaja.setText((String.valueOf(camion.getAlturaCaja())));
+		textGalibo.setText((String.valueOf(camion.getGalibo())));
+		textLargo.setText((String.valueOf(camion.getLargo())));
+		textLargoCaja.setText((String.valueOf(camion.getLongCaja())));
+		textPesoCaja.setText((String.valueOf(camion.getPesoMaxCaja())));
+		textVolumenCaja.setText((String.valueOf(camion.getVolumenCaja())));
+		checkBoxTrampilla.setSelected((camion.isTrampilla()));
+		p.setnBastidor(camion.getnBastidor());
+}
+	
 	private void comboActionPerformed(ActionEvent evt) throws SQLException {
 		JComboBox comboBox = (JComboBox) evt.getSource();
 		Object selected = comboBox.getSelectedItem();

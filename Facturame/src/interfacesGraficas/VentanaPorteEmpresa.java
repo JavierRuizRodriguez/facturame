@@ -39,6 +39,7 @@ public class VentanaPorteEmpresa extends JFrame {
 	private JTextField textNombre;
 	private JTextField textTelefono;
 	private JTextField textMail;
+	private JComboBox comboBoxEmpresa;
 
 	public VentanaPorteEmpresa(PorteGrafico pb, VentanaPrincipal ventanaPrincipal) throws SQLException, IOException {
 		addWindowListener(new WindowAdapter() {
@@ -83,7 +84,7 @@ public class VentanaPorteEmpresa extends JFrame {
 		buttonBuscar.setBounds(270, 8, 25, 25);
 		contentPane.add(buttonBuscar);
 
-		JComboBox comboBoxEmpresa = new JComboBox();
+		comboBoxEmpresa = new JComboBox();
 		comboBoxEmpresa.setBounds(120, 40, 140, 20);
 
 		ArrayList<Object> empresasO = new ArrayList<Object>(ce.buscarTodo());
@@ -154,8 +155,22 @@ public class VentanaPorteEmpresa extends JFrame {
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 71, 304, 14);
 		contentPane.add(separator);
+		
+		setDefaultCombo();
+
 	}
 
+	private void setDefaultCombo() throws SQLException{
+		JComboBox comboBox = this.comboBoxEmpresa;
+		Object selected = comboBox.getItemAt(0);
+		Empresa empresa = (Empresa) ce.buscarUnoNombre(selected);
+		textNombre.setText(empresa.getEmpresa());
+		textMail.setText(empresa.getEmail());
+		textTelefono.setText(String.valueOf(empresa.getnTelefono()));
+
+		p.setNif(empresa.getNif());
+	}
+	
 	private void formWindowClosing(VentanaPrincipal ventanaPrincipal) {
 		ventanaPrincipal.setVisible(true);
 		this.setVisible(false);
