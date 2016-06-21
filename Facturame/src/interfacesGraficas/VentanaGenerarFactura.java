@@ -50,6 +50,7 @@ public class VentanaGenerarFactura extends JFrame {
 	private JTextField tFechaFinal;
 	private VentanaPrincipal principal;
 	private ArrayList<Object> portes;
+	private JComboBox comboBoxEmpresa;
 
 	public VentanaGenerarFactura(VentanaPrincipal principal) throws SQLException, IOException {
 		addWindowListener(new WindowAdapter() {
@@ -93,7 +94,7 @@ public class VentanaGenerarFactura extends JFrame {
 		buttonBuscar.setBounds(270, 8, 25, 25);
 		contentPane.add(buttonBuscar);
 
-		JComboBox comboBoxEmpresa = new JComboBox();
+		comboBoxEmpresa = new JComboBox();
 		comboBoxEmpresa.setBounds(120, 40, 140, 20);
 
 		ArrayList<Object> empresasO = new ArrayList<Object>(ce.buscarTodo());
@@ -187,6 +188,8 @@ public class VentanaGenerarFactura extends JFrame {
 		tFechaFinal.setBounds(86, 209, 210, 20);
 		contentPane.add(tFechaFinal);
 		tFechaFinal.setColumns(10);
+		
+		setDefaultCombo();
 	}
 
 	private void formWindowClosing(VentanaPrincipal principal) {
@@ -194,6 +197,16 @@ public class VentanaGenerarFactura extends JFrame {
 		principal.setVisible(true);
 	}
 
+	private void setDefaultCombo() throws SQLException{
+		JComboBox comboBox = this.comboBoxEmpresa;
+		Object selected = comboBox.getItemAt(0);
+		empresa = (Empresa) ce.buscarUnoNombre(selected);
+		
+		textNombre.setText(empresa.getEmpresa());
+		textMail.setText(empresa.getEmail());
+		textTelefono.setText(String.valueOf(empresa.getnTelefono()));
+	}
+	
 	private void comboActionPerformed(ActionEvent evt) throws SQLException {
 		JComboBox comboBox = (JComboBox) evt.getSource();
 		Object selected = comboBox.getSelectedItem();

@@ -137,6 +137,7 @@ public class VentanaPorteTransportista extends JFrame {
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 71, 304, 14);
 		panel.add(separator);
+		setDefaultCombo();
 	}
 
 	private void formWindowClosing(java.awt.event.WindowEvent evt) {
@@ -152,6 +153,16 @@ public class VentanaPorteTransportista extends JFrame {
 		return p;
 	}
 
+	private void setDefaultCombo() throws SQLException{
+		JComboBox comboBox = this.comboBoxDni;
+		Object selected = comboBox.getItemAt(0);
+		Trabajador empleado = (Trabajador) ce.buscarUno(selected);
+
+		textNombre.setText((String.valueOf(empleado.getNombre() + " " + empleado.getApellidos())));
+
+		p.setDni(empleado.getDni());
+	}
+	
 	private void comboActionPerformed(ActionEvent evt) throws SQLException {
 		JComboBox comboBox = (JComboBox) evt.getSource();
 		Object selected = comboBox.getSelectedItem();

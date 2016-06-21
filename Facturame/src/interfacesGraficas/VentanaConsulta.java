@@ -525,6 +525,9 @@ public class VentanaConsulta extends JFrame {
 		}
 	}
 
+
+	
+	
 	private void comboBoxTipoCambiarSeleccion(java.awt.event.ActionEvent evt, String tipo) throws SQLException {
 		switch (tipo) {
 		case "Empresa": {
