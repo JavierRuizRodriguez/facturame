@@ -28,7 +28,14 @@ import factorias.FactoriaCRUD;
 import factorias.FactoriaTrabajador;
 import pojo.Trabajador;
 import util.UtilVentanas;
-
+/**
+ * Ventana para la insercción de datos de empleados.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaEmpleado extends JFrame {
 
 	private Fecha fechaAlta;

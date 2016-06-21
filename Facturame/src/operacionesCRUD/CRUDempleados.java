@@ -8,7 +8,14 @@ import java.util.ArrayList;
 
 import conexionProxyBBDD.Conexion;
 import pojo.Trabajador;
-
+/**
+ * Operaciones CRUD de empleados.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class CRUDempleados extends CRUDesquema {
 
 	private static String selectAllEmpleado = "select * from \"Empleado\"";
@@ -16,9 +23,16 @@ public class CRUDempleados extends CRUDesquema {
 	private static String borrarEmpleado = "delete from \"Empleado\" where dni = ?";
 	private static String insertEmpleado = "INSERT INTO \"Empleado\"(dni, nombre, apellidos, \"fechaNacimiento\", sexo, \"fechaAltaEmpleado\",sueldo, rango) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 	private static String selectEmpleado = "select * from \"Empleado\" where dni = ?";
-
+	/**
+	 * Objeto de conexion a la BBDD.
+	 */
 	private Conexion c;
-
+	/**
+	 * Constructor principal.
+	 * 
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	public CRUDempleados() throws SQLException, IOException {
 		super();
 	}

@@ -22,7 +22,14 @@ import state.Estado;
 import state.EstadoAdmin;
 import state.EstadoLogin;
 import util.UtilVentanas;
-
+/**
+ * Ventana principal del sistema. Punto de inicio visual del sistema.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaLogin extends JFrame {
 
 	private static final long serialVersionUID = 1L;

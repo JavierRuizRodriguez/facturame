@@ -101,7 +101,7 @@ public class CreadorPortes {
 		cp.insertarActualizar((Object) p, true);
 
 		viajes = new ArrayList<Viaje>(pb.cogerViajes());
-		idViaje = cv.ultimoId();
+		idViaje = cv.getUltimoId();
 		for (Viaje v : viajes) {
 			v.setIdViaje(idViaje + 1);
 			v.setIdPorte(idPorte + 1);

@@ -8,6 +8,14 @@ import java.util.ArrayList;
 import conexionProxyBBDD.Conexion;
 import pojo.Porte;
 
+/**
+ * Operaciones CRUD de portes.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class CRUDportes extends CRUDesquema {
 
 	private static String selectAllPorte = "select * from \"Porte\"";
@@ -20,14 +28,33 @@ public class CRUDportes extends CRUDesquema {
 	private static String setUltimoSerial = "ALTER SEQUENCE \"Porte_idPorte_seq\" RESTART WITH ";
 	private static String getPorFecha = "SELECT DISTINCT \"Porte\".* FROM \"Porte\" INNER JOIN \"Viaje\" ON \"Porte\".\"idPorte\" = \"Viaje\".\"idPorte\" WHERE ((\"Viaje\".\"fechaInicio\", \"Viaje\".\"fechaInicio\") OVERLAPS (?::DATE, ?::DATE) AND (\"Porte\".\"NIF\" = ?))";
 
+	/*
+	 * Secuencia del id actual.
+	 */
 	private int idPorteSeq;
+	/**
+	 * Objeto de conexion a la BBDD.
+	 */
 	private Conexion c;
 
+	/**
+	 * Constructor principal.
+	 * 
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	public CRUDportes() throws SQLException, IOException {
 		super();
 		this.idPorteSeq = 0;
 	}
 
+	/**
+	 * Método para establecer en la base de datos la secuencia actual del id del porte.
+	 * 
+	 * @param ultimoId
+	 * @return
+	 * @throws SQLException
+	 */
 	public int setUltimoId(int ultimoId) throws SQLException {
 		c = cc.crearConexion();
 		int respuesta = 0;
@@ -41,6 +68,12 @@ public class CRUDportes extends CRUDesquema {
 
 	}
 
+	/**
+	 * Método para coger de la BBDD la secuencia actual del id de porte.
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
 	public int getUltimoId() throws SQLException {
 		c = cc.crearConexion();
 		c.setSt(c.getCon().createStatement());
@@ -99,6 +132,7 @@ public class CRUDportes extends CRUDesquema {
 
 	}
 
+	@Override
 	public Object buscarUno(Object entrada) throws SQLException {
 		c = cc.crearConexion();
 		String idPorteBuscado = String.valueOf(entrada);
@@ -139,6 +173,7 @@ public class CRUDportes extends CRUDesquema {
 
 	}
 
+	@Override
 	public int insertarActualizar(Object entrada, boolean esInsert) throws SQLException {
 		c = cc.crearConexion();
 		Porte porte = (Porte) entrada;
@@ -189,6 +224,13 @@ public class CRUDportes extends CRUDesquema {
 
 	}
 
+	/**
+	 * Método para buscar portes dependiendo del NIF de empresa.
+	 * 
+	 * @param entrada
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<Object> buscarPorNif(Object entrada) throws SQLException {
 		c = cc.crearConexion();
 		String nifPorteBuscado = String.valueOf(entrada);
@@ -216,8 +258,8 @@ public class CRUDportes extends CRUDesquema {
 			descripcion = rs.getString(9);
 			nif = rs.getString(10);
 
-			respuesta.add(new Porte(idPorte, nBastidor, dni, kgCarga, volCarga, concepto, precio, esGrupaje, descripcion,
-					nif));
+			respuesta.add(new Porte(idPorte, nBastidor, dni, kgCarga, volCarga, concepto, precio, esGrupaje,
+					descripcion, nif));
 		}
 
 		c.cerrarObjCon();
@@ -228,7 +270,16 @@ public class CRUDportes extends CRUDesquema {
 		return respuesta;
 
 	}
-	
+
+	/**
+	 * Método de detección de portes por rango de fechas.
+	 * 
+	 * @param fIncio
+	 * @param fFinal
+	 * @param empresa
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<Object> buscarPorFechas(String fIncio, String fFinal, String empresa) throws SQLException {
 		ArrayList<Object> respuesta = new ArrayList<Object>();
 		c = cc.crearConexion();

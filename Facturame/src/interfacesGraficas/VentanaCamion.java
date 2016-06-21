@@ -26,7 +26,14 @@ import factorias.FactoriaCRUD;
 import factorias.FactoriaVehiculo;
 import pojo.Camion;
 import util.UtilVentanas;
-
+/**
+ * Ventana para la insercción de datos de camiones.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaCamion extends JFrame {
 		
 	private JPanel contentPane;

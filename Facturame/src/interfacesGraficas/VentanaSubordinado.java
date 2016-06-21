@@ -28,7 +28,14 @@ import pojo.Trabajador;
 import util.UtilVentanas;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
-
+/**
+ * Ventana formulario para el alta del Porte. Información sobre el camión.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaSubordinado extends JFrame {
 
 	private JPanel contentPane;

@@ -28,7 +28,14 @@ import factorias.FactoriaUsuarioSistema;
 import operacionesCRUD.CRUDusuariosSistema;
 import pojo.UsuarioSistema;
 import util.UtilVentanas;
-
+/**
+ * Ventana para la inserción de usuarios del sistema.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaUsuarioSistema extends JFrame {
 
 	private FactoriaCRUD fc;

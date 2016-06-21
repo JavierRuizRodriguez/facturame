@@ -33,7 +33,14 @@ import pojo.Porte;
 import pojo.Subordinado;
 import pojo.UsuarioAutenticacion;
 import util.UtilVentanas;
-
+/**
+ * Ventana que sirve para la visualización de las tablas que compondrán la factura.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaGenerarFactura extends JFrame {
 
 	private FactoriaCRUD fc;

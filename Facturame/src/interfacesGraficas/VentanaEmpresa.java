@@ -25,6 +25,14 @@ import operacionesCRUD.CRUDempresa;
 import pojo.Empresa;
 import util.UtilVentanas;
 
+/**
+ * Ventana para la insercción de datos de empresas.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaEmpresa extends JFrame {
 
 	private JPanel contentPane;

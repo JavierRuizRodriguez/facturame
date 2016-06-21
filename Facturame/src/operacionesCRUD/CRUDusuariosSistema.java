@@ -14,16 +14,32 @@ import java.util.ArrayList;
 import conexionProxyBBDD.Conexion;
 import pojo.UsuarioSistema;
 
-public class CRUDusuariosSistema extends CRUDesquema{
+/**
+ * Operaciones CRUD de usuarios del sistema.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
+public class CRUDusuariosSistema extends CRUDesquema {
 
 	private static String selectAllUsuariosSistema = "select * from \"UsuarioSistema\"";
 	private static String updateUsuariosSistema = "UPDATE \"UsuarioSistema\" SET dni=?, nickname=?, \"hashContrasena\"=?, admin=?, \"fechaAltaUsuario\"=? WHERE nickname=?";
 	private static String borrarUsuariosSistema = "delete from \"UsuarioSistema\" where nickname = ?";
 	private static String insertUsuariosSistema = "INSERT INTO \"UsuarioSistema\"(dni, nickname, \"hashContrasena\", admin, \"fechaAltaUsuario\") VALUES (?, ?, ?, ?, ?)";
 	private static String selectUsuariosSistema = "select * from \"UsuarioSistema\" where nickname = ?";
-
+	/**
+	 * Objeto de conexion a la BBDD.
+	 */
 	private Conexion c;
-	
+
+	/**
+	 * Constructor principal.
+	 * 
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	public CRUDusuariosSistema() throws SQLException, IOException {
 		super();
 	}
@@ -55,7 +71,6 @@ public class CRUDusuariosSistema extends CRUDesquema{
 		c.cerrarObjSt();
 		c.cerrarObjRs();
 		rs.close();
-
 
 		return respuesta;
 
@@ -102,11 +117,11 @@ public class CRUDusuariosSistema extends CRUDesquema{
 		UsuarioSistema usuario = (UsuarioSistema) entrada;
 		int respuesta = 0;
 
-		if(esInsert)
+		if (esInsert)
 			c.setPst(c.getCon().prepareStatement(CRUDusuariosSistema.insertUsuariosSistema));
 		else
 			c.setPst(c.getCon().prepareStatement(CRUDusuariosSistema.updateUsuariosSistema));
-		
+
 		c.prepararPst(1, usuario.getDni());
 		c.prepararPst(2, usuario.getNickname());
 		c.prepararPst(3, usuario.getHashContrasena());

@@ -18,7 +18,14 @@ import adaptadorFecha.Fecha;
 import adaptadorFecha.FechaEs;
 import builders.PorteBuilder;
 import pojo.Viaje;
-
+/**
+ * Ventana para la inserción de viajes dentro la inserción de portes.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaViaje extends JFrame {
 
 	private VentanaPorteViaje ventanaAnterior;

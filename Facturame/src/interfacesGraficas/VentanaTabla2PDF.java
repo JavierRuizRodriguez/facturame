@@ -42,7 +42,14 @@ import operacionesCRUD.CRUDviajes;
 import pojo.Empresa;
 import pojo.Porte;
 import pojo.Viaje;
-
+/**
+ * Ventana que muestra las tablas que compondran la factura y que generaa un pdf de las tablas si se requiere la impresión.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class VentanaTabla2PDF extends JFrame {
 
 	private static final long serialVersionUID = 1L;
