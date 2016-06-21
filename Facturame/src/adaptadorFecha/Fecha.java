@@ -24,14 +24,14 @@ public interface Fecha {
     public int getAnio();
 
     /**
-     * Estable el año.
-     * @param año Entero que representa el año.
+     * Estable el anio�o.
+     * @param anio�o Entero que representa el año.
      */
     public void setAnio(int anio);
 
     /**
-     * Devuelve el día.
-     * @return Entero que representa el día.
+     * Devuelve el dia.
+     * @return Entero que representa el dia.
      */
     public int getDia();
 
