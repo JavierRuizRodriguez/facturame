@@ -5,8 +5,14 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import pojo.Camion;
-import pojo.Porte;
-
+/**
+ * Estrategia específica para la ordenación de los camiones.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class EstrategiaCamion implements Estrategia {
 
 	@Override

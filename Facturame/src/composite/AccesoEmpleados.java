@@ -82,10 +82,11 @@ public class AccesoEmpleados {
 			this.jefe = null;
 	}
 
+	/**
+	 * Método de carga de los trabajadores. Se lee de BBDD y se completan las variables 'subordinados' y 'trabajadoresComp'.
+	 */
 	private void cargarTrabajadores() {
 
-		// primero se crea un mapa para ver quien es jefe de quien, y luego asi
-		// instanciar.
 		Agregado agregado = new AgregadoConcreto(jefes);
 		Iterador iterador = agregado.crearIterador();
 
@@ -99,8 +100,6 @@ public class AccesoEmpleados {
 			System.out.println("Error: " + e.toString());
 		}
 
-		// lo siguiente es instanciar a los empleados dependiendo de si son
-		// Jefes o empleados.
 		agregado = new AgregadoConcreto(empleados);
 		iterador = agregado.crearIterador();
 
@@ -128,6 +127,11 @@ public class AccesoEmpleados {
 
 	}
 
+	/**
+	 * Método para mostrar la cuantía total de los suldos del sistema.
+	 * 
+	 * @return
+	 */
 	public Double getSueldos() {
 		if (jefe != null)
 			return jefe.getSalarios();
@@ -135,6 +139,11 @@ public class AccesoEmpleados {
 			return 0.0;
 	}
 
+	/**
+	 * Método para la 
+	 * 
+	 * @return
+	 */
 	public String getDescripciones() {
 		if (jefe != null)
 			return jefe.getDescripcion();

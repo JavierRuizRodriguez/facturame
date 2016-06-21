@@ -5,7 +5,14 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import pojo.Trabajador;
-
+/**
+ * Estrategia específica para la ordenación de los empleados.
+ */
+/**
+ * 
+ * @author Jorge González Rodríguez y Javier Ruiz Rodríguez
+ *
+ */
 public class EstrategiaEmpleado implements Estrategia{
 
 	@Override
